@@ -13,13 +13,15 @@ export async function _handle(details: Details) {
 		},
 		body: new URLSearchParams(details)
 	});
-	// TODO check error code
+	if (res.status !== 200) {
+		return res;
+	}
 
 	const cookies = res.headers.getSetCookie()[0].split(';');
 	const resCookies = [];
 	for (var cookie of cookies) {
 		// will get rejected by browser if these are left in
-		if (!(cookie.startsWith('Domain=') || cookie.startsWith('HttpOnly'))) {
+		if (!cookie.startsWith('Domain=')) {
 			resCookies.push(cookie);
 		}
 	}

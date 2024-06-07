@@ -16,6 +16,13 @@
 			method: 'POST',
 			body: JSON.stringify({ username, password })
 		});
+		if (res.status !== 200) {
+			const body = await res.json();
+			// console.error(body);
+			// not necessary when console automatically shows error
+			status = { color: 'red', message: 'Error while logging in: ' + body.title };
+			return;
+		}
 
 		status = { color: 'green', message: `Successfully logged in as ${username}` };
 
