@@ -24,9 +24,8 @@ export async function _handle(details: Details) {
 		}
 	}
 
-	const body = await res.json();
-	let res2 = json(body);
-	res2.headers.set('Cookie', resCookies.join(';'));
+	const res2 = json(await res.json());
+	res2.headers.set('Set-Cookie', resCookies.join(';'));
 
 	return res2;
 }

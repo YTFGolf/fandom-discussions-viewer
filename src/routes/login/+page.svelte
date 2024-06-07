@@ -17,15 +17,6 @@
 			body: JSON.stringify({ username, password })
 		});
 
-		const cookie = res.headers.get('cookie');
-		// TODO check error code
-		if (!cookie) {
-			console.error('Response does not contain cookie');
-			status = { color: 'red', message: 'Error while logging in' };
-			return;
-		}
-		document.cookie = cookie;
-
 		status = { color: 'green', message: `Successfully logged in as ${username}` };
 
 		// window.location.replace('/');
