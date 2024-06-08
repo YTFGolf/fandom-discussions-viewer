@@ -1,4 +1,5 @@
 import { json, type RequestEvent } from '@sveltejs/kit';
+import HTTP from '$lib/common/HTTPCodes';
 
 export type Details = { username: string; password: string };
 
@@ -13,14 +14,14 @@ export async function _handle(details: Details) {
 		},
 		body: new URLSearchParams(details)
 	});
-	if (res.status !== 200) {
+	if (res.status !== HTTP.OK) {
 		return res;
 	}
 
 	const cookies = res.headers.getSetCookie()[0].split(';');
 	const resCookies = [];
 	for (var cookie of cookies) {
-		// will get rejected by browser if these are left in
+		// will get rejected by browser if this is left in
 		if (!cookie.startsWith('Domain=')) {
 			resCookies.push(cookie);
 		}

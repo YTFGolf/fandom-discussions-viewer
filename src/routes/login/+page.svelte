@@ -1,4 +1,6 @@
 <script lang="ts">
+	import HTTP from '$lib/common/HTTPCodes';
+
 	let username = '';
 	let password = '';
 	let status = {
@@ -16,7 +18,7 @@
 			method: 'POST',
 			body: JSON.stringify({ username, password })
 		});
-		if (res.status !== 200) {
+		if (res.status !== HTTP.OK) {
 			const body = await res.json();
 			// console.error(body);
 			// not necessary when console automatically shows error
