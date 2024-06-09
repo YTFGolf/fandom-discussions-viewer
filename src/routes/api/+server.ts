@@ -1,6 +1,6 @@
 import { json, type RequestEvent } from '@sveltejs/kit';
 import { handleRequestEvent } from './requestHandler';
-import HTTP from '$lib/common/HTTPCodes';
+import HTTP from '$lib/HTTPCodes';
 
 /**
  * Pass `event` to {@link handleRequestEvent} and handle errors

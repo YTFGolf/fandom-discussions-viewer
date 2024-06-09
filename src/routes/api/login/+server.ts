@@ -1,5 +1,5 @@
 import { json, type RequestEvent } from '@sveltejs/kit';
-import HTTP from '$lib/common/HTTPCodes';
+import HTTP from '$lib/HTTPCodes';
 
 export type Details = { username: string; password: string };
 

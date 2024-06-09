@@ -1,5 +1,5 @@
 <script lang="ts">
-	import HTTP from '$lib/common/HTTPCodes';
+	import HTTP from '$lib/HTTPCodes';
 
 	let username = '';
 	let password = '';
