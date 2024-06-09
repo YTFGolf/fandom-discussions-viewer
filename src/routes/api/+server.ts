@@ -28,7 +28,7 @@ async function _handle(event: RequestEvent) {
 		if (!(e instanceof Error)) {
 			return json(
 				{ error: 'Something went wrong', data: e },
-				{ status: HTTP.INTERNAL_SERVER_ERROR }
+				{ status: HTTP.INTERNAL_SERVER_ERROR },
 			);
 		}
 

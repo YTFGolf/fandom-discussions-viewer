@@ -33,7 +33,7 @@ function buildUrl(wiki: Wiki, params: any) {
 
 	const query = new URLSearchParams({
 		fdvEntrypoint: entrypoint,
-		...params
+		...params,
 	});
 
 	const url = `/api?${query}`;
@@ -50,7 +50,7 @@ export async function get(wiki: Wiki, params: any) {
 	const url = buildUrl(wiki, params);
 
 	const res = await fetch(url, {
-		method: 'GET'
+		method: 'GET',
 	});
 
 	return await res.json();
@@ -72,7 +72,7 @@ export async function post(wiki: Wiki, params: any, data: any) {
 
 	const res = await fetch(url, {
 		method: 'POST',
-		body: data
+		body: data,
 	});
 
 	return await res.json();

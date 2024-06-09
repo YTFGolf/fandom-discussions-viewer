@@ -5,18 +5,18 @@
 	let password = '';
 	let status = {
 		color: '',
-		message: ''
+		message: '',
 	};
 
 	async function handleSubmit(
-		event: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }
+		event: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement },
 	) {
 		event.preventDefault();
 		status = { color: '', message: 'Sending...' };
 
 		const res = await fetch('/api/login', {
 			method: 'POST',
-			body: JSON.stringify({ username, password })
+			body: JSON.stringify({ username, password }),
 		});
 		if (res.status !== HTTP.OK) {
 			const body = await res.json();

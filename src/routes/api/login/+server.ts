@@ -9,10 +9,10 @@ export async function _handle(details: Details) {
 		headers: {
 			Connection: 'keep-alive',
 			'Content-Type': 'application/x-www-form-urlencoded',
-			'User-Agent': `${details.username}:localhost:fandom-discussions-viewer`
+			'User-Agent': `${details.username}:localhost:fandom-discussions-viewer`,
 			// TODO extract user agent out
 		},
-		body: new URLSearchParams(details)
+		body: new URLSearchParams(details),
 	});
 	if (res.status !== HTTP.OK) {
 		return res;

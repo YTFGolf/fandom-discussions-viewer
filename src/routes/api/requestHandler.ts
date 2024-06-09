@@ -7,7 +7,7 @@ import { type RequestEvent } from '@sveltejs/kit';
  */
 function buildQuery(
 	entrypoint: string,
-	params: string | string[][] | Record<string, string> | URLSearchParams | undefined
+	params: string | string[][] | Record<string, string> | URLSearchParams | undefined,
 ) {
 	// prettier-ignore
 	const reEntrypoint = new RegExp([
