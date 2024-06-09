@@ -1,26 +1,57 @@
 <script lang="ts">
 	import type { Wiki } from '$lib/types';
-	import { get } from '$lib/caller';
+	import { get, post } from '$lib/caller';
 
-	let wiki: Wiki = {
+	let getWiki: Wiki = {
 		name: 'battle-cats',
 		lang: 'en',
 		script: 'wikia'
 	};
 
-	let params = {
+	let getParams = {
 		controller: 'DiscussionThread',
 		method: 'getThread',
 		threadId: '4400000000000817646'
 	};
+
+	let postWiki: Wiki = {
+		name: 'wwr-test',
+		lang: 'en',
+		script: 'wikia'
+	};
+
+	// https://wwr-test.fandom.com/wikia.php?controller=FeedsAndPosts&method=getWikiVariables
+	let postParams = {
+		controller: 'DiscussionThread',
+		method: 'create',
+		forumId: '3448675'
+	};
+
+	let postData = {
+		title: 'Wahoo',
+		siteId: '3448675',
+		jsonModel: JSON.stringify({
+			type: 'doc',
+			content: {
+				type: 'paragraph',
+				content: {
+					type: 'text',
+					text: 'I DID IT!!!!!!!!!!!'
+				}
+			}
+		})
+	};
 </script>
 
-{#await get(wiki, params)}
+<!-- {#await get(getWiki, getParams)}
 	<p>...waiting</p>
-{:then number}
-	<p>The number is {JSON.stringify(number)}</p>
+{:then postData}
+	<p>{JSON.stringify(postData)}</p>
 {:catch error}
 	<p style="color: red">{error.message}</p>
-{/await}
+{/await} -->
 
-<button on:click={async () => console.log(await get(wiki, params))}> Count: </button>
+<!-- prettier-ignore -->
+<button on:click={async () => console.log(await post(postWiki, postParams, postData))}>
+	Click to post
+</button>

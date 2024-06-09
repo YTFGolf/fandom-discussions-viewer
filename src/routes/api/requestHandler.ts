@@ -49,13 +49,16 @@ export async function handleRequestEvent(event: RequestEvent) {
 	if (!entrypoint) {
 		throw new Error('Wiki entrypoint not provided!');
 	}
-	console.log(buildQuery(entrypoint, params));
-	// TODO remove this once POST is done
-	// TODO consider body of response for POST
 
-	return fetch(buildQuery(entrypoint, params), {
+	let init: RequestInit = {
+		method: event.request.method,
 		headers: {
-			Cookie: `fandom_session=${event.cookies.get('fandom_session')}`
-		}
-	});
+			Cookie: `fandom_session=${event.cookies.get('fandom_session')}`,
+		},
+	};
+	if (init.method === 'POST') {
+		init.body = await event.request.text();
+	}
+
+	return fetch(buildQuery(entrypoint, params), init);
 }

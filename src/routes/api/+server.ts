@@ -10,8 +10,13 @@ import HTTP from '$lib/common/HTTPCodes';
 async function _handle(event: RequestEvent) {
 	try {
 		const res = await handleRequestEvent(event);
-		let body = await res.json();
 
+		// Don't know why `return res` doesn't work when status is ok
+		if (res.status !== HTTP.OK) {
+			return res;
+		}
+
+		let body = await res.json();
 		if (res) {
 			return json(body);
 		}
