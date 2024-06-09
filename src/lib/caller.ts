@@ -71,8 +71,6 @@ export async function post(wiki: Wiki, params: any, data?: any) {
 			data.jsonModel = JSON.stringify(data.jsonModel);
 		}
 		data = JSON.stringify(data);
-	} else if (!data) {
-		data = '';
 	}
 
 	const res = await fetch(url, {

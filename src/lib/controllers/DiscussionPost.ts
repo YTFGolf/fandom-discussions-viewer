@@ -9,11 +9,6 @@ import { getParams } from './util';
 export namespace DiscussionPost {
 	export type updateData = {
 		attachments: Attachments;
-
-		/** Ignored */
-		siteId?: string;
-		/** Ignored */
-		threadId?: string;
 	} & HasData;
 	export async function update(wiki: Wiki, { postId }: { postId: string }, data: updateData) {
 		const params = getParams('DiscussionPost', 'update', { postId });
@@ -44,8 +39,10 @@ export namespace DiscussionPost {
 		return post(wiki, params);
 	}
 
-	export async function undelete() {
-		throw new Error('Not implemented');
+	export async function undelete(wiki: Wiki, { postId }: { postId: string }) {
+		const params = getParams('DiscussionPost', 'undelete', { postId });
+
+		return post(wiki, params);
 	}
 
 	export async function getPost(wiki: Wiki, { postId }: { postId: string }) {
@@ -60,11 +57,15 @@ export namespace DiscussionPost {
 		return get(wiki, params);
 	}
 
-	export async function getPosts() {
-		throw new Error('Not implemented');
+	export async function getPosts(wiki: Wiki) {
+		const params = getParams('DiscussionPost', 'getPosts');
+
+		return get(wiki, params);
 	}
 
-	export async function help() {
-		throw new Error('Not implemented');
+	export async function help(wiki: Wiki) {
+		const params = getParams('DiscussionPost', 'help');
+
+		return get(wiki, params);
 	}
 }
