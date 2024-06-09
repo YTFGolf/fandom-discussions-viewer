@@ -24,22 +24,22 @@
 	let postParams = {
 		controller: 'DiscussionThread',
 		method: 'create',
-		forumId: '3448675',
+		forumId: '4400000000000004391',
 	};
 
 	let postData = {
 		title: 'Wahoo',
 		siteId: '3448675',
-		jsonModel: JSON.stringify({
+		jsonModel: {
 			type: 'doc',
 			content: {
 				type: 'paragraph',
 				content: {
 					type: 'text',
-					text: 'I DID IT!!!!!!!!!!!',
+					text: 'different forumId',
 				},
 			},
-		}),
+		},
 	};
 </script>
 

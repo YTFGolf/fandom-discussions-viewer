@@ -67,6 +67,9 @@ export async function post(wiki: Wiki, params: any, data: any) {
 	const url = buildUrl(wiki, params);
 
 	if (typeof data !== 'string') {
+		if (data.jsonModel && typeof data.jsonModel !== 'string') {
+			data.jsonModel = JSON.stringify(data.jsonModel);
+		}
 		data = JSON.stringify(data);
 	}
 
