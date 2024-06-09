@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Wiki } from '$lib/types';
-	import { get, post } from '$lib/caller';
+	import { DiscussionPost } from '$lib/controllers/DiscussionPost';
 
 	let getWiki: Wiki = {
 		name: 'battle-cats',
@@ -27,23 +27,26 @@
 		forumId: '4400000000000004391',
 	};
 
-	let postData = {
-		title: 'Wahoo',
+	let postData: DiscussionPost.createData = {
 		siteId: '3448675',
+		threadId: '4400000000000037009',
+
 		jsonModel: {
 			type: 'doc',
-			content: {
-				type: 'paragraph',
-				content: {
-					type: 'text',
-					text: 'different forumId',
+			content: [
+				{
+					type: 'paragraph',
+					content: {
+						type: 'text',
+						text: 'different forumId',
+					},
 				},
-			},
+			],
 		},
 	};
 </script>
 
-<!-- {#await get(getWiki, getParams)}
+<!-- {#await DiscussionPost.getPost(getWiki, { postId: '4400000000003543769' })}
 	<p>...waiting</p>
 {:then postData}
 	<p>{JSON.stringify(postData)}</p>
@@ -52,6 +55,6 @@
 {/await} -->
 
 <!-- prettier-ignore -->
-<button on:click={async () => console.log(await post(postWiki, postParams, postData))}>
+<button on:click={async () => console.log(await DiscussionPost.create(postWiki, postParams, postData))}>
 	Click to post
 </button>
