@@ -55,6 +55,7 @@ type ListItem = {
 
 type CodeBlock = {
 	type: 'code_block';
+	/** Yes this does mean you can apply marks to stuff inside a code block */
 	content: TextItem[];
 };
 

@@ -18,6 +18,7 @@
 		name: 'wwr-test',
 		lang: 'en',
 		script: 'wikia',
+		// siteId: '3448675',
 	};
 
 	// https://wwr-test.fandom.com/wikia.php?controller=FeedsAndPosts&method=getWikiVariables
@@ -27,25 +28,7 @@
 		forumId: '4400000000000004391',
 	};
 
-	let postData: DiscussionPost.createData = {
-		siteId: '3448675',
-		threadId: '4400000000000037009',
-
-		jsonModel: {
-			type: 'doc',
-			content: [
-				{
-					type: 'paragraph',
-					content: [
-						{
-							type: 'text',
-							text: 'different forumId',
-						},
-					],
-				},
-			],
-		},
-	};
+	// let postData: DiscussionPost.updateData = { body: 'h' ,};
 </script>
 
 <!-- {#await DiscussionPost.getPost(getWiki, { postId: '4400000000003543769' })}
@@ -57,6 +40,6 @@
 {/await} -->
 
 <!-- prettier-ignore -->
-<button on:click={async () => console.log(await DiscussionPost.create(postWiki, postParams, postData))}>
+<button on:click={async () => console.log(await DiscussionPost.deletePost(postWiki, { postId: '4400000000000090048' }))}>
 	Click to post
 </button>

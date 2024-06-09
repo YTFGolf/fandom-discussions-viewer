@@ -4,13 +4,23 @@ import type { Attachments } from './types/attachments';
 import type { HasData, Source } from './types/string-types';
 import { getParams } from './util';
 
+// wiki: Wiki, {}: {}, {}: {}
+// wiki, params, data
 export namespace DiscussionPost {
-	export async function update() {
-		throw new Error('Not implemented');
+	export type updateData = {
+		attachments: Attachments;
+
+		/** Ignored */
+		siteId?: string;
+		/** Ignored */
+		threadId?: string;
+	} & HasData;
+	export async function update(wiki: Wiki, { postId }: { postId: string }, data: updateData) {
+		const params = getParams('DiscussionPost', 'update', { postId });
+
+		return post(wiki, params, data);
 	}
 
-	// wiki: Wiki, {}: {}, {}: {}
-	// wiki, params, data
 	export type createData = {
 		/** Must correspond to actual siteId */
 		siteId: string;
@@ -28,8 +38,10 @@ export namespace DiscussionPost {
 	/**
 	 * Note: to avoid keyword clash this is `deletePost` instead of `delete`.
 	 */
-	export async function deletePost() {
-		throw new Error('Not implemented');
+	export async function deletePost(wiki: Wiki, { postId }: { postId: string }) {
+		const params = getParams('DiscussionPost', 'delete', { postId });
+
+		return post(wiki, params);
 	}
 
 	export async function undelete() {

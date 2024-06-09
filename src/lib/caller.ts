@@ -63,14 +63,16 @@ export async function get(wiki: Wiki, params: any) {
  * @param data
  * @returns Promise containing Fandom server response
  */
-export async function post(wiki: Wiki, params: any, data: any) {
+export async function post(wiki: Wiki, params: any, data?: any) {
 	const url = buildUrl(wiki, params);
 
-	if (typeof data !== 'string') {
+	if (data && typeof data !== 'string') {
 		if (data.jsonModel && typeof data.jsonModel !== 'string') {
 			data.jsonModel = JSON.stringify(data.jsonModel);
 		}
 		data = JSON.stringify(data);
+	} else if (!data) {
+		data = '';
 	}
 
 	const res = await fetch(url, {
