@@ -1,4 +1,4 @@
-import type { jsonModel } from './jsonModel';
+import type { JsonModel } from './jsonModel';
 
 export type Source =
 	| 'DISCUSSIONS'
@@ -27,6 +27,6 @@ export type Funnel = 'TEXT' | 'LINK' | 'IMAGE' | 'POLL' | 'QUIZ';
 
 /** If data needs at least one of `jsonModel`, `body` or `rawContent` */
 export type HasData =
-	| { jsonModel: jsonModel; body?: string; rawContent?: string }
+	| { jsonModel: JsonModel; body?: string; rawContent?: string }
 	| { body: string; rawContent?: string }
 	| { rawContent: string };

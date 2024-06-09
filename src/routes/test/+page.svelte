@@ -36,10 +36,12 @@
 			content: [
 				{
 					type: 'paragraph',
-					content: {
-						type: 'text',
-						text: 'different forumId',
-					},
+					content: [
+						{
+							type: 'text',
+							text: 'different forumId',
+						},
+					],
 				},
 			],
 		},
