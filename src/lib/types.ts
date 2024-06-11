@@ -1,5 +1,7 @@
 export type Wiki = {
 	name: string;
 	lang: string;
-	script: 'api' | 'wikia';
 };
+
+/** If not explicitly given `wikia.php` should be assumed */
+export type WikiScript = 'api.php' | 'wikia.php';

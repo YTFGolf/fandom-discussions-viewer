@@ -79,6 +79,13 @@ type TextItem = {
 	marks?: Mark[];
 };
 
+/**
+ * All apply. Applies in reverse order, so `{em}{strong}` would give
+ * `<strong><em>{data}</em></strong>`.
+ *
+ * If has both link and mention, then mention always takes priority if you click
+ * the link (probably because it's regarded as a browser event).
+ */
 type Mark = { type: 'em' | 'strong' } | Link | Mention;
 
 type Link = {

@@ -5,7 +5,6 @@
 	let getWiki: Wiki = {
 		name: 'battle-cats',
 		lang: 'en',
-		script: 'wikia',
 	};
 
 	let getParams = {
@@ -17,7 +16,6 @@
 	let postWiki: Wiki = {
 		name: 'wwr-test',
 		lang: 'en',
-		script: 'wikia',
 		// siteId: '3448675',
 	};
 
@@ -28,7 +26,29 @@
 		forumId: '4400000000000004391',
 	};
 
-	// let postData: DiscussionPost.updateData = { body: 'h' ,};
+	let postData: DiscussionPost.createData = {
+		siteId: '3448675',
+		threadId: '4400000000000037009',
+		jsonModel: {
+			content: [
+				{
+					type: 'code_block',
+					content: [
+						{
+							type: 'text',
+							text: 'test',
+							marks: [
+								{ type: 'strong' },
+								{ type: 'link', attrs: { href: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' } },
+								{ type: 'em' },
+								{ type: 'mention', attrs: { userId: '27706221' } },
+							],
+						},
+					],
+				},
+			],
+		},
+	};
 </script>
 
 <!-- {#await DiscussionPost.getPost(getWiki, { postId: '4400000000003543769' })}
@@ -40,6 +60,6 @@
 {/await} -->
 
 <!-- prettier-ignore -->
-<button on:click={async () => console.log(await DiscussionPost.deletePost(postWiki, { postId: '4400000000000090048' }))}>
+<button on:click={async () => console.log(await DiscussionPost.create(postWiki, {}, postData))}>
 	Click to post
 </button>

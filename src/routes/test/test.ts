@@ -1,3 +1,4 @@
+import type { DiscussionPost } from '$lib/controllers/DiscussionPost';
 import type { Attachments } from '$lib/controllers/types/attachments';
 import type { JsonModel } from '$lib/controllers/types/jsonModel';
 import type { Poll } from '$lib/controllers/types/poll';
@@ -33,4 +34,29 @@ type ThreadPost = {
 
 	body?: string;
 	// same as rawContent
+};
+
+/** I love this payload */
+let postData: DiscussionPost.createData = {
+	siteId: '3448675',
+	threadId: '4400000000000037009',
+	jsonModel: {
+		content: [
+			{
+				type: 'code_block',
+				content: [
+					{
+						type: 'text',
+						text: 'test',
+						marks: [
+							{ type: 'strong' },
+							{ type: 'link', attrs: { href: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' } },
+							{ type: 'em' },
+							{ type: 'mention', attrs: { userId: '27706221' } },
+						],
+					},
+				],
+			},
+		],
+	},
 };

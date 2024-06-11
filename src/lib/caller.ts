@@ -1,4 +1,4 @@
-import type { Wiki } from '$lib/types';
+import type { Wiki, WikiScript } from '$lib/types';
 
 // something like global values e.g. username so I can set the user agent (client)
 
@@ -10,15 +10,16 @@ import type { Wiki } from '$lib/types';
 /**
  * Transform wiki object to url entrypoint
  * @param wiki
+ * @param script
  * @returns
  */
-function buildEntrypoint(wiki: Wiki) {
+function buildEntrypoint(wiki: Wiki, script?: WikiScript) {
 	let entrypoint = `https://${wiki.name}.fandom.com`;
 
 	if (wiki.lang && wiki.lang !== 'en') {
 		entrypoint += '/' + wiki.lang;
 	}
-	entrypoint += `/${wiki.script}.php`;
+	entrypoint += '/' + (script || 'wikia.php');
 	return entrypoint;
 }
 
@@ -26,10 +27,11 @@ function buildEntrypoint(wiki: Wiki) {
  * Transform wiki and params to proxy server url
  * @param wiki
  * @param params
+ * @param script
  * @returns
  */
-function buildUrl(wiki: Wiki, params: any) {
-	const entrypoint = buildEntrypoint(wiki);
+function buildUrl(wiki: Wiki, params: any, script?: WikiScript) {
+	const entrypoint = buildEntrypoint(wiki, script);
 
 	const query = new URLSearchParams({
 		fdvEntrypoint: entrypoint,
@@ -44,10 +46,11 @@ function buildUrl(wiki: Wiki, params: any) {
  * Send GET request
  * @param wiki
  * @param params
+ * @param script Wiki script to use (default: `wikia.php`)
  * @returns Promise containing Fandom server response
  */
-export async function get(wiki: Wiki, params: any) {
-	const url = buildUrl(wiki, params);
+export async function get(wiki: Wiki, params: any, script?: WikiScript) {
+	const url = buildUrl(wiki, params, script);
 
 	const res = await fetch(url, {
 		method: 'GET',
@@ -61,10 +64,11 @@ export async function get(wiki: Wiki, params: any) {
  * @param wiki
  * @param params
  * @param data
+ * @param script Wiki script to use (default: `wikia.php`)
  * @returns Promise containing Fandom server response
  */
-export async function post(wiki: Wiki, params: any, data?: any) {
-	const url = buildUrl(wiki, params);
+export async function post(wiki: Wiki, params: any, data?: any, script?: WikiScript) {
+	const url = buildUrl(wiki, params, script);
 
 	if (data && typeof data !== 'string') {
 		if (data.jsonModel && typeof data.jsonModel !== 'string') {
