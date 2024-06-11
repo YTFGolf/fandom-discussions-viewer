@@ -31,19 +31,19 @@ export namespace DiscussionThread {
 	}
 
 	export async function getThreadForAnons(wiki: Wiki, { threadId }: { threadId: string }) {
-		let params = getParams('DiscussionThread', 'getThreadForAnons', { threadId });
+		const params = getParams('DiscussionThread', 'getThreadForAnons', { threadId });
 
 		return get(wiki, params);
 	}
 
 	export async function getThread(wiki: Wiki, { threadId }: { threadId: string }) {
-		let params = getParams('DiscussionThread', 'getThread', { threadId });
+		const params = getParams('DiscussionThread', 'getThread', { threadId });
 
 		return get(wiki, params);
 	}
 
 	export async function getThreadHistory(wiki: Wiki, { threadId }: { threadId: string }) {
-		let params = getParams('DiscussionThread', 'getThreadHistory', { threadId });
+		const params = getParams('DiscussionThread', 'getThreadHistory', { threadId });
 
 		return get(wiki, params);
 	}

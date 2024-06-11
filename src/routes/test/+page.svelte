@@ -3,31 +3,31 @@
 	import { DiscussionPost } from '$lib/controllers/DiscussionPost';
 	import { DiscussionThread } from '$lib/controllers/DiscussionThread';
 
-	let getWiki: Wiki = {
+	const getWiki: Wiki = {
 		name: 'battle-cats',
 		lang: 'en',
 	};
 
-	let getParams = {
+	const getParams = {
 		controller: 'DiscussionThread',
 		method: 'getThread',
 		threadId: '4400000000000817646',
 	};
 
-	let postWiki: Wiki = {
+	const postWiki: Wiki = {
 		name: 'wwr-test',
 		lang: 'en',
 		// siteId: '3448675',
 	};
 
 	// https://wwr-test.fandom.com/wikia.php?controller=FeedsAndPosts&method=getWikiVariables
-	let postParams = {
+	const postParams = {
 		controller: 'DiscussionThread',
 		method: 'create',
 		forumId: '4400000000000004391',
 	};
 
-	let postData: DiscussionPost.createData = {
+	const postData: DiscussionPost.createData = {
 		siteId: '3448675',
 		threadId: '4400000000000037009',
 		jsonModel: {

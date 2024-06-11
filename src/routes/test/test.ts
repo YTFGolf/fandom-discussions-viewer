@@ -37,7 +37,7 @@ type ThreadPost = {
 };
 
 /** I love this payload */
-let postData: DiscussionPost.createData = {
+const postData: DiscussionPost.createData = {
 	siteId: '3448675',
 	threadId: '4400000000000037009',
 	jsonModel: {

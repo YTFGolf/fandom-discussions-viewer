@@ -10,20 +10,20 @@ function buildQuery(
 	params: string | string[][] | Record<string, string> | URLSearchParams | undefined,
 ) {
 	// prettier-ignore
-	let reEntrypoint = new RegExp([
+	const reEntrypoint = new RegExp([
 		/^https:\/\//,              // begin + https://
 		/[a-z\-]+\.fandom\.com/,    // {wiki name}.fandom.com
 		/(?:\/[a-z\-]+)?/,          // (optional) /{lang}
 		/\/(api|wikia)\.php$/       // /{script}.php + end
 	].map((r: RegExp) => r.source).join(''));
 	// https://stackoverflow.com/questions/12317049/how-to-split-a-long-regular-expression-into-multiple-lines-in-javascript
-	// let reEntrypoint = /^https:\/\/[a-z\-]+\.fandom\.com(?:\/[a-z\-]+)?\/(api|wikia)\.php$/;
+	// const reEntrypoint = /^https:\/\/[a-z\-]+\.fandom\.com(?:\/[a-z\-]+)?\/(api|wikia)\.php$/;
 
 	if (!entrypoint.match(reEntrypoint)) {
 		throw new Error('Wiki entrypoint invalid!');
 	}
 
-	let uParams = new URLSearchParams(params);
+	const uParams = new URLSearchParams(params);
 	return entrypoint + '?' + uParams;
 }
 
@@ -36,10 +36,10 @@ function buildQuery(
  */
 export async function handleRequestEvent(event: RequestEvent) {
 	// TODO should be able to just use same headers sent in request
-	let params: any = {};
+	const params: any = {};
 	let entrypoint: string | undefined;
 
-	for (let param of event.url.searchParams.entries()) {
+	for (const param of event.url.searchParams.entries()) {
 		if (param[0] === 'fdvEntrypoint') {
 			entrypoint = param[1];
 		} else {
@@ -50,7 +50,7 @@ export async function handleRequestEvent(event: RequestEvent) {
 		throw new Error('Wiki entrypoint not provided!');
 	}
 
-	let init: RequestInit = {
+	const init: RequestInit = {
 		method: event.request.method,
 		headers: {
 			Cookie: `fandom_session=${event.cookies.get('fandom_session')}`,

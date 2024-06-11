@@ -11,7 +11,7 @@ export namespace DiscussionPost {
 		attachments: Attachments;
 	} & HasData;
 	export async function update(wiki: Wiki, { postId }: { postId: string }, data: updateData) {
-		let params = getParams('DiscussionPost', 'update', { postId });
+		const params = getParams('DiscussionPost', 'update', { postId });
 
 		return post(wiki, params, data);
 	}
@@ -25,7 +25,7 @@ export namespace DiscussionPost {
 		attachments?: Attachments;
 	} & HasData;
 	export async function create(wiki: Wiki, {}: {}, data: createData) {
-		let params = getParams('DiscussionPost', 'create');
+		const params = getParams('DiscussionPost', 'create');
 
 		return post(wiki, params, data);
 	}
@@ -34,25 +34,25 @@ export namespace DiscussionPost {
 	 * Note: to avoid keyword clash this is `deletePost` instead of `delete`.
 	 */
 	export async function deletePost(wiki: Wiki, { postId }: { postId: string }) {
-		let params = getParams('DiscussionPost', 'delete', { postId });
+		const params = getParams('DiscussionPost', 'delete', { postId });
 
 		return post(wiki, params);
 	}
 
 	export async function undelete(wiki: Wiki, { postId }: { postId: string }) {
-		let params = getParams('DiscussionPost', 'undelete', { postId });
+		const params = getParams('DiscussionPost', 'undelete', { postId });
 
 		return post(wiki, params);
 	}
 
 	export async function getPost(wiki: Wiki, { postId }: { postId: string }) {
-		let params = getParams('DiscussionPost', 'getPost', { postId });
+		const params = getParams('DiscussionPost', 'getPost', { postId });
 
 		return get(wiki, params);
 	}
 
 	export async function getPostHistory(wiki: Wiki, { postId }: { postId: string }) {
-		let params = getParams('DiscussionPost', 'getPostHistory', { postId });
+		const params = getParams('DiscussionPost', 'getPostHistory', { postId });
 
 		return get(wiki, params);
 	}
@@ -72,7 +72,7 @@ export namespace DiscussionPost {
 	}
 
 	export async function help(wiki: Wiki) {
-		let params = getParams('DiscussionPost', 'help');
+		const params = getParams('DiscussionPost', 'help');
 
 		return get(wiki, params);
 	}

@@ -9,9 +9,9 @@ import HTTP from '$lib/HTTPCodes';
  */
 async function _handle(event: RequestEvent) {
 	try {
-		let res = await handleRequestEvent(event);
+		const res = await handleRequestEvent(event);
 
-		let body = await res.json();
+		const body = await res.json();
 		if (res) {
 			return json(body, { status: res.status });
 			// TODO headers

@@ -31,14 +31,14 @@ function buildEntrypoint(wiki: Wiki, script?: WikiScript) {
  * @returns
  */
 function buildUrl(wiki: Wiki, params: any, script?: WikiScript) {
-	let entrypoint = buildEntrypoint(wiki, script);
+	const entrypoint = buildEntrypoint(wiki, script);
 
-	let query = new URLSearchParams({
+	const query = new URLSearchParams({
 		fdvEntrypoint: entrypoint,
 		...params,
 	});
 
-	let url = `/api?${query}`;
+	const url = `/api?${query}`;
 	return url;
 }
 
@@ -50,9 +50,9 @@ function buildUrl(wiki: Wiki, params: any, script?: WikiScript) {
  * @returns Promise containing Fandom server response
  */
 export async function get(wiki: Wiki, params: any, script?: WikiScript) {
-	let url = buildUrl(wiki, params, script);
+	const url = buildUrl(wiki, params, script);
 
-	let res = await fetch(url, {
+	const res = await fetch(url, {
 		method: 'GET',
 	});
 
@@ -68,7 +68,7 @@ export async function get(wiki: Wiki, params: any, script?: WikiScript) {
  * @returns Promise containing Fandom server response
  */
 export async function post(wiki: Wiki, params: any, data?: any, script?: WikiScript) {
-	let url = buildUrl(wiki, params, script);
+	const url = buildUrl(wiki, params, script);
 
 	if (data && typeof data !== 'string') {
 		if (data.jsonModel && typeof data.jsonModel !== 'string') {
@@ -77,7 +77,7 @@ export async function post(wiki: Wiki, params: any, data?: any, script?: WikiScr
 		data = JSON.stringify(data);
 	}
 
-	let res = await fetch(url, {
+	const res = await fetch(url, {
 		method: 'POST',
 		body: data,
 	});

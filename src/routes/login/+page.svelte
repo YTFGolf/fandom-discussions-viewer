@@ -14,12 +14,12 @@
 		event.preventDefault();
 		status = { color: '', message: 'Sending...' };
 
-		let res = await fetch('/api/login', {
+		const res = await fetch('/api/login', {
 			method: 'POST',
 			body: JSON.stringify({ username, password }),
 		});
 		if (res.status !== HTTP.OK) {
-			let body = await res.json();
+			const body = await res.json();
 			// console.error(body);
 			// not necessary when console automatically shows error
 			status = { color: 'red', message: 'Error while logging in: ' + body.title };
