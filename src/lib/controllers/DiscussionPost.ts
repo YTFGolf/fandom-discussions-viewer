@@ -1,7 +1,7 @@
 import { get, post } from '$lib/caller';
 import type { Wiki } from '$lib/types';
 import type { Attachments } from './types/attachments';
-import type { HasData, Source } from './types/string-types';
+import type { ContainerType, HasData, Source } from './types/string-types';
 import { getParams } from './util';
 
 // wiki: Wiki, {}: {}, {}: {}
@@ -57,8 +57,18 @@ export namespace DiscussionPost {
 		return get(wiki, params);
 	}
 
-	export async function getPosts(wiki: Wiki) {
-		let params = getParams('DiscussionPost', 'getPosts');
+	type getPostsParams = {
+		containerType?: ContainerType;
+		page?: number;
+		reported?: boolean;
+
+		/** Doesn't appear to do anything */
+		canViewHiddenPosts?: boolean;
+		/** Doesn't appear to do anything */
+		canViewHiddenPostsInContainer?: boolean;
+	};
+	export async function getPosts(wiki: Wiki, params: getPostsParams) {
+		params = getParams('DiscussionPost', 'getPosts', params);
 
 		return get(wiki, params);
 	}
