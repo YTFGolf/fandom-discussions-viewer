@@ -51,7 +51,7 @@ I've tried to document these inline as much as possible but there are just too m
     - `ascending` goes from the wiki's first post. If `sortKey` is `trending` then gives an error.
   - On `getThread`
     - `descending` is "view older replies". E.g. on [4400000000000090053](https://wwr-test.fandom.com/f/p/4400000000000037009/r/4400000000000090053) the post below that box is [4400000000000090044](https://wwr-test.fandom.com/f/p/4400000000000037009/r/4400000000000090044). Therefore [getThread](https://wwr-test.fandom.com/wikia.php?controller=DiscussionThread&method=getThread&threadId=4400000000000037009&sortDirection=descending&pivot=4400000000000090044&responseGroup=full) with `4400000000000090044` as the pivot will have the first element of `_embedded["doc:posts"]` be `4400000000000090043`.
-    - `ascending` is "view newer replies". The same [getThread](https://wwr-test.fandom.com/wikia.php?controller=DiscussionThread&method=getThread&threadId=4400000000000037009&sortDirection=descending&pivot=4400000000000090053&responseGroup=full) with `4400000000000090053` will have `4400000000000090054` be the **last** element of `doc:posts`.
+    - `ascending` is "view newer replies". The same [getThread](https://wwr-test.fandom.com/wikia.php?controller=DiscussionThread&method=getThread&threadId=4400000000000037009&sortDirection=descending&pivot=4400000000000090053&responseGroup=full) with `4400000000000090053` will have `4400000000000090054` be the ***last*** element of `doc:posts`.
 
 # Routes
 
