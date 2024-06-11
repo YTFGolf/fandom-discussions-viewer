@@ -1,8 +1,6 @@
 # fandom-discussions-viewer
 
-This project is an attempt to implement [Fandom](<https://en.wikipedia.org/wiki/Fandom_(website)>)'s Discussions API in an open-source project.
-
-For security reasons (specifically reasons enforced by the browser) this uses a proxy server: you send an API request to this proxy server; the proxy forwards it to Fandom; the proxy forwards Fandom's response to you.
+This project is an attempt to implement [Fandom](<https://en.wikipedia.org/wiki/Fandom_(website)>)'s Discussions API in an open-source project. It runs locally, so you will need the tools to run this project installed if you want to use it.
 
 # Installation
 
