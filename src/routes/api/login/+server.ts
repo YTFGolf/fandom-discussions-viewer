@@ -4,7 +4,7 @@ import HTTP from '$lib/HTTPCodes';
 export type Details = { username: string; password: string };
 
 export async function _handle(details: Details) {
-	const res = await fetch('https://services.fandom.com/mobile-fandom-app/fandom-auth/login', {
+	let res = await fetch('https://services.fandom.com/mobile-fandom-app/fandom-auth/login', {
 		method: 'POST',
 		headers: {
 			Connection: 'keep-alive',
@@ -18,8 +18,8 @@ export async function _handle(details: Details) {
 		return res;
 	}
 
-	const cookies = res.headers.getSetCookie()[0].split(';');
-	const resCookies = [];
+	let cookies = res.headers.getSetCookie()[0].split(';');
+	let resCookies = [];
 	for (var cookie of cookies) {
 		// will get rejected by browser if this is left in
 		if (!cookie.startsWith('Domain=')) {
@@ -27,13 +27,13 @@ export async function _handle(details: Details) {
 		}
 	}
 
-	const res2 = json(await res.json());
+	let res2 = json(await res.json());
 	res2.headers.set('Set-Cookie', resCookies.join(';'));
 
 	return res2;
 }
 
 export async function POST(event: RequestEvent) {
-	const details: Details = await event.request.json();
+	let details: Details = await event.request.json();
 	return _handle(details);
 }

@@ -9,7 +9,7 @@ import HTTP from '$lib/HTTPCodes';
  */
 async function _handle(event: RequestEvent) {
 	try {
-		const res = await handleRequestEvent(event);
+		let res = await handleRequestEvent(event);
 
 		let body = await res.json();
 		if (res) {

@@ -11,7 +11,7 @@ export namespace DiscussionPost {
 		attachments: Attachments;
 	} & HasData;
 	export async function update(wiki: Wiki, { postId }: { postId: string }, data: updateData) {
-		const params = getParams('DiscussionPost', 'update', { postId });
+		let params = getParams('DiscussionPost', 'update', { postId });
 
 		return post(wiki, params, data);
 	}
@@ -25,7 +25,7 @@ export namespace DiscussionPost {
 		attachments?: Attachments;
 	} & HasData;
 	export async function create(wiki: Wiki, {}: {}, data: createData) {
-		const params = getParams('DiscussionPost', 'create');
+		let params = getParams('DiscussionPost', 'create');
 
 		return post(wiki, params, data);
 	}
@@ -34,37 +34,37 @@ export namespace DiscussionPost {
 	 * Note: to avoid keyword clash this is `deletePost` instead of `delete`.
 	 */
 	export async function deletePost(wiki: Wiki, { postId }: { postId: string }) {
-		const params = getParams('DiscussionPost', 'delete', { postId });
+		let params = getParams('DiscussionPost', 'delete', { postId });
 
 		return post(wiki, params);
 	}
 
 	export async function undelete(wiki: Wiki, { postId }: { postId: string }) {
-		const params = getParams('DiscussionPost', 'undelete', { postId });
+		let params = getParams('DiscussionPost', 'undelete', { postId });
 
 		return post(wiki, params);
 	}
 
 	export async function getPost(wiki: Wiki, { postId }: { postId: string }) {
-		const params = getParams('DiscussionPost', 'getPost', { postId });
+		let params = getParams('DiscussionPost', 'getPost', { postId });
 
 		return get(wiki, params);
 	}
 
 	export async function getPostHistory(wiki: Wiki, { postId }: { postId: string }) {
-		const params = getParams('DiscussionPost', 'getPostHistory', { postId });
+		let params = getParams('DiscussionPost', 'getPostHistory', { postId });
 
 		return get(wiki, params);
 	}
 
 	export async function getPosts(wiki: Wiki) {
-		const params = getParams('DiscussionPost', 'getPosts');
+		let params = getParams('DiscussionPost', 'getPosts');
 
 		return get(wiki, params);
 	}
 
 	export async function help(wiki: Wiki) {
-		const params = getParams('DiscussionPost', 'help');
+		let params = getParams('DiscussionPost', 'help');
 
 		return get(wiki, params);
 	}
