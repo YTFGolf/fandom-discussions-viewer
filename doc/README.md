@@ -64,9 +64,9 @@ I just put bootstrap in because I'm lazy. If you know how to actually design web
 
 I plan to make:
 
-- `/f`: same thing as Fandom's discussions
-- `/mw`: message walls. Format will be `/mw/{userId}/{postId}/{replyId}`
-- `/c`: article comments. Format will be `/c/{stablePageId}/{commentId}/{replyId}`
+- `/f`: same thing as Fandom's discussions (`/f/p/{postId}/r/{replyId}`)
+- `/mw`: message walls. Format will be `/mw/{userId}/p/{postId}/r/{replyId}`
+- `/c`: article comments. Format will be `/c/{stablePageId}/p/{commentId}/r/{replyId}`
 
 ## Server routes
 
