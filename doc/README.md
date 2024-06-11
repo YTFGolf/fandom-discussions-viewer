@@ -5,6 +5,7 @@ This file is a placeholder I'm using for the main note hub (I really hope this s
 - [Login](#login)
 - [Using Fandom's API](#using-fandoms-api)
   - [Data models](#data-models)
+  - [Call arguments](#call-arguments)
 - [Routes](#routes)
   - [Client routes](#client-routes)
   - [Server routes](#server-routes)
@@ -35,6 +36,22 @@ notes are at [API stuff](https://wwr-test.fandom.com/wiki/API_stuff)
 Also talk about obtaining data if you have other data e.g. finding out whose message wall a post was on.
 
 ## Data models
+
+## Call arguments
+
+I've tried to document these inline as much as possible but there are just too many and these don't all get their nice abstractions in [string-types](../src/lib/controllers/types/string-types.ts).
+
+<!-- prettier-ignore -->
+- `viewableOnly`: basically `hideDeleted` but Fandom doesn't know how to name variables and they're stuck with it.
+- `page`: also takes `pivot` into account.
+- `includeCounters`: if false, every request's `postCount` will be 0.
+- `sortDirection`
+  - On `getThreads`
+    - `descending` is standard method. If `sortKey` is `creation_date` then sorts by new. If `trending` then sorts by hot
+    - `ascending` goes from the wiki's first post. If `sortKey` is `trending` then gives an error.
+  - On `getThread`
+    - `descending` is "view older replies". E.g. on [4400000000000090053](https://wwr-test.fandom.com/f/p/4400000000000037009/r/4400000000000090053) the post below that box is [4400000000000090044](https://wwr-test.fandom.com/f/p/4400000000000037009/r/4400000000000090044). Therefore [getThread](https://wwr-test.fandom.com/wikia.php?controller=DiscussionThread&method=getThread&threadId=4400000000000037009&sortDirection=descending&pivot=4400000000000090044&responseGroup=full) with `4400000000000090044` as the pivot will have the first element of `_embedded["doc:posts"]` be `4400000000000090043`.
+    - `ascending` is "view newer replies". The same [getThread](https://wwr-test.fandom.com/wikia.php?controller=DiscussionThread&method=getThread&threadId=4400000000000037009&sortDirection=descending&pivot=4400000000000090053&responseGroup=full) with `4400000000000090053` will have `4400000000000090054` be the **last** element of `doc:posts`.
 
 # Routes
 
@@ -69,6 +86,7 @@ This section will detail things you can do with this but not Fandom Discussions 
   - Astley pings
   - Formatting in code blocks (`<strong>` doesn't work though)
 - Pings in message walls (don't notify though, users don't get notified even if you use the attachments)
+- Read and reply to [Hello Internet Funni People](https://battle-cats.fandom.com/wiki/Message_Wall:LiterallyJustN?threadId=4400000000000763415) without using 10 TB of RAM
 
 # Testing
 

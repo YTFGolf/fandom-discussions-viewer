@@ -59,13 +59,11 @@ export namespace DiscussionPost {
 
 	type getPostsParams = {
 		containerType?: ContainerType;
-		page?: number;
 		reported?: boolean;
-
-		/** Doesn't appear to do anything */
-		canViewHiddenPosts?: boolean;
-		/** Doesn't appear to do anything */
-		canViewHiddenPostsInContainer?: boolean;
+		viewableOnly?: boolean;
+		includeCounters?: boolean;
+		page?: number;
+		limit?: number;
 	};
 	export async function getPosts(wiki: Wiki, params: getPostsParams) {
 		params = getParams('DiscussionPost', 'getPosts', params);
