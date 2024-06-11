@@ -51,6 +51,11 @@
 	};
 </script>
 
+<svelte:head>
+	<title>Test</title>
+	<meta name="description" content="Testing the API" />
+</svelte:head>
+
 <!-- {#await DiscussionPost.getPost(getWiki, { postId: '4400000000003543769' })}
 	<p>...waiting</p>
 {:then postData}

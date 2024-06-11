@@ -32,6 +32,11 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Login</title>
+	<meta name="description" content="Login page" />
+</svelte:head>
+
 <form on:submit={handleSubmit}>
 	<label for="username">Username:</label>
 	<input type="text" id="username" bind:value={username} required />
