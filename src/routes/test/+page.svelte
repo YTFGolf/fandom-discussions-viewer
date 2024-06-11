@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Wiki } from '$lib/types';
 	import { DiscussionPost } from '$lib/controllers/DiscussionPost';
+	import { DiscussionThread } from '$lib/controllers/DiscussionThread';
 
 	let getWiki: Wiki = {
 		name: 'battle-cats',
@@ -56,13 +57,13 @@
 	<meta name="description" content="Testing the API" />
 </svelte:head>
 
-<!-- {#await DiscussionPost.getPost(getWiki, { postId: '4400000000003543769' })}
+{#await DiscussionThread.getThreads(getWiki)}
 	<p>...waiting</p>
 {:then postData}
 	<p>{JSON.stringify(postData)}</p>
 {:catch error}
 	<p style="color: red">{error.message}</p>
-{/await} -->
+{/await}
 
 <!-- prettier-ignore -->
 <button on:click={async () => console.log(await DiscussionPost.create(postWiki, {}, postData))}>
