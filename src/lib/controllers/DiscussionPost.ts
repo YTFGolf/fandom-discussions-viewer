@@ -24,6 +24,9 @@ export namespace DiscussionPost {
 		source?: Source;
 		attachments?: Attachments;
 	} & HasData;
+	/**
+	 * Fun fact: if you have thread mod/admin you can reply to locked posts.
+	 */
 	export async function create(wiki: Wiki, {}: {}, data: createData) {
 		const params = getParams('DiscussionPost', 'create');
 

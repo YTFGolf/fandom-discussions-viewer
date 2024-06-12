@@ -39,9 +39,7 @@
 							type: 'text',
 							text: 'test',
 							marks: [
-								{ type: 'strong' },
 								{ type: 'link', attrs: { href: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' } },
-								{ type: 'em' },
 								{ type: 'mention', attrs: { userId: '27706221' } },
 							],
 						},
@@ -57,15 +55,15 @@
 	<meta name="description" content="Testing the API" />
 </svelte:head>
 
-{#await DiscussionThread.getThreads(getWiki)}
+<!-- {#await DiscussionThread.getThreads(getWiki)}
 	<p>...waiting</p>
 {:then postData}
 	<p>{JSON.stringify(postData)}</p>
 {:catch error}
 	<p style="color: red">{error.message}</p>
-{/await}
+{/await} -->
 
 <!-- prettier-ignore -->
-<button on:click={async () => console.log(await DiscussionPost.create(postWiki, {}, postData))}>
+<button on:click={async () => console.log(await DiscussionThread.unlock(postWiki, { threadId: "4400000000000037009" }))}>
 	Click to post
 </button>
