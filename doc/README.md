@@ -36,6 +36,8 @@ notes are at [API stuff](https://wwr-test.fandom.com/wiki/API_stuff)
 
 Also talk about obtaining data if you have other data e.g. finding out whose message wall a post was on.
 
+- unlock hits 204
+
 ### Data models
 
 ### Call arguments

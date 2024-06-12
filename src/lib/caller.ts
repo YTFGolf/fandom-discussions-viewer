@@ -82,5 +82,7 @@ export async function post(wiki: Wiki, params: any, data?: any, script?: WikiScr
 		body: data,
 	});
 
-	return await res.json();
+	if (res.status !== 204) {
+		return await res.json();
+	}
 }

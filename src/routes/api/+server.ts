@@ -11,6 +11,10 @@ async function _handle(event: RequestEvent) {
 	try {
 		const res = await handleRequestEvent(event);
 
+		if (res.status === HTTP.NO_CONTENT) {
+			return new Response(null, { status: res.status });
+		}
+
 		const body = await res.json();
 		if (res) {
 			return json(body, { status: res.status });
