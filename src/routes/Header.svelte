@@ -1,18 +1,26 @@
-<script>
+<script lang="ts">
 	import { page } from '$app/stores';
-	import { Navbar, Nav, NavItem, NavLink } from '@sveltestrap/sveltestrap';
+
+	function navLinkClass(route: string) {
+		if ($page.url.pathname === route) {
+			return 'nav-link active';
+		}
+		return 'nav-link';
+	}
 </script>
 
-<Navbar expand="md">
-	<Nav navbar underline>
-		<NavItem>
-			<NavLink href="/" class={$page.url.pathname === '/' ? 'active' : ''}>Home</NavLink>
-		</NavItem>
-		<NavItem>
-			<NavLink href="/login" class={$page.url.pathname === '/login' ? 'active' : ''}>Login</NavLink>
-		</NavItem>
-		<NavItem>
-			<NavLink href="/test" class={$page.url.pathname === '/test' ? 'active' : ''}>Test</NavLink>
-		</NavItem>
-	</Nav>
-</Navbar>
+<nav class="navbar navbar-expand-md">
+	<div class="container-fluid">
+		<ul class="navbar-nav nav-underline">
+			<li class="nav-item">
+				<a href="/" class={navLinkClass('/')}>Home</a>
+			</li>
+			<li class="nav-item">
+				<a href="/login" class={navLinkClass('/login')}>Login</a>
+			</li>
+			<li class="nav-item">
+				<a href="/test" class={navLinkClass('/test')}>Test</a>
+			</li>
+		</ul>
+	</div>
+</nav>
