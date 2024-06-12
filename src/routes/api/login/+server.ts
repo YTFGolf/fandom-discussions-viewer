@@ -21,9 +21,11 @@ export async function _handle(details: Details) {
 	const cookies = res.headers.getSetCookie()[0].split(';');
 	const resCookies = [];
 	for (var cookie of cookies) {
-		// will get rejected by browser if this is left in
 		if (!cookie.startsWith('Domain=')) {
 			resCookies.push(cookie);
+		} else {
+			resCookies.push(cookie.replace('fandom.com', 'localhost'));
+			// will get rejected by browser if this is left in
 		}
 	}
 
