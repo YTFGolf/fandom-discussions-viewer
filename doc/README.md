@@ -4,9 +4,10 @@ This file is a placeholder I'm using for the main note hub (I really hope this s
   - [General structure](#general-structure)
 - [Login](#login)
 - [Using Fandom's API](#using-fandoms-api)
-  - [Return codes](#return-codes)
+  - [Finding data](#finding-data)
+    - [Specialised](#specialised)
   - [Data models](#data-models)
-    - [Thread creation](#thread-creation)
+    - [Ignore this bit](#ignore-this-bit)
   - [Call arguments](#call-arguments)
 - [Frontend design](#frontend-design)
 - [Routes](#routes)
@@ -38,14 +39,44 @@ notes are at [API stuff](https://wwr-test.fandom.com/wiki/API_stuff)
 
 Also talk about obtaining data if you have other data e.g. finding out whose message wall a post was on.
 
-### Return codes
+### Finding data
 
-For lock it appears that 204 = success and 202 = authorised but failed (but on the website 202 is success). For unlock appears that 204 is just always returned.
+- Finding `siteId`: <https://battle-cats.fandom.com/wikia.php?controller=FeedsAndPosts&method=getWikiVariables>`.wikiId`
+- Finding message wall post
+  - I don't actually know how to do this. However you can do this if you found this message through:
+    1. scrolling down a user's Message Wall (then you have `wallOwnerId`)
+    2. scrolling down a user's Social Activity (then see how [Discussions Restore All](https://dev.fandom.com/wiki/MediaWiki:Discussions_Restore_All.js) does it)
+  - These should be the only way you found a message
+- Finding forum ids: <https://wwr-test.fandom.com/wikia.php?controller=DiscussionForum&method=getForums>`._embedded["doc:forum"][i].id` where `i` is a number
+- Finding comment/page
+  - really easy, you don't even need the correct page name or namespace. You just need **_a_** page on the wiki, and that page's namespace, and the `commentId`. Appears that the page needs actual comments though.
+  - will return `res` something where `res.thread.containerId` is `stablePageId`.
+  - `stablePageId` -> page name
+    - <https://battle-cats.fandom.com/es/wikia.php?controller=FeedsAndPosts&method=getArticleNamesAndUsernames&stablePageIds=210,216>`.articleNames[stablePageId].title`.
+      - need <https://battle-cats.fandom.com/es/api.php?action=query&meta=siteinfo&siprop=namespaces&format=json> to determine namespace
+    - <https://battle-cats.fandom.com/es/wikia.php?controller=ArticleComments&method=getArticleTitle&stablePageId=210>`.title` (doesn't include namespace so not recommended)
+  - page name -> `stablePageId`
+    - <https://wwr-test.fandom.com/wikia.php?controller=FeedsAndPostsController&method=searchForTags&query=api+stuff>`.tags[0].articleId`
+    - <https://battle-cats.fandom.com/wikia.php?controller=ArticleCommentsController&method=getComments&title=Space+is+the+Place+%28Insane%29&namespace=0&hideDeleted=false>`.threads[0].containerId` with proper title and namespace
+- `userId`/username
+  - From `userId`:
+    - A lot of the time you don't need to do this as it's given
+    - <https://battle-cats.fandom.com/api/v1/User/Details?ids=27706221,37518302>
+  - From username
+    - Exact: <https://wwr-test.fandom.com/api.php?action=query&format=json&list=users&ususers=TheWWRNerdGuy|Brute_Bendy>
+    - Inexact: <https://battle-cats.fandom.com/wikia.php?controller=UserApiController&method=getUsersByName&query=AnonymousCrouton>
+
+#### Specialised
+
+- First post on wiki: https://community.fandom.com/f/p/4400000000003133958/r/4400000000010157535 (should add `viewableOnly=false` imo)
+- User's first post: https://battle-cats.fandom.com/wiki/User:TheWWRNerdGuy/Messing_around_with_Discussions_API#First_post_on_wiki
+- First reply to post: https://community.fandom.com/f/p/4400000000003569082/r/4400000000014032699
 
 ### Data models
 
-#### Thread creation
+#### Ignore this bit
 
+// Thread creation
 // body isn't needed technically, need to investigate further
 // body is alias for rawContent
 // jsonModel isn't needed either
@@ -55,7 +86,6 @@ For lock it appears that 204 = success and 202 = authorised but failed (but on t
 // reply history relies on jsonModel
 // special:userprofileactivity relies on body/rawContent
 // jsonModel length must be between 0 and 65520
-
 // anything that can be null can also be undefined
 
 ### Call arguments
