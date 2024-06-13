@@ -88,6 +88,15 @@ Also talk about obtaining data if you have other data e.g. finding out whose mes
 // jsonModel length must be between 0 and 65520
 // anything that can be null can also be undefined
 
+- Rickping
+
+  ```ts
+  marks: [
+  	{ type: 'link', attrs: { href: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' } },
+  	{ type: 'mention', attrs: { userId: '27706221' } },
+  ],
+  ```
+
 ### Call arguments
 
 I've tried to document these inline as much as possible but there are just too many and these don't all get their nice abstractions in [string-types](../src/lib/controllers/types/string-types.ts).
