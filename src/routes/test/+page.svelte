@@ -16,10 +16,8 @@
 	const postWiki: Wiki = {
 		name: 'wwr-test',
 		lang: 'en',
-		// siteId: '3448675',
 	};
 
-	// https://wwr-test.fandom.com/wikia.php?controller=FeedsAndPosts&method=getWikiVariables
 	const postParams = {
 		controller: 'DiscussionThread',
 		method: 'create',

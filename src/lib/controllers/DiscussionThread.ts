@@ -102,6 +102,8 @@ export namespace DiscussionThread {
 	export type getThreadsParams = {
 		sortKey?: SortKey;
 		sortDirection?: SortDirection;
+		forumId?: string;
+		source?: Source;
 		viewableOnly?: boolean;
 		limit?: number;
 		pivot?: string;

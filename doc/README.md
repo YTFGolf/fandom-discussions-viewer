@@ -45,7 +45,7 @@ Also talk about obtaining data if you have other data e.g. finding out whose mes
 - Finding message wall post
   - I don't actually know how to do this. However you can do this if you found this message through:
     1. scrolling down a user's Message Wall (then you have `wallOwnerId`)
-    2. scrolling down a user's Social Activity (then see how [Discussions Restore All](https://dev.fandom.com/wiki/MediaWiki:Discussions_Restore_All.js) does it)
+    2. scrolling down a user's Social Activity/<https://battle-cats.fandom.com/wikia.php?controller=DiscussionPost&method=getPosts&containerType=WALL> (then see how [Discussions Restore All](https://dev.fandom.com/wiki/MediaWiki:Discussions_Restore_All.js) does it)
   - These should be the only way you found a message
 - Finding forum ids: <https://wwr-test.fandom.com/wikia.php?controller=DiscussionForum&method=getForums>`._embedded["doc:forum"][i].id` where `i` is a number
 - Finding comment/page
