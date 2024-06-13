@@ -1,7 +1,10 @@
 <script>
 	import Header from './Header.svelte';
-	import './bootstrap.css';
 </script>
+
+<svelte:head>
+	<link rel="stylesheet" href="./bootstrap.css" />
+</svelte:head>
 
 <div class="app">
 	<Header />
