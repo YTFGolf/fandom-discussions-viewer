@@ -8,10 +8,9 @@
 		lang: 'en',
 	};
 
-	const getParams = {
-		controller: 'DiscussionThread',
-		method: 'getThread',
-		threadId: '4400000000000817646',
+	const getParams: DiscussionThread.getThreadParams = {
+		threadId: '4400000000000822918',
+		responseGroup: 'full',
 	};
 
 	const postWiki: Wiki = {
@@ -27,37 +26,18 @@
 		forumId: '4400000000000004391',
 	};
 
-	const postData: DiscussionThread.createData = {
-		siteId: '3448675',
-		title: 'name of post',
-		jsonModel: 'the',
+	const postData: DiscussionThread.updateData = {
+		title: 'title is required',
+		jsonModel: {
+			content: [{ type: 'paragraph', content: [{ type: 'text', text: 'hi' }] }],
+		},
 		poll: {
-			question: 'what name',
+			question: 'does this required',
 			answers: [
-				{
-					text: 'option 1',
-					position: 0,
-					image: {
-						url: 'https://static.wikia.nocookie.net/86750a06-2148-46ab-a58d-5d28a012c596',
-						height: 112,
-						width: 112,
-						mediaType: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-					},
-				},
-				{
-					text: 'option 2',
-					position: 0,
-					image: {
-						url: 'https://static.wikia.nocookie.net/86750a06-2148-46ab-a58d-5d28a012c596',
-						height: 112,
-						width: 112,
-						mediaType: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-					},
-				},
+				{ text: 'hi', position: 0 },
+				{ text: 'hi', position: 0 },
 			],
 		},
-		funnel: 'TEXT',
-		source: 'MIGRATED_WALL_POST',
 	};
 </script>
 
@@ -66,7 +46,7 @@
 	<meta name="description" content="Testing the API" />
 </svelte:head>
 
-<!-- {#await DiscussionThread.getThreads(getWiki)}
+<!-- {#await DiscussionThread.getThread(getWiki, getParams)}
 	<p>...waiting</p>
 {:then postData}
 	<p>{JSON.stringify(postData)}</p>
@@ -75,6 +55,6 @@
 {/await} -->
 
 <!-- prettier-ignore -->
-<button on:click={async () => console.log(await DiscussionThread.create(postWiki, { forumId: "3448675" }, postData))}>
+<!-- <button on:click={async () => console.log(await DiscussionThread.update(postWiki, { threadId: "4400000000000037057" }, postData))}>
 	Click to post
-</button>
+</button> -->

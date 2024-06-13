@@ -21,16 +21,34 @@ export namespace DiscussionThread {
 		return post(wiki, params);
 	}
 
-	export async function update() {
-		throw new Error('Not implemented');
+	/** These will all be set to null if not given */
+	export type updateData = {
+		title: string;
+
+		jsonModel?: JsonModel;
+		rawContent?: string;
+		body?: string;
+
+		attachments?: Attachments;
+		articleIds?: string[];
+		poll?: Poll;
+	};
+	export async function update(wiki: Wiki, { threadId }: { threadId: string }, data: updateData) {
+		const params = getParams('DiscussionThread', 'update', { threadId });
+
+		return post(wiki, params, data);
 	}
 
 	export async function deleteThread(wiki: Wiki, { threadId }: { threadId: string }) {
-		throw new Error('Not implemented');
+		const params = getParams('DiscussionThread', 'delete', { threadId });
+
+		return post(wiki, params);
 	}
 
 	export async function undelete(wiki: Wiki, { threadId }: { threadId: string }) {
-		throw new Error('Not implemented');
+		const params = getParams('DiscussionThread', 'undelete', { threadId });
+
+		return post(wiki, params);
 	}
 
 	export type createData = {
@@ -59,8 +77,18 @@ export namespace DiscussionThread {
 		return get(wiki, params);
 	}
 
-	export async function getThread(wiki: Wiki, { threadId }: { threadId: string }) {
-		const params = getParams('DiscussionThread', 'getThread', { threadId });
+	export type getThreadParams = {
+		threadId: string;
+
+		sortDirection?: SortDirection;
+		viewableOnly?: boolean;
+		limit?: number;
+		pivot?: string;
+		page?: number;
+		responseGroup?: ResponseGroup;
+	};
+	export async function getThread(wiki: Wiki, params: getThreadParams) {
+		params = getParams('DiscussionThread', 'getThread', params);
 
 		return get(wiki, params);
 	}
@@ -78,7 +106,6 @@ export namespace DiscussionThread {
 		limit?: number;
 		pivot?: string;
 		page?: number;
-
 		responseGroup?: ResponseGroup;
 	};
 	export async function getThreads(wiki: Wiki, params?: getThreadsParams) {
