@@ -27,26 +27,37 @@
 		forumId: '4400000000000004391',
 	};
 
-	const postData: DiscussionPost.createData = {
+	const postData: DiscussionThread.createData = {
 		siteId: '3448675',
-		threadId: '4400000000000037009',
-		jsonModel: {
-			content: [
+		title: 'name of post',
+		jsonModel: 'the',
+		poll: {
+			question: 'what name',
+			answers: [
 				{
-					type: 'code_block',
-					content: [
-						{
-							type: 'text',
-							text: 'test',
-							marks: [
-								{ type: 'link', attrs: { href: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' } },
-								{ type: 'mention', attrs: { userId: '27706221' } },
-							],
-						},
-					],
+					text: 'option 1',
+					position: 0,
+					image: {
+						url: 'https://static.wikia.nocookie.net/86750a06-2148-46ab-a58d-5d28a012c596',
+						height: 112,
+						width: 112,
+						mediaType: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+					},
+				},
+				{
+					text: 'option 2',
+					position: 0,
+					image: {
+						url: 'https://static.wikia.nocookie.net/86750a06-2148-46ab-a58d-5d28a012c596',
+						height: 112,
+						width: 112,
+						mediaType: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+					},
 				},
 			],
 		},
+		funnel: 'TEXT',
+		source: 'MIGRATED_WALL_POST',
 	};
 </script>
 
@@ -64,6 +75,6 @@
 {/await} -->
 
 <!-- prettier-ignore -->
-<button on:click={async () => console.log(await DiscussionThread.unlock(postWiki, { threadId: "4400000000000037009" }))}>
+<button on:click={async () => console.log(await DiscussionThread.create(postWiki, { forumId: "3448675" }, postData))}>
 	Click to post
 </button>

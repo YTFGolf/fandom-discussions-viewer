@@ -33,7 +33,7 @@ export namespace DiscussionThread {
 		throw new Error('Not implemented');
 	}
 
-	type createData = {
+	export type createData = {
 		title: string;
 		siteId: string;
 
@@ -45,10 +45,10 @@ export namespace DiscussionThread {
 		attachments?: Attachments;
 		articleIds?: string[];
 		funnel?: Funnel;
-		poll: Poll;
+		poll?: Poll;
 	};
-	export async function create(wiki: Wiki, { threadId }: { threadId: string }, data: createData) {
-		const params = getParams('DiscussionThread', 'create', { threadId });
+	export async function create(wiki: Wiki, { forumId }: { forumId: string }, data: createData) {
+		const params = getParams('DiscussionThread', 'create', { forumId });
 
 		return post(wiki, params, data);
 	}

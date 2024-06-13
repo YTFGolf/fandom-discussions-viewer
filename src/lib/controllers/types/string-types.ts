@@ -28,9 +28,14 @@ export type Source =
 	| 'MIGRATED_ARTICLE_COMMENT';
 
 /**
- * Has a meaning in the web editor: polls you can only edit poll (although you
- * still can't submit your edits so what's the point) and text you can only edit
- * the body. Not tested the others.
+ * Has a meaning in the web editor: `POLL` you can only edit poll (although you
+ * still can't submit your edits so what's the point) and `TEXT` you can only
+ * edit the body. `IMAGE` and `LINK` also allow you to edit body. `QUIZ` idk,
+ * but it seems to be a feature only available on certain wikis so would be
+ * quite difficult to test properly.
+ *
+ * Also when scrolling through the website, the poll's question will be
+ * displayed if funnel is `TEXT` but not if it's any of the others.
  */
 export type Funnel = 'TEXT' | 'LINK' | 'IMAGE' | 'POLL' | 'QUIZ';
 
