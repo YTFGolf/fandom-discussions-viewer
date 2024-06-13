@@ -1,8 +1,8 @@
 import { get, post } from '$lib/caller';
 import type { Wiki } from '$lib/types';
-import type { Attachments } from './types/attachments';
-import type { ContainerType, HasData, Source } from './types/string-types';
-import { getParams } from './util';
+import type { Attachments } from '../types/attachments';
+import type { ContainerType, HasData, Source } from '../types/string-types';
+import { getParams } from '../util';
 
 // wiki: Wiki, {}: {}, {}: {}
 // wiki, params, data

@@ -1,4 +1,4 @@
-import type { DiscussionPost } from '$lib/controllers/DiscussionPost';
+import type { DiscussionPost } from '$lib/controllers/wikia/DiscussionPost';
 
 /** I love this payload */
 const postData: DiscussionPost.createData = {

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Wiki } from '$lib/types';
-	import { DiscussionPost } from '$lib/controllers/DiscussionPost';
-	import { DiscussionThread } from '$lib/controllers/DiscussionThread';
+	import { DiscussionPost } from '$lib/controllers/wikia/DiscussionPost';
+	import { DiscussionThread } from '$lib/controllers/wikia/DiscussionThread';
 
 	const getWiki: Wiki = {
 		name: 'battle-cats',
