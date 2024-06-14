@@ -88,6 +88,8 @@ Also talk about obtaining data if you have other data e.g. finding out whose mes
 // special:userprofileactivity relies on body/rawContent
 // jsonModel length must be between 0 and 65520
 // anything that can be null can also be undefined
+// action=query format=json meta=userinfo uiprop=groups|rights
+// something like global values e.g. username so I can set the user agent (client)
 
 - Rickping
 
@@ -138,6 +140,7 @@ I plan to make:
 - `/c`: article comments. Format will be `/c/{stablePageId}/p/{commentId}/r/{replyId}`
   - Note: I may make it not use `stablePageId` since that way you can't view every page
   - Saying that you probably should be able to just use the Fandom website to post a comment on said page
+  - OR I could make it `/c/0/{{FULLPAGENAME}}`
 
 ### Server routes
 

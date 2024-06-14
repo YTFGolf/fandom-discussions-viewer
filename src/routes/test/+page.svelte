@@ -3,6 +3,7 @@
 	import { DiscussionPost } from '$lib/controllers/wikia/DiscussionPost';
 	import { DiscussionThread } from '$lib/controllers/wikia/DiscussionThread';
 	import { ArticleComments } from '$lib/controllers/wikia/ArticleComments';
+	import { getToken } from '$lib/controllers/api/custom';
 
 	const bcWiki: Wiki = {
 		name: 'battle-cats',
@@ -21,25 +22,24 @@
 		lang: 'en',
 	};
 
-	const postParams = {
-		controller: 'DiscussionThread',
-		method: 'create',
-		forumId: '4400000000000004391',
-	};
+	const postParams = {};
 
-	const postData: DiscussionThread.updateData = {
-		title: 'title is required',
+	const postData: ArticleComments.postThreadData = {
+		title: 'CORS',
+		namespace: 0,
 		jsonModel: {
 			content: [{ type: 'paragraph', content: [{ type: 'text', text: 'hi' }] }],
 		},
-		poll: {
-			question: 'does this required',
-			answers: [
-				{ text: 'hi', position: 0 },
-				{ text: 'hi', position: 0 },
-			],
-		},
+		attachments: { contentImages: [], openGraphs: [], atMentions: [] },
+		token: 'not given',
 	};
+
+	// @ts-ignore
+	async function sendTokenRequest(wiki, params, data) {
+		let t = data;
+		t.token = await getToken(wiki);
+		console.log(await ArticleComments.postNewCommentThread(wiki, params, data));
+	}
 </script>
 
 <svelte:head>
@@ -56,6 +56,6 @@
 {/await}
 
 <!-- prettier-ignore -->
-<!-- <button on:click={async () => console.log(await DiscussionThread.update(postWiki, { threadId: "4400000000000037057" }, postData))}>
+<button on:click={async () => sendTokenRequest(wwrWiki, postParams, postData)}>
 	Click to post
-</button> -->
+</button>

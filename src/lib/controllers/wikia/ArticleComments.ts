@@ -1,5 +1,7 @@
-import { get } from '$lib/caller';
-import type { Wiki } from '$lib/types';
+import { get, post } from '$lib/caller';
+import { ContentType, type Wiki } from '$lib/types';
+import type { Attachments } from '../types/attachments';
+import type { JsonModel } from '../types/jsonModel';
 import { getParams } from '../util';
 
 /** Identifies a page */
@@ -10,11 +12,22 @@ export type PageId = {
 	namespace: number;
 };
 
-// wiki: Wiki, {}: {}, {}: {}
-// wiki, params, data
+export type Token = {
+	token: string;
+};
+// TODO put these in another file
+export type sAttachments = Attachments | string;
+
 export namespace ArticleComments {
-	export async function postNewCommentThread() {
-		throw new Error('Not implemented');
+	export type postThreadData = { jsonModel: JsonModel; attachments: sAttachments } & PageId & Token;
+	export async function postNewCommentThread(wiki: Wiki, {}: {}, data: postThreadData) {
+		const params = getParams('ArticleCommentsController', 'postNewCommentThread');
+
+		if (typeof data.attachments !== 'string') {
+			data.attachments = JSON.stringify(data.attachments);
+		}
+
+		return post(wiki, params, data, { contentType: ContentType.HTML });
 	}
 
 	export async function postNewCommentReply() {
