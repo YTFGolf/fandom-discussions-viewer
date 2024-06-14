@@ -1,11 +1,10 @@
-import type { Wiki, WikiScript } from '$lib/types';
+import { ContentType, type Wiki, type WikiScript } from '$lib/types';
+import HTTP from './HTTPCodes';
 
-// something like global values e.g. username so I can set the user agent (client)
-
-// get(wiki, params)
-// post(wiki, params, data)
-
-// action=query format=json meta=userinfo uiprop=groups|rights
+export type CallOptions = {
+	script?: WikiScript;
+	contentType?: ContentType;
+};
 
 /**
  * Transform wiki object to url entrypoint
@@ -46,15 +45,17 @@ function buildUrl(wiki: Wiki, params: any, script?: WikiScript) {
  * Send GET request
  * @param wiki
  * @param params
- * @param script Wiki script to use (default: `wikia.php`)
+ * @param options
  * @returns Promise containing Fandom server response
  */
-export async function get(wiki: Wiki, params: any, script?: WikiScript) {
-	const url = buildUrl(wiki, params, script);
+export async function get(wiki: Wiki, params: any, options?: CallOptions) {
+	const url = buildUrl(wiki, params, options?.script);
 
-	const res = await fetch(url, {
+	const init: RequestInit = {
 		method: 'GET',
-	});
+	};
+
+	const res = await fetch(url, init);
 
 	return await res.json();
 }
@@ -64,25 +65,35 @@ export async function get(wiki: Wiki, params: any, script?: WikiScript) {
  * @param wiki
  * @param params
  * @param data
- * @param script Wiki script to use (default: `wikia.php`)
+ * @param options
  * @returns Promise containing Fandom server response
  */
-export async function post(wiki: Wiki, params: any, data?: any, script?: WikiScript) {
-	const url = buildUrl(wiki, params, script);
+export async function post(wiki: Wiki, params: any, data?: any, options?: CallOptions) {
+	const url = buildUrl(wiki, params, options?.script);
 
 	if (data && typeof data !== 'string') {
 		if (data.jsonModel && typeof data.jsonModel !== 'string') {
 			data.jsonModel = JSON.stringify(data.jsonModel);
 		}
-		data = JSON.stringify(data);
+
+		data = (function () {
+			switch (options?.contentType || ContentType.JSON) {
+				case ContentType.JSON:
+					return JSON.stringify(data);
+				case ContentType.HTML:
+					return new URLSearchParams(data);
+			}
+		})();
 	}
 
-	const res = await fetch(url, {
+	const init: RequestInit = {
 		method: 'POST',
 		body: data,
-	});
+	};
 
-	if (res.status !== 204) {
+	const res = await fetch(url, init);
+
+	if (res.status !== HTTP.NO_CONTENT) {
 		return await res.json();
 	}
 }

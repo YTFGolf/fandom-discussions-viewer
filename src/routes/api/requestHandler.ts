@@ -52,9 +52,7 @@ export async function handleRequestEvent(event: RequestEvent) {
 
 	const init: RequestInit = {
 		method: event.request.method,
-		headers: {
-			Cookie: `fandom_session=${event.cookies.get('fandom_session')}`,
-		},
+		headers: event.request.headers,
 	};
 	if (init.method === 'POST') {
 		init.body = await event.request.text();
