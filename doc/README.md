@@ -52,16 +52,17 @@ Also talk about obtaining data if you have other data e.g. finding out whose mes
   - really easy, you don't even need the correct page name or namespace. You just need **_a_** page on the wiki, and that page's namespace, and the `commentId`. Appears that the page needs actual comments though.
   - will return `res` something where `res.thread.containerId` is `stablePageId`.
   - `stablePageId` -> page name
-    - <https://battle-cats.fandom.com/es/wikia.php?controller=FeedsAndPosts&method=getArticleNamesAndUsernames&stablePageIds=210,216>`.articleNames[stablePageId].title`.
+    - <https://battle-cats.fandom.com/es/wikia.php?controller=FeedsAndPosts&method=getArticleNamesAndUsernames&stablePageIds=210,216&userIds=27706221,37518302>`.articleNames[stablePageId].title`.
       - need <https://battle-cats.fandom.com/es/api.php?action=query&meta=siteinfo&siprop=namespaces&format=json> to determine namespace
     - <https://battle-cats.fandom.com/es/wikia.php?controller=ArticleComments&method=getArticleTitle&stablePageId=210>`.title` (doesn't include namespace so not recommended)
   - page name -> `stablePageId`
-    - <https://wwr-test.fandom.com/wikia.php?controller=FeedsAndPostsController&method=searchForTags&query=api+stuff>`.tags[0].articleId`
+    - Page must have comments on it, otherwise it will not have a `stablePageId`
     - <https://battle-cats.fandom.com/wikia.php?controller=ArticleCommentsController&method=getComments&title=Space+is+the+Place+%28Insane%29&namespace=0&hideDeleted=false>`.threads[0].containerId` with proper title and namespace
 - `userId`/username
   - From `userId`:
     - A lot of the time you don't need to do this as it's given
     - <https://battle-cats.fandom.com/api/v1/User/Details?ids=27706221,37518302>
+    - <https://battle-cats.fandom.com/es/wikia.php?controller=FeedsAndPosts&method=getArticleNamesAndUsernames&stablePageIds=210,216&userIds=27706221,37518302>
   - From username
     - Exact: <https://wwr-test.fandom.com/api.php?action=query&format=json&list=users&ususers=TheWWRNerdGuy|Brute_Bendy>
     - Inexact: <https://battle-cats.fandom.com/wikia.php?controller=UserApiController&method=getUsersByName&query=AnonymousCrouton>
@@ -97,6 +98,12 @@ Also talk about obtaining data if you have other data e.g. finding out whose mes
   ],
   ```
 
+If want to find a comment, you need:
+
+- a page with a comment <https://wwr-test.fandom.com/wiki/CORS?commentId=4400000000000037058>
+
+I tried to use this link and it failed. Then I put a comment on the CORS page. Then this worked. Then suddenly stablePageId 2 corresponded to CORS.
+
 ### Call arguments
 
 I've tried to document these inline as much as possible but there are just too many and these don't all get their nice abstractions in [string-types](../src/lib/controllers/types/string-types.ts).
@@ -112,7 +119,8 @@ I've tried to document these inline as much as possible but there are just too m
   - On `getThread`
     - `descending` is "view older replies". E.g. on [4400000000000090053](https://wwr-test.fandom.com/f/p/4400000000000037009/r/4400000000000090053) the post below that box is [4400000000000090044](https://wwr-test.fandom.com/f/p/4400000000000037009/r/4400000000000090044). Therefore [getThread](https://wwr-test.fandom.com/wikia.php?controller=DiscussionThread&method=getThread&threadId=4400000000000037009&sortDirection=descending&pivot=4400000000000090044&responseGroup=full) with `4400000000000090044` as the pivot will have the first element of `_embedded["doc:posts"]` be `4400000000000090043`.
     - `ascending` is "view newer replies". The same [getThread](https://wwr-test.fandom.com/wikia.php?controller=DiscussionThread&method=getThread&threadId=4400000000000037009&sortDirection=descending&pivot=4400000000000090053&responseGroup=full) with `4400000000000090053` will have `4400000000000090054` be the ***last*** element of `doc:posts`.
-- `articleIds`: list of `stablePageId`s.
+- `articleIds`: list of page ids.
+- `stablePageId`: appears to actualy be different from `articleIds`. Is set after a comment has been made on the page.
 
 ## Frontend design
 

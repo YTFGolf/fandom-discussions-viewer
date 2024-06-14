@@ -2,18 +2,18 @@
 	import type { Wiki } from '$lib/types';
 	import { DiscussionPost } from '$lib/controllers/wikia/DiscussionPost';
 	import { DiscussionThread } from '$lib/controllers/wikia/DiscussionThread';
+	import { ArticleComments } from '$lib/controllers/wikia/ArticleComments';
 
-	const getWiki: Wiki = {
+	const bcWiki: Wiki = {
 		name: 'battle-cats',
 		lang: 'en',
 	};
 
-	const getParams: DiscussionThread.getThreadParams = {
-		threadId: '4400000000000822918',
-		responseGroup: 'full',
+	const getParams = {
+		stablePageId: '2',
 	};
 
-	const postWiki: Wiki = {
+	const wwrWiki: Wiki = {
 		name: 'wwr-test',
 		lang: 'en',
 	};
@@ -44,13 +44,13 @@
 	<meta name="description" content="Testing the API" />
 </svelte:head>
 
-<!-- {#await DiscussionThread.getThread(getWiki, getParams)}
+{#await ArticleComments.getArticleTitle(wwrWiki, getParams)}
 	<p>...waiting</p>
 {:then postData}
 	<p>{JSON.stringify(postData)}</p>
 {:catch error}
 	<p style="color: red">{error.message}</p>
-{/await} -->
+{/await}
 
 <!-- prettier-ignore -->
 <!-- <button on:click={async () => console.log(await DiscussionThread.update(postWiki, { threadId: "4400000000000037057" }, postData))}>
