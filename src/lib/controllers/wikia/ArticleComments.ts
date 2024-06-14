@@ -2,6 +2,14 @@ import { get } from '$lib/caller';
 import type { Wiki } from '$lib/types';
 import { getParams } from '../util';
 
+/** Identifies a page */
+export type PageId = {
+	/** Without namespace prefix (i.e. same as `{{PAGENAME}}`) */
+	title: string;
+	/** Must be actual namespace of the page `title` refers to */
+	namespace: number;
+};
+
 // wiki: Wiki, {}: {}, {}: {}
 // wiki, params, data
 export namespace ArticleComments {
@@ -21,12 +29,17 @@ export namespace ArticleComments {
 		throw new Error('Not implemented');
 	}
 
-	export async function getCommentCount() {
-		throw new Error('Not implemented');
+	export async function getCommentCount(wiki: Wiki, params: { hideDeleted?: boolean } & PageId) {
+		params = getParams('ArticleComments', 'getCommentCount', params);
+
+		return get(wiki, params);
 	}
 
-	export async function getThread() {
-		throw new Error('Not implemented');
+	export type getThreadParams = { threadId: string; hideDeleted?: boolean } & PageId;
+	export async function getThread(wiki: Wiki, params: getThreadParams) {
+		params = getParams('ArticleComments', 'getThread', params);
+
+		return get(wiki, params);
 	}
 
 	export async function getComments() {

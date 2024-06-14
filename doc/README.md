@@ -121,6 +121,7 @@ I've tried to document these inline as much as possible but there are just too m
     - `ascending` is "view newer replies". The same [getThread](https://wwr-test.fandom.com/wikia.php?controller=DiscussionThread&method=getThread&threadId=4400000000000037009&sortDirection=descending&pivot=4400000000000090053&responseGroup=full) with `4400000000000090053` will have `4400000000000090054` be the ***last*** element of `doc:posts`.
 - `articleIds`: list of page ids.
 - `stablePageId`: appears to actualy be different from `articleIds`. Is set after a comment has been made on the page.
+- `title`/`namespace`: they have to be correct internally (i.e. the page with that title in that namespace must exist and have comments), but for requests like `getThread` there is no requirement that they actually correspond to the page where the `threadId` is from.
 
 ## Frontend design
 
@@ -135,6 +136,8 @@ I plan to make:
 - `/f`: same thing as Fandom's discussions (`/f/p/{postId}/r/{replyId}`)
 - `/mw`: message walls. Format will be `/mw/{userId}/p/{postId}/r/{replyId}`
 - `/c`: article comments. Format will be `/c/{stablePageId}/p/{commentId}/r/{replyId}`
+  - Note: I may make it not use `stablePageId` since that way you can't view every page
+  - Saying that you probably should be able to just use the Fandom website to post a comment on said page
 
 ### Server routes
 

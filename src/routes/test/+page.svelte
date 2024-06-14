@@ -9,8 +9,11 @@
 		lang: 'en',
 	};
 
-	const getParams = {
-		stablePageId: '2',
+	const getParams: ArticleComments.getThreadParams = {
+		hideDeleted: false,
+		threadId: '4400000000000865448',
+		title: 'Ackey',
+		namespace: 0,
 	};
 
 	const wwrWiki: Wiki = {
@@ -44,7 +47,7 @@
 	<meta name="description" content="Testing the API" />
 </svelte:head>
 
-{#await ArticleComments.getArticleTitle(wwrWiki, getParams)}
+{#await ArticleComments.getCommentCount(bcWiki, getParams)}
 	<p>...waiting</p>
 {:then postData}
 	<p>{JSON.stringify(postData)}</p>
