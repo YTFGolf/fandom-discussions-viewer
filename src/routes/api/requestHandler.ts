@@ -35,7 +35,6 @@ function buildQuery(
  * @throws Various possible errors
  */
 export async function handleRequestEvent(event: RequestEvent) {
-	// TODO should be able to just use same headers sent in request
 	const params: any = {};
 	let entrypoint: string | undefined;
 

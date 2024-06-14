@@ -18,7 +18,6 @@ This file is a placeholder I'm using for the main note hub (I really hope this s
   - [Server routes](#server-routes)
 - [Completing certain tasks](#completing-certain-tasks)
 - [Testing](#testing)
-- [Wiki Pages](#wiki-pages)
 
 ## Overview
 
@@ -120,6 +119,9 @@ Also talk about obtaining data if you have other data e.g. finding out whose mes
 // anything that can be null can also be undefined
 // action=query format=json meta=userinfo uiprop=groups|rights
 // something like global values e.g. username so I can set the user agent (client)
+`*<code>jsonModel</code>: see [[w:c:caburum:Nirvana#JSON post model]]. I can probably try to understand this format from GET requests so not too bothered. Optional for whatever reason, even if neither <code>rawContent</code> nor <code>body</code> are supplied (according to [[Special:SocialActivity]] it gets content suppressed if none of the 3 are present).`
+`*<code>rawContent</code>/<code>body</code>. If there is no <code>jsonModel</code> then the post becomes <code>rawContent</code> + first image in <code>contentImages</code> if it exists. If a request contains both <code>rawContent</code> and <code>body</code>, then whichever one comes later takes priority.`
+`Fandom's message walls unironically try to load the entire thread into memory.`
 
 - Rickping
 
@@ -209,9 +211,3 @@ make a new fandom account
 use dotenv or something
 
 just test raw requests
-
-## Wiki Pages
-
-- API stuff: [Using Fandom's API](#using-fandoms-api)
-- HIFP: none
-- Posting: [Using Fandom's API](#using-fandoms-api)
