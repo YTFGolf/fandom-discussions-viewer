@@ -1,5 +1,6 @@
 import { ContentType, type Wiki, type WikiScript } from '$lib/types';
 import HTTP from './HTTPCodes';
+import { stringify } from './controllers/util';
 
 export type CallOptions = {
 	script?: WikiScript;
@@ -72,15 +73,14 @@ export async function post(wiki: Wiki, params: any, data?: any, options?: CallOp
 	const url = buildUrl(wiki, params, options?.script);
 
 	if (data && typeof data !== 'string') {
-		if (data.jsonModel && typeof data.jsonModel !== 'string') {
-			data.jsonModel = JSON.stringify(data.jsonModel);
-		}
+		data.jsonModel = stringify(data.jsonModel);
 
 		data = (function () {
 			switch (options?.contentType || ContentType.JSON) {
 				case ContentType.JSON:
 					return JSON.stringify(data);
 				case ContentType.HTML:
+					data.attachments = stringify(data.attachments);
 					return new URLSearchParams(data);
 			}
 		})();

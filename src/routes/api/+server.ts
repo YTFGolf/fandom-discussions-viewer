@@ -10,6 +10,7 @@ import HTTP from '$lib/HTTPCodes';
 async function _handle(event: RequestEvent) {
 	try {
 		const res = await handleRequestEvent(event);
+		// cannot be forwarded because... idk
 
 		if (res.status === HTTP.NO_CONTENT) {
 			return new Response(null, { status: res.status });

@@ -3,6 +3,9 @@ This file is a placeholder I'm using for the main note hub (I really hope this s
 - [Overview](#overview)
   - [General structure](#general-structure)
 - [Login](#login)
+- [Sending requests](#sending-requests)
+  - [Basic API](#basic-api)
+  - [POST](#post)
 - [Using Fandom's API](#using-fandoms-api)
   - [Finding data](#finding-data)
     - [Specialised](#specialised)
@@ -27,9 +30,36 @@ The project uses Svelte's ability to write the client and server in the same pro
 
 When the user sends a request on the client, this is sent to the server. This server acts as a proxy server: it reads the user's request, then transforms that into another request sent directly to Fandom. The proxy server reads Fandom's response and returns the data to the client. The proxy server is necessary because of the same-origin policy: the browser would reject a request directly returned from Fandom.
 
+As long as the your localhost is secure this will probably be fine from a security point of view.
+
 ## Login
 
 When the user logs in on the normal website, Fandom sends a cookie that the user's browser automatically sends upon every future request. The proxy server uses the same endpoint to log in, then from the returned `Set-Cookie` header it strips Fandom's `Domain` element and returns the new response to the user. The user can then send a request to the proxy server—this request will automatically contain the cookie; the server forwards the request (including the cookie) to Fandom, and returns the response data.
+
+## Sending requests
+
+### Basic API
+
+Requests sent to `/api` generally have the options for `wiki`, `params`, `data` (POST requests only) and `options`.
+
+`wiki` is an object that corresponds to a wiki, such as
+
+```json
+{
+	"name": "battle-cats",
+	"lang": "en"
+}
+```
+
+This corresponds to `https://battle-cats.fandom.com`. The remaining part of the entrypoint is `options.script` (if this is omitted it is set to `'wikia.php'`), which would extend this URL entrypoint to `https://battle-cats.fandom.com/wikia.php`.
+
+Parameters are constructed like normal URL search parameters (i.e. with `URLSearchParams`). The website will send a request with `fdvEntrypoint` set to `https://battle-cats.fandom.com/wikia.php`. All other parameters given in `params` are as normal.
+
+The server will receive a request like `http://localhost:5173/api?fdvEntrypoint=https://battle-cats.fandom.com/wikia.php&controller=DiscussionThread&method=getThreads&hideDeleted=false`. It will then remove the `fdvEntrypoint` parameter and use that for the next request to fandom directly: `https://battle-cats.fandom.com/wikia.php?controller=DiscussionThread&method=getThreads&hideDeleted=false`. This request contains all the same original headers that the client sent (including `Cookie`).
+
+### POST
+
+POST works the same except it also has the `data` attribute. POSTing also has its own `options` value: `options.contentType`. Certain operations, such as `ArticleComments.postNewCommentThread`, require the `Content-Type` to be `application/x-www-form-urlencoded`, so in these cases the data must be encoded using `URLSearchParams` rather than `JSON.stringify`. If this is not given then the content type is assumed to be JSON.
 
 ## Using Fandom's API
 
@@ -172,14 +202,16 @@ This section will detail things you can do with this but not Fandom Discussions 
 
 Currently none, there really should be though lol
 
-Plan is on the wiki page for testing. An entire 3 sentences
+Plan is an entire 3 sentences:
+
+make a new fandom account
+
+use dotenv or something
+
+just test raw requests
 
 ## Wiki Pages
 
 - API stuff: [Using Fandom's API](#using-fandoms-api)
-- CORS: [Overview](#overview)
-- Cookie Forgery: [Login](#login)
-- FDV API structure: [Overview](#overview)
+- HIFP: none
 - Posting: [Using Fandom's API](#using-fandoms-api)
-- Sending Requests: [Using Fandom's API](#using-fandoms-api)
-- Testing: [Testing](#testing)

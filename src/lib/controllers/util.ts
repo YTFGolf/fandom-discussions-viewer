@@ -13,3 +13,15 @@ export function getParams(controller: string, method: string, other?: Object): a
 		...other,
 	};
 }
+
+/**
+ * Stringify `obj` if it is not already a string
+ * @param obj
+ * @returns
+ */
+export function stringify(obj: any): string | null | undefined {
+	if (obj && typeof obj !== 'string') {
+		return JSON.stringify(obj);
+	}
+	return obj;
+}

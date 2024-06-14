@@ -12,20 +12,15 @@ export type PageId = {
 	namespace: number;
 };
 
-export type Token = {
-	token: string;
-};
-// TODO put these in another file
-export type sAttachments = Attachments | string;
-
 export namespace ArticleComments {
-	export type postThreadData = { jsonModel: JsonModel; attachments: sAttachments } & PageId & Token;
-	export async function postNewCommentThread(wiki: Wiki, {}: {}, data: postThreadData) {
-		const params = getParams('ArticleCommentsController', 'postNewCommentThread');
+	export type postThreadData = {
+		jsonModel: JsonModel;
+		attachments: Attachments | string;
+		token: string;
+	} & PageId;
 
-		if (typeof data.attachments !== 'string') {
-			data.attachments = JSON.stringify(data.attachments);
-		}
+	export async function postNewCommentThread(wiki: Wiki, {}: {}, data: postThreadData) {
+		const params = getParams('ArticleComments', 'postNewCommentThread');
 
 		return post(wiki, params, data, { contentType: ContentType.HTML });
 	}
