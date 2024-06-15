@@ -90,11 +90,10 @@ Also talk about obtaining data if you have other data e.g. finding out whose mes
 - `userId`/username
   - From `userId`:
     - A lot of the time you don't need to do this as it's given
-    - <https://battle-cats.fandom.com/api/v1/User/Details?ids=27706221,37518302>
-    - <https://battle-cats.fandom.com/es/wikia.php?controller=FeedsAndPosts&method=getArticleNamesAndUsernames&stablePageIds=210,216&userIds=27706221,37518302>
     - <https://battle-cats.fandom.com/es/wikia.php?controller=UserApi&method=getDetails&ids=27706221,37518302>
+    - <https://battle-cats.fandom.com/es/wikia.php?controller=FeedsAndPosts&method=getArticleNamesAndUsernames&stablePageIds=210,216&userIds=27706221,37518302>
   - From username
-    - Exact: <https://wwr-test.fandom.com/api.php?action=query&format=json&list=users&ususers=TheWWRNerdGuy|Brute_Bendy>
+    - Exact: <https://wwr-test.fandom.com/api.php?action=query&format=json&list=users&ususers=TheWWRNerdGuy|Brute_Bendy>, <https://community.fandom.com/wikia.php?controller=UserApi&method=getDetails&ids=KockaAdmiralac,27345308,Brute%20Bendy>
     - Inexact: <https://battle-cats.fandom.com/wikia.php?controller=UserApi&method=getUsersByName&query=AnonymousCrouton>
 
 #### Specialised

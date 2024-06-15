@@ -5,10 +5,10 @@
     - [x] Fandom\ArticleComments\Api\ArticleComments
     - [ ] Fandom\MessageWall\MessageWall
     - [ ] Fandom\FeedsAndPosts\FeedsAndPosts
+    - [ ] Fandom\Includes\Api\UserApi
   - Important
     - [ ] Fandom\DiscussionModeration\DiscussionImages
     - [ ] Fandom\FeedsAndPosts\Discussion\DiscussionContribution
-    - [ ] Fandom\Includes\Api\UserApi
     - [ ] Fandom\FeedsAndPosts\Discussion\DiscussionForum
   - Eh
     - [ ] Fandom\DiscussionModeration\DiscussionModeration
