@@ -1,0 +1,6 @@
+- Finish all controllers
+- Implement global stores
+  - Requests. 3 options: normal (if fail then let fail), flood (retry all that failed), wait (if fail then try again until not fail)
+  - user details e.g. name, id, rights
+- Login/logout on navbar
+- Proper testing (mainly to avoid regression, vitest doesn't appear to like using the server's API, so either I reimplement in vitest or I do testing on the live server. Can make test tab in new container so always works.)
