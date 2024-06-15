@@ -12,8 +12,8 @@
 
 	const getParams: ArticleComments.getThreadParams = {
 		hideDeleted: false,
-		threadId: '4400000000000865448',
-		title: 'Ackey',
+		threadId: '4400000000000037083',
+		title: 'CORS',
 		namespace: 0,
 	};
 
@@ -24,21 +24,33 @@
 
 	const postParams = {};
 
-	const postData: ArticleComments.postThreadData = {
-		title: 'CORS',
+	const postData: ArticleComments.editCommentData = {
+		title: 'API stuff',
 		namespace: 0,
 		jsonModel: {
-			content: [{ type: 'paragraph', content: [{ type: 'text', text: 'hi' }] }],
+			content: [
+				{ type: 'paragraph', content: [{ type: 'text', text: 'hills' }] },
+				{ type: 'openGraph', attrs: { id: 0 } },
+				{ type: 'openGraph', attrs: { id: 1 } },
+			],
 		},
-		attachments: { contentImages: [], openGraphs: [], atMentions: [] },
+		attachments: {
+			contentImages: [],
+			openGraphs: [
+				{ originalUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', siteName: 'Rick' },
+				{ originalUrl: 'https://www.youtube.com/watch?v=LLFhKaqnWwk', siteName: 'Rick???' },
+			],
+			atMentions: [],
+		},
 		token: 'not given',
+		postId: '4400000000000090126',
 	};
 
 	// @ts-ignore
 	async function sendTokenRequest(wiki, params, data) {
 		let t = data;
 		t.token = await getToken(wiki);
-		console.log(await ArticleComments.postNewCommentThread(wiki, params, data));
+		console.log(await ArticleComments.editComment(wiki, params, data));
 	}
 </script>
 
@@ -47,13 +59,13 @@
 	<meta name="description" content="Testing the API" />
 </svelte:head>
 
-{#await ArticleComments.getCommentCount(bcWiki, getParams)}
+<!-- {#await ArticleComments.getThread(wwrWiki, getParams)}
 	<p>...waiting</p>
 {:then postData}
 	<p>{JSON.stringify(postData)}</p>
 {:catch error}
 	<p style="color: red">{error.message}</p>
-{/await}
+{/await} -->
 
 <!-- prettier-ignore -->
 <button on:click={async () => sendTokenRequest(wwrWiki, postParams, postData)}>

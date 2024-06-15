@@ -8,6 +8,10 @@ import type { Wiki } from '$lib/types';
  * @throws Token doesn't exist error
  */
 export async function getToken(wiki: Wiki) {
+	// TODO something like caching
+	// need to ensure that it gets removed if the user re-logs in
+	// needs to be dependent on user and wiki
+
 	const params = {
 		action: 'query',
 		format: 'json',

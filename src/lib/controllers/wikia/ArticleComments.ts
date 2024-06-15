@@ -4,7 +4,13 @@ import type { Attachments } from '../types/attachments';
 import type { JsonModel } from '../types/jsonModel';
 import { getParams } from '../util';
 
-/** Identifies a page */
+/**
+ * Identifies a page.
+ *
+ * If you have a more specific selector (`threadId`, `postId`), PageId only
+ * needs to correspond to **_a_** page with comments, not necessarily the page
+ * that the original thread is on
+ */
 export type PageId = {
 	/** Without namespace prefix (i.e. same as `{{PAGENAME}}`) */
 	title: string;
@@ -18,19 +24,39 @@ export namespace ArticleComments {
 		attachments: Attachments | string;
 		token: string;
 	} & PageId;
-
 	export async function postNewCommentThread(wiki: Wiki, {}: {}, data: postThreadData) {
 		const params = getParams('ArticleComments', 'postNewCommentThread');
 
 		return post(wiki, params, data, { contentType: ContentType.HTML });
 	}
 
-	export async function postNewCommentReply() {
-		throw new Error('Not implemented');
+	export type postReplyData = {
+		threadId: string;
+		jsonModel: JsonModel;
+		attachments: Attachments | string;
+		token: string;
+	} & PageId;
+	export async function postNewCommentReply(wiki: Wiki, {}: {}, data: postReplyData) {
+		const params = getParams('ArticleComments', 'postNewCommentReply');
+
+		return post(wiki, params, data, { contentType: ContentType.HTML });
 	}
 
-	export async function editComment() {
-		throw new Error('Not implemented');
+	export type editCommentData = {
+		/**
+		 * Note: if you want to edit the comment thread then you need the post
+		 * id of that comment, not the `commentId` (i.e. you need to use
+		 * `getThread(...).thread.postId`)
+		 */
+		postId: string;
+		jsonModel: JsonModel;
+		attachments: Attachments | string;
+		token: string;
+	} & PageId;
+	export async function editComment(wiki: Wiki, {}: {}, data: editCommentData) {
+		const params = getParams('ArticleComments', 'editComment');
+
+		return post(wiki, params, data, { contentType: ContentType.HTML });
 	}
 
 	export async function reportPost() {

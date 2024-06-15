@@ -155,7 +155,7 @@ I've tried to document these inline as much as possible but there are just too m
     - `ascending` is "view newer replies". The same [getThread](https://wwr-test.fandom.com/wikia.php?controller=DiscussionThread&method=getThread&threadId=4400000000000037009&sortDirection=descending&pivot=4400000000000090053&responseGroup=full) with `4400000000000090053` will have `4400000000000090054` be the ***last*** element of `doc:posts`.
 - `articleIds`: list of page ids.
 - `stablePageId`: appears to actualy be different from `articleIds`. Is set after a comment has been made on the page.
-- `title`/`namespace`: they have to be correct internally (i.e. the page with that title in that namespace must exist and have comments), but for requests like `getThread` there is no requirement that they actually correspond to the page where the `threadId` is from.
+- `title`/`namespace`: they have to be correct internally (i.e. the page with that title in that namespace must exist and have comments), but for requests like `getThread` there is no requirement that they actually correspond to the page where the `threadId` is from. On stuff like `postNewCommentReply` and `editComment` even if you provide the wrong page `Special:SocialActivity` and `Special:UserProfileActivity` will display the right page.
 
 ## Frontend design
 
