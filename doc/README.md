@@ -86,15 +86,16 @@ Also talk about obtaining data if you have other data e.g. finding out whose mes
     - <https://battle-cats.fandom.com/es/wikia.php?controller=ArticleComments&method=getArticleTitle&stablePageId=210>`.title` (doesn't include namespace so not recommended)
   - page name -> `stablePageId`
     - Page must have comments on it, otherwise it will not have a `stablePageId`
-    - <https://battle-cats.fandom.com/wikia.php?controller=ArticleCommentsController&method=getComments&title=Space+is+the+Place+%28Insane%29&namespace=0&hideDeleted=false>`.threads[0].containerId` with proper title and namespace
+    - <https://battle-cats.fandom.com/wikia.php?controller=ArticleComments&method=getComments&title=Space+is+the+Place+%28Insane%29&namespace=0&hideDeleted=false>`.threads[0].containerId` with proper title and namespace
 - `userId`/username
   - From `userId`:
     - A lot of the time you don't need to do this as it's given
     - <https://battle-cats.fandom.com/api/v1/User/Details?ids=27706221,37518302>
     - <https://battle-cats.fandom.com/es/wikia.php?controller=FeedsAndPosts&method=getArticleNamesAndUsernames&stablePageIds=210,216&userIds=27706221,37518302>
+    - <https://battle-cats.fandom.com/es/wikia.php?controller=UserApi&method=getDetails&ids=27706221,37518302>
   - From username
     - Exact: <https://wwr-test.fandom.com/api.php?action=query&format=json&list=users&ususers=TheWWRNerdGuy|Brute_Bendy>
-    - Inexact: <https://battle-cats.fandom.com/wikia.php?controller=UserApiController&method=getUsersByName&query=AnonymousCrouton>
+    - Inexact: <https://battle-cats.fandom.com/wikia.php?controller=UserApi&method=getUsersByName&query=AnonymousCrouton>
 
 #### Specialised
 

@@ -1,20 +1,24 @@
 - Finish all controllers
-  - [x] Fandom\FeedsAndPosts\Discussion\DiscussionPost
-  - [ ] Fandom\FeedsAndPosts\Discussion\DiscussionPermalink
-  - [ ] Fandom\FeedsAndPosts\FeedsAndPosts
-  - [x] Fandom\FeedsAndPosts\Discussion\DiscussionThread
-  - [ ] Fandom\FeedsAndPosts\Discussion\DiscussionForum
-  - [ ] Fandom\FeedsAndPosts\Discussion\DiscussionContribution
-  - [ ] Fandom\FeedsAndPosts\Discussion\DiscussionPoll
-  - [ ] Fandom\FeedsAndPosts\Discussion\DiscussionVote
-  - [ ] Fandom\DiscussionModeration\DiscussionModeration
-  - [ ] Fandom\DiscussionModeration\DiscussionLeaderboard (probably can be shelved for now)
-  - [ ] Fandom\DiscussionModeration\DiscussionImages
-  - [ ] Fandom\UserProfileActivity\UserProfileActivity (looks interesting)
-  - [ ] Fandom\Activity\ActivityApi (probably unimportant)
-  - [x] Fandom\ArticleComments\Api\ArticleComments
-  - [ ] Fandom\MessageWall\MessageWall
-  - [ ] Fandom\Includes\Api\UserApi
+  - Essential
+    - [x] Fandom\FeedsAndPosts\Discussion\DiscussionPost
+    - [x] Fandom\FeedsAndPosts\Discussion\DiscussionThread
+    - [x] Fandom\ArticleComments\Api\ArticleComments
+    - [ ] Fandom\MessageWall\MessageWall
+    - [ ] Fandom\FeedsAndPosts\FeedsAndPosts
+  - Important
+    - [ ] Fandom\DiscussionModeration\DiscussionImages
+    - [ ] Fandom\FeedsAndPosts\Discussion\DiscussionContribution
+    - [ ] Fandom\Includes\Api\UserApi
+    - [ ] Fandom\FeedsAndPosts\Discussion\DiscussionForum
+  - Eh
+    - [ ] Fandom\DiscussionModeration\DiscussionModeration
+    - [ ] Fandom\FeedsAndPosts\Discussion\DiscussionPoll
+    - [ ] Fandom\FeedsAndPosts\Discussion\DiscussionPermalink
+    - [ ] Fandom\FeedsAndPosts\Discussion\DiscussionVote
+  - Probably not
+    - [ ] Fandom\DiscussionModeration\DiscussionLeaderboard (probably can be shelved for now)
+    - [ ] Fandom\UserProfileActivity\UserProfileActivity (looks interesting)
+    - [ ] Fandom\Activity\ActivityApi (probably unimportant)
 - Implement global stores
   - Requests. 3 options: normal (if fail then let fail), flood (retry all that failed), wait (if fail then try again until not fail)
   - user details e.g. name, id, rights
