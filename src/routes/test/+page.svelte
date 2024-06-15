@@ -24,33 +24,18 @@
 
 	const postParams = {};
 
-	const postData: ArticleComments.editCommentData = {
+	const postData: ArticleComments.deleteData = {
 		title: 'API stuff',
 		namespace: 0,
-		jsonModel: {
-			content: [
-				{ type: 'paragraph', content: [{ type: 'text', text: 'hills' }] },
-				{ type: 'openGraph', attrs: { id: 0 } },
-				{ type: 'openGraph', attrs: { id: 1 } },
-			],
-		},
-		attachments: {
-			contentImages: [],
-			openGraphs: [
-				{ originalUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', siteName: 'Rick' },
-				{ originalUrl: 'https://www.youtube.com/watch?v=LLFhKaqnWwk', siteName: 'Rick???' },
-			],
-			atMentions: [],
-		},
 		token: 'not given',
-		postId: '4400000000000090126',
+		postId: '4400000000000090127',
 	};
 
 	// @ts-ignore
 	async function sendTokenRequest(wiki, params, data) {
 		let t = data;
 		t.token = await getToken(wiki);
-		console.log(await ArticleComments.editComment(wiki, params, data));
+		console.log(await ArticleComments.undeletePost(wiki, params, data));
 	}
 </script>
 
@@ -59,7 +44,7 @@
 	<meta name="description" content="Testing the API" />
 </svelte:head>
 
-<!-- {#await ArticleComments.getThread(wwrWiki, getParams)}
+<!-- {#await ArticleComments.getComments(wwrWiki, getParams)}
 	<p>...waiting</p>
 {:then postData}
 	<p>{JSON.stringify(postData)}</p>

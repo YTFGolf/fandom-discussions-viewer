@@ -18,13 +18,22 @@ export type PageId = {
 	namespace: number;
 };
 
+export type CommentBody = {
+	jsonModel: JsonModel;
+	attachments: Attachments | string;
+};
+
+type HasToken = {
+	token: string;
+};
+
 export namespace ArticleComments {
-	export type postThreadData = {
-		jsonModel: JsonModel;
-		attachments: Attachments | string;
-		token: string;
-	} & PageId;
-	export async function postNewCommentThread(wiki: Wiki, {}: {}, data: postThreadData) {
+	// TODO &format=json
+	export async function postNewCommentThread(
+		wiki: Wiki,
+		{}: {},
+		data: CommentBody & HasToken & PageId,
+	) {
 		const params = getParams('ArticleComments', 'postNewCommentThread');
 
 		return post(wiki, params, data, { contentType: ContentType.HTML });
@@ -32,10 +41,9 @@ export namespace ArticleComments {
 
 	export type postReplyData = {
 		threadId: string;
-		jsonModel: JsonModel;
-		attachments: Attachments | string;
-		token: string;
-	} & PageId;
+	} & CommentBody &
+		HasToken &
+		PageId;
 	export async function postNewCommentReply(wiki: Wiki, {}: {}, data: postReplyData) {
 		const params = getParams('ArticleComments', 'postNewCommentReply');
 
@@ -49,18 +57,20 @@ export namespace ArticleComments {
 		 * `getThread(...).thread.postId`)
 		 */
 		postId: string;
-		jsonModel: JsonModel;
-		attachments: Attachments | string;
-		token: string;
-	} & PageId;
+	} & CommentBody &
+		HasToken &
+		PageId;
 	export async function editComment(wiki: Wiki, {}: {}, data: editCommentData) {
 		const params = getParams('ArticleComments', 'editComment');
 
 		return post(wiki, params, data, { contentType: ContentType.HTML });
 	}
 
-	export async function reportPost() {
-		throw new Error('Not implemented');
+	export type reportData = { postId: string; token: string } & PageId;
+	export async function reportPost(wiki: Wiki, {}: {}, data: reportData) {
+		const params = getParams('ArticleComments', 'reportPost');
+
+		return post(wiki, params, data, { contentType: ContentType.HTML });
 	}
 
 	export async function getCommentCount(wiki: Wiki, params: { hideDeleted?: boolean } & PageId) {
@@ -76,16 +86,34 @@ export namespace ArticleComments {
 		return get(wiki, params);
 	}
 
-	export async function getComments() {
-		throw new Error('Not implemented');
+	export async function getComments(wiki: Wiki, params: { hideDeleted?: boolean } & PageId) {
+		params = getParams('ArticleComments', 'getComments', params);
+
+		return get(wiki, params);
 	}
 
-	export async function deletePost() {
-		throw new Error('Not implemented');
+	export type deleteData = {
+		postId: string;
+		/**
+		 * Appears to just... make the operation fail if set to true
+		 */
+		suppressContent?: boolean;
+	} & PageId &
+		HasToken;
+	export async function deletePost(wiki: Wiki, {}: {}, data: deleteData) {
+		const params = getParams('ArticleComments', 'deletePost');
+
+		return post(wiki, params, data, { contentType: ContentType.HTML });
 	}
 
-	export async function undeletePost() {
-		throw new Error('Not implemented');
+	export async function undeletePost(
+		wiki: Wiki,
+		{}: {},
+		data: { postId: string } & PageId & HasToken,
+	) {
+		const params = getParams('ArticleComments', 'undeletePost');
+
+		return post(wiki, params, data, { contentType: ContentType.HTML });
 	}
 
 	/**
