@@ -40,8 +40,8 @@
 </script>
 
 <svelte:head>
-	<title>Test</title>
-	<meta name="description" content="Testing the API" />
+	<title>Demo</title>
+	<meta name="description" content="Demonstration and scripting" />
 </svelte:head>
 
 <!-- {#await ArticleComments.getComments(wwrWiki, getParams)}
@@ -53,6 +53,10 @@
 {/await} -->
 
 <!-- prettier-ignore -->
-<button on:click={async () => sendTokenRequest(wwrWiki, postParams, postData)}>
+<!-- <button on:click={async () => sendTokenRequest(wwrWiki, postParams, postData)}>
+	Click to post
+</button> -->
+<!-- prettier-ignore -->
+<button on:click={async () => DiscussionPost.deletePost(wwrWiki, { postId: "4400000000000090100" })}>
 	Click to post
 </button>

@@ -19,7 +19,7 @@
 				<a href="/login" class={navLinkClass($page.url.pathname, '/login')}>Login</a>
 			</li>
 			<li class="nav-item">
-				<a href="/test" class={navLinkClass($page.url.pathname, '/test')}>Test</a>
+				<a href="/demo" class={navLinkClass($page.url.pathname, '/demo')}>Demo</a>
 			</li>
 		</ul>
 	</div>
