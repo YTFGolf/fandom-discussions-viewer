@@ -10,20 +10,25 @@ import HTTP from '$lib/HTTPCodes';
 async function _handle(event: RequestEvent) {
 	try {
 		const res = await handleRequestEvent(event);
-		// cannot be forwarded because... idk
 
 		if (res.status === HTTP.NO_CONTENT) {
 			return new Response(null, { status: res.status });
 		}
 
-		const body = await res.json();
-		if (res) {
-			return json(body, { status: res.status });
-			// TODO headers
-		}
+		const headers: any = {};
+		const reIgnoreHeaders = /^(set-cookie|content-encoding|content-length)$/i;
+		res.headers.forEach((value, key) => {
+			if (!key.match(reIgnoreHeaders)) {
+				headers[key] = value;
+			}
+		});
 
-		return json({ error: 'Something went wrong' }, { status: HTTP.INTERNAL_SERVER_ERROR });
-		// is this necessary?
+		const res2 = new Response(await res.text(), {
+			headers: headers,
+			status: res.status,
+		});
+
+		return res2;
 	} catch (e) {
 		console.error(e);
 
