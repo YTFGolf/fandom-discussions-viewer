@@ -19,6 +19,7 @@ export type PageId = {
 };
 
 export type CommentBody = {
+	/** Must have some actual content in or gets abusefiltered */
 	jsonModel: JsonModel;
 	attachments: Attachments | string;
 };
@@ -28,7 +29,6 @@ type HasToken = {
 };
 
 export namespace ArticleComments {
-	// TODO &format=json
 	export async function postNewCommentThread(
 		wiki: Wiki,
 		{}: {},

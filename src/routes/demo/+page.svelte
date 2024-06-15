@@ -24,18 +24,34 @@
 
 	const postParams = {};
 
-	const postData: ArticleComments.deleteData = {
-		title: 'API stuff',
+	const postData: ArticleComments.postReplyData = {
+		title: 'CORS',
 		namespace: 0,
 		token: 'not given',
-		postId: '4400000000000090127',
+		threadId: '4400000000000037085',
+		jsonModel: {
+			content: [
+				{ type: 'paragraph', content: [{ type: 'text', text: 'hills' }] },
+				{ type: 'paragraph', content: [{ type: 'text', text: 'hills' }] },
+				{ type: 'openGraph', attrs: { id: 0 } },
+				{ type: 'openGraph', attrs: { id: 1 } },
+			],
+		},
+		attachments: {
+			contentImages: [],
+			openGraphs: [
+				{ originalUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', siteName: 'Rick' },
+				{ originalUrl: 'https://www.youtube.com/watch?v=LLFhKaqnWwk', siteName: 'Rick???' },
+			],
+			atMentions: [],
+		},
 	};
 
 	// @ts-ignore
 	async function sendTokenRequest(wiki, params, data) {
 		let t = data;
 		t.token = await getToken(wiki);
-		console.log(await ArticleComments.undeletePost(wiki, params, data));
+		console.log(await ArticleComments.postNewCommentReply(wiki, params, data));
 	}
 </script>
 
@@ -53,10 +69,6 @@
 {/await} -->
 
 <!-- prettier-ignore -->
-<!-- <button on:click={async () => sendTokenRequest(wwrWiki, postParams, postData)}>
-	Click to post
-</button> -->
-<!-- prettier-ignore -->
-<button on:click={async () => DiscussionPost.deletePost(wwrWiki, { postId: "4400000000000090100" })}>
+<button on:click={async () => sendTokenRequest(wwrWiki, postParams, postData)}>
 	Click to post
 </button>
