@@ -48,6 +48,7 @@ export async function handleRequestEvent(event: RequestEvent) {
 	if (!entrypoint) {
 		throw new Error('Wiki entrypoint not provided!');
 	}
+	event.request.headers.delete('origin');
 
 	const init: RequestInit = {
 		method: event.request.method,
