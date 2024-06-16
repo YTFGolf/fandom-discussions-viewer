@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { DiscussionThread } from '$lib/controllers/wikia/DiscussionThread';
 	import type { Wiki } from '$lib/types';
-	import PostBody from '../../../components/PostBody.svelte';
+	import PostBody from '../../../../components/PostBody.svelte';
 	import { examples } from './examples';
 
 	const wiki: Wiki = { name: 'battle-cats', lang: 'en' };
