@@ -1,5 +1,8 @@
-import { get } from '$lib/caller';
-import type { Wiki } from '$lib/types';
+import { get, post } from '$lib/caller';
+import { ContentType, type Wiki } from '$lib/types';
+import type { Attachments } from '../types/attachments';
+import type { JsonModel } from '../types/jsonModel';
+import type { ResponseGroup } from '../types/string-types';
 import { getParams } from '../util';
 
 export namespace MessageWall {
@@ -16,12 +19,35 @@ export namespace MessageWall {
 		return get(wiki, params);
 	}
 
-	export async function getThread() {
-		throw new Error('Not implemented');
+	/**
+	 * Fun fact: there is no viewableOnly/hideDeleted parameter; it always
+	 * returns every post that you can view.
+	 */
+	export type getThreadParams = {
+		threadId: string;
+		wallOwnerId: string;
+		limit?: number;
+		responseGroup?: ResponseGroup;
+		pivot?: string;
+	};
+	export async function getThread(wiki: Wiki, params: getThreadParams) {
+		params = getParams('MessageWall', 'getThread', params);
+
+		return get(wiki, params);
 	}
 
-	export async function createThread() {
-		throw new Error('Not implemented');
+	export type createThreadData = {
+		title: string;
+		wallOwnerId: string;
+		jsonModel: JsonModel;
+		attachments: Attachments | string;
+		token: string;
+		rawContent?: string;
+	};
+	export async function createThread(wiki: Wiki, {}: {}, data: createThreadData) {
+		const params = getParams('MessageWall', 'createThread');
+
+		return post(wiki, params, data, { contentType: ContentType.HTML });
 	}
 
 	export async function createReply() {

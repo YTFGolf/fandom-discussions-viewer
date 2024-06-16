@@ -156,6 +156,7 @@ I've tried to document these inline as much as possible but there are just too m
 - `articleIds`: list of page ids.
 - `stablePageId`: appears to actualy be different from `articleIds`. Is set after a comment has been made on the page.
 - `title`/`namespace`: they have to be correct internally (i.e. the page with that title in that namespace must exist and have comments), but for requests like `getThread` there is no requirement that they actually correspond to the page where the `threadId` is from. On stuff like `postNewCommentReply` and `editComment` even if you provide the wrong page `Special:SocialActivity` and `Special:UserProfileActivity` will display the right page.
+- `pivot`: I'm not entirely sure, but it seems like if I set pivot then it only shows posts that are `< pivot` (tested on `mw.getThread` and seems to be simliar on the `dt.getThread` calls above, only it's `> pivot` when `sortDirection=ascending`). Possibly different for each method, more testing is needed.
 
 ## Frontend design
 
