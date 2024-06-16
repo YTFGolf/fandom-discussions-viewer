@@ -4,7 +4,7 @@ import type { Wiki } from '$lib/types';
 /**
  *
  * @param wiki
- * @returns
+ * @returns Token promise
  * @throws Token doesn't exist error
  */
 export async function getToken(wiki: Wiki) {
