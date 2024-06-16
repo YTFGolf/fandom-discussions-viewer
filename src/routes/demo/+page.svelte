@@ -27,7 +27,7 @@
 
 	const postParams = {};
 
-	const postData: MessageWall.editPostData = {
+	const postData = {
 		postId: '4400000000000090143',
 		token: 'not given',
 		wallOwnerId: '28291873',
