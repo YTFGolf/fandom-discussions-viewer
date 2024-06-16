@@ -1,11 +1,17 @@
 <script lang="ts">
 	import { DiscussionThread } from '$lib/controllers/wikia/DiscussionThread';
 	import type { Wiki } from '$lib/types';
+	import JsonModel from '../../../components/JSONModel.svelte';
+	import { examples } from './examples';
 
 	const wiki: Wiki = { name: 'battle-cats', lang: 'en' };
-	let threadId = '4400000000000822918';
+	const params: DiscussionThread.getThreadParams = {
+		threadId: '4400000000000822918',
+		responseGroup: 'full',
+	};
 
-	$: threadContent = DiscussionThread.getThread(wiki, { threadId });
+	// $: threadContent = DiscussionThread.getThread(wiki, params);
+	$: threadContent = examples;
 </script>
 
 <svelte:head>
@@ -19,12 +25,14 @@
 <label for="wiki">Wiki:</label>
 <input type="text" id="wiki" bind:value={wiki.name} />
 <label for="threadId">ThreadId:</label>
-<input type="text" id="threadId" bind:value={threadId} />
+<input type="text" id="threadId" bind:value={params.threadId} />
 
 {#await threadContent}
 	<p>...waiting</p>
 {:then postData}
-	<p>{JSON.stringify(postData)}</p>
+	{#each postData._embedded['doc:posts'] as post}
+		<JsonModel {post}></JsonModel>
+	{/each}
 {:catch error}
 	<p style="color: red">{error.message}</p>
 {/await}
