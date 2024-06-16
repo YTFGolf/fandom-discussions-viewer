@@ -35,3 +35,4 @@
 
 <!-- @ts-ignore -->
 <svelte:component this={blockInner.component} {...blockInner.data} />
+
