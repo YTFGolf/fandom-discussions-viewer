@@ -4,17 +4,15 @@
 	import { DiscussionThread } from '$lib/controllers/wikia/DiscussionThread';
 	import { ArticleComments } from '$lib/controllers/wikia/ArticleComments';
 	import { getToken } from '$lib/controllers/api/custom';
+	import { MessageWall } from '$lib/controllers/wikia/MessageWall';
 
 	const bcWiki: Wiki = {
 		name: 'battle-cats',
 		lang: 'en',
 	};
 
-	const getParams: ArticleComments.getThreadParams = {
-		hideDeleted: false,
-		threadId: '4400000000000037083',
-		title: 'CORS',
-		namespace: 0,
+	const getParams: MessageWall.getThreadsParams = {
+		wallOwnerId: '27706221',
 	};
 
 	const wwrWiki: Wiki = {
@@ -60,13 +58,13 @@
 	<meta name="description" content="Demonstration and scripting" />
 </svelte:head>
 
-<!-- {#await ArticleComments.getComments(wwrWiki, getParams)}
+{#await MessageWall.getThreads(bcWiki, getParams)}
 	<p>...waiting</p>
 {:then postData}
 	<p>{JSON.stringify(postData)}</p>
 {:catch error}
 	<p style="color: red">{error.message}</p>
-{/await} -->
+{/await}
 
 <!-- prettier-ignore -->
 <button on:click={async () => sendTokenRequest(wwrWiki, postParams, postData)}>
