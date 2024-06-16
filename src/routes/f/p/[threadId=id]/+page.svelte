@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { DiscussionThread } from '$lib/controllers/wikia/DiscussionThread';
 	import type { Wiki } from '$lib/types';
-	import JsonModel from '../../../components/JSONModel.svelte';
+	import PostBody from '../../../components/PostBody.svelte';
 	import { examples } from './examples';
 
 	const wiki: Wiki = { name: 'battle-cats', lang: 'en' };
@@ -31,7 +31,7 @@
 	<p>...waiting</p>
 {:then postData}
 	{#each postData._embedded['doc:posts'] as post}
-		<JsonModel {post}></JsonModel>
+		<PostBody {post}></PostBody>
 	{/each}
 {:catch error}
 	<p style="color: red">{error.message}</p>

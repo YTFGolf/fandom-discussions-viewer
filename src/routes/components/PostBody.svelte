@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { DocModel } from '$lib/controllers/types/jsonModel';
+	import Block from './JSONModel/Block.svelte';
 
 	export let post: DocModel;
 
@@ -36,9 +37,18 @@
     <svelte:component this={comp} tag={"h1"}><h3>s</h3></svelte:component>
     ```
 
+	```
+	const thing = { post:"<h1>green</h1>", tag:"h1"}
+	...
+	<svelte:component this={comp} {...thing}><h3>s</h3></svelte:component>
+	```
+	```
+	$$restProps
+	```
+
 	 */
 </script>
 
-{#each post.content as element}
-	<p>{JSON.stringify(element)}</p>
+{#each post.content as block}
+	<Block {block}></Block>
 {/each}

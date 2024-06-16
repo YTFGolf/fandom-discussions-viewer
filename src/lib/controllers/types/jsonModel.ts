@@ -18,20 +18,20 @@ export type DocModel = {
 };
 
 /** Block-level objects */
-type Block = Paragraph | Image | OpenGraph | HtmlList | CodeBlock;
+export type Block = Paragraph | Image | OpenGraph | HtmlList | CodeBlock;
 
 /**
  * Technically you can put a paragraph inside a paragraph. Breaks the editor though.
  *
  * You can also put stuff like ListItem in there, but this just looks weird.
  */
-type Paragraph = {
+export type Paragraph = {
 	type: 'paragraph';
 	/** Technically optional, if only the type then just creates a blank line. */
 	content?: TextItem[];
 };
 
-type Image = {
+export type Image = {
 	type: 'image';
 	attrs: {
 		/** `contentImages[id]` */
@@ -39,7 +39,7 @@ type Image = {
 	};
 };
 
-type HtmlList = {
+export type HtmlList = {
 	type: 'bulletList' | 'orderedList';
 	/** Technically optional */
 	content: ListItem[];
@@ -47,19 +47,19 @@ type HtmlList = {
 	attrs?: { createdWith?: string };
 };
 
-type ListItem = {
+export type ListItem = {
 	type: 'listItem';
 	/** Technically you can nest lists but it's ugly */
 	content: Paragraph[];
 };
 
-type CodeBlock = {
+export type CodeBlock = {
 	type: 'code_block';
 	/** Yes this does mean you can apply marks to stuff inside a code block */
 	content: TextItem[];
 };
 
-type OpenGraph = {
+export type OpenGraph = {
 	type: 'openGraph';
 	attrs: {
 		/** `openGraphs[id]` */
@@ -71,7 +71,7 @@ type OpenGraph = {
 };
 
 /** Inline objects */
-type TextItem = {
+export type TextItem = {
 	type: 'text';
 	/** Should not be empty */
 	text: string;
@@ -86,14 +86,14 @@ type TextItem = {
  * If has both link and mention, then mention always takes priority if you click
  * the link (probably because it's regarded as a browser event).
  */
-type Mark = { type: 'em' | 'strong' } | Link | Mention;
+export type Mark = { type: 'em' | 'strong' } | Link | Mention;
 
-type Link = {
+export type Link = {
 	type: 'link';
 	attrs: { href: string; title?: string | null };
 };
 
-type Mention = {
+export type Mention = {
 	type: 'mention';
 	attrs: {
 		userId: string;
