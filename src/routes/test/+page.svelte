@@ -3,6 +3,7 @@
 	import { ArticleComments } from '$lib/controllers/wikia/ArticleComments';
 	import { DiscussionPost } from '$lib/controllers/wikia/DiscussionPost';
 	import { DiscussionThread } from '$lib/controllers/wikia/DiscussionThread';
+	import { MessageWall } from '$lib/controllers/wikia/MessageWall';
 	import type { Wiki } from '$lib/types';
 
 	const wiki: Wiki = {
@@ -41,8 +42,8 @@
 	}
 
 	async function testArticleComments(token: string) {
-		// Delete comment
 		let res;
+		// Delete comment
 		res = ArticleComments.deletePost(
 			wiki,
 			{},
@@ -59,12 +60,48 @@
 		console.log(await res);
 	}
 
+	async function testMessageWall(token: string) {
+		let res;
+		// Delete message
+		res = MessageWall.deleteReply(
+			wiki,
+			{},
+			{ wallOwnerId: '28291873', postId: '4400000000000090143', token },
+		);
+		console.log(await res);
+
+		// Undelete message
+		res = MessageWall.undeleteReply(
+			wiki,
+			{},
+			{ wallOwnerId: '28291873', postId: '4400000000000090143', token },
+		);
+		console.log(await res);
+
+		// Lock message
+		res = MessageWall.lockThread(
+			wiki,
+			{},
+			{ wallOwnerId: '28291873', threadId: '4400000000000037091', token },
+		);
+		console.log(await res);
+
+		// Unlock message
+		res = MessageWall.unlockThread(
+			wiki,
+			{},
+			{ wallOwnerId: '28291873', threadId: '4400000000000037091', token },
+		);
+		console.log(await res);
+	}
+
 	async function test() {
 		// testDiscussionPost();
 		// testDiscussionThread();
 
 		const csrfToken = await getToken(wiki);
 		testArticleComments(csrfToken);
+		testMessageWall(csrfToken);
 	}
 </script>
 

@@ -1,6 +1,6 @@
 import { get, post } from '$lib/caller';
 import { ContentType, type Wiki } from '$lib/types';
-import type { Attachments } from '../types/attachments';
+import type { sAttachments } from '../types/attachments';
 import type { JsonModel } from '../types/jsonModel';
 import type { ResponseGroup } from '../types/string-types';
 import { getParams } from '../util';
@@ -40,7 +40,7 @@ export namespace MessageWall {
 		title: string;
 		wallOwnerId: string;
 		jsonModel: JsonModel;
-		attachments: Attachments | string;
+		attachments: sAttachments;
 		token: string;
 		rawContent?: string;
 	};
@@ -50,39 +50,89 @@ export namespace MessageWall {
 		return post(wiki, params, data, { contentType: ContentType.HTML });
 	}
 
-	export async function createReply() {
-		throw new Error('Not implemented');
+	export type createReplyData = {
+		wallOwnerId: string;
+		threadId: string;
+		jsonModel: JsonModel;
+		attachments: sAttachments;
+		token: string;
+		rawContent?: string;
+	};
+	export async function createReply(wiki: Wiki, {}: {}, data: createReplyData) {
+		const params = getParams('MessageWall', 'createReply');
+
+		return post(wiki, params, data, { contentType: ContentType.HTML });
 	}
 
-	export async function editPost() {
-		throw new Error('Not implemented');
+	export type editPostData = {
+		wallOwnerId: string;
+		threadId: string;
+		postId: string;
+		jsonModel: JsonModel;
+		attachments: sAttachments;
+		token: string;
+		rawContent?: string;
+	};
+	export async function editPost(wiki: Wiki, {}: {}, data: editPostData) {
+		const params = getParams('MessageWall', 'editPost');
+
+		return post(wiki, params, data, { contentType: ContentType.HTML });
 	}
 
-	export async function reportPost() {
-		throw new Error('Not implemented');
+	export async function reportPost(wiki: Wiki, {}: {}, data: { token: string; postId: string }) {
+		const params = getParams('MessageWall', 'reportPost');
+
+		return post(wiki, params, data, { contentType: ContentType.HTML });
 	}
 
-	export async function deleteReply() {
-		throw new Error('Not implemented');
+	export async function deleteReply(
+		wiki: Wiki,
+		{}: {},
+		data: { postId: string; wallOwnerId: string; token: string; suppressContent?: boolean },
+	) {
+		const params = getParams('MessageWall', 'deleteReply');
+
+		return post(wiki, params, data, { contentType: ContentType.HTML });
 	}
 
-	export async function undeleteReply() {
-		throw new Error('Not implemented');
+	export async function undeleteReply(
+		wiki: Wiki,
+		{}: {},
+		data: { postId: string; wallOwnerId: string; token: string },
+	) {
+		const params = getParams('MessageWall', 'undeleteReply');
+
+		return post(wiki, params, data, { contentType: ContentType.HTML });
 	}
 
-	export async function lockThread() {
-		throw new Error('Not implemented');
+	export async function lockThread(
+		wiki: Wiki,
+		{}: {},
+		data: { threadId: string; wallOwnerId: string; token: string },
+	) {
+		const params = getParams('MessageWall', 'lockThread');
+
+		return post(wiki, params, data, { contentType: ContentType.HTML });
 	}
 
-	export async function unlockThread() {
-		throw new Error('Not implemented');
+	export async function unlockThread(
+		wiki: Wiki,
+		{}: {},
+		data: { threadId: string; wallOwnerId: string; token: string },
+	) {
+		const params = getParams('MessageWall', 'unlockThread');
+
+		return post(wiki, params, data, { contentType: ContentType.HTML });
 	}
 
+	/** Doesn't appear to do anything */
 	export async function canAnonsPost() {
 		throw new Error('Not implemented');
 	}
 
-	export async function help() {
-		throw new Error('Not implemented');
+	export async function help(wiki: Wiki) {
+		const params = getParams('MessageWall', 'help');
+
+		return get(wiki, params);
 	}
 }
