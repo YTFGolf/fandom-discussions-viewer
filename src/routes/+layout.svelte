@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-	<link rel="stylesheet" href="./bootstrap.css" />
+	<link rel="stylesheet" href="/bootstrap.css" />
 </svelte:head>
 
 <div class="app">
