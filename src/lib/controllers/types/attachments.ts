@@ -16,3 +16,5 @@ export type Attachments = {
 	// polls:any[]
 	// quizzes:any[]
 };
+
+export type sAttachments = Attachments | string;

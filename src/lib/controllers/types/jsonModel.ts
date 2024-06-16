@@ -7,7 +7,7 @@
  * Every type of object here is indexable. This means you can literally put in
  * `{hot: 'garbage'}` and it makes its way into the post. You don't even need
  * to make sure it's well-formed, although doing something wrong will lead to
- * errors whenever you're trying to view/edit the post.
+ * errors whenever you're trying to view/edit the post (`Malformed content`).
  */
 export type DocModel = {
 	// technically these can be inline

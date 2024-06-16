@@ -1,6 +1,6 @@
 import { get, post } from '$lib/caller';
 import { ContentType, type Wiki } from '$lib/types';
-import type { Attachments } from '../types/attachments';
+import type { sAttachments } from '../types/attachments';
 import type { JsonModel } from '../types/jsonModel';
 import { getParams } from '../util';
 
@@ -21,7 +21,7 @@ export type PageId = {
 export type CommentBody = {
 	/** Must have some actual content in or gets abusefiltered */
 	jsonModel: JsonModel;
-	attachments: Attachments | string;
+	attachments: sAttachments;
 };
 
 type HasToken = {
