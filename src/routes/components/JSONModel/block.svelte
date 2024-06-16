@@ -12,6 +12,7 @@
 	}
 	// this is basically so I can make this a switch case instead of an if
 	// block.
+	// TODO probably not this
 
 	function switchComponent(block: Block): ComponentData {
 		switch (block.type) {

@@ -2,7 +2,8 @@
 	import type { DocModel } from '$lib/controllers/types/jsonModel';
 	import Block from './JSONModel/Block.svelte';
 
-	export let post: DocModel;
+	export let post: { jsonModel: string };
+	$: postParsed = JSON.parse(post.jsonModel);
 
 	// TODO figure out stores so attachments can be displayed.
 	// https://svelte.dev/docs/special-elements
@@ -49,6 +50,6 @@
 	 */
 </script>
 
-{#each post.content as block}
+{#each postParsed.content as block}
 	<Block {block}></Block>
 {/each}

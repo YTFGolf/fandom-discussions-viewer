@@ -10,8 +10,8 @@
 		responseGroup: 'full',
 	};
 
-	// $: threadContent = DiscussionThread.getThread(wiki, params);
-	$: threadContent = examples;
+	$: threadContent = DiscussionThread.getThread(wiki, params);
+	// $: threadContent = examples;
 </script>
 
 <svelte:head>
@@ -30,7 +30,9 @@
 {#await threadContent}
 	<p>...waiting</p>
 {:then postData}
-	{#each postData._embedded['doc:posts'] as post}
+	{#each postData._embedded['doc:posts'] as post, i}
+		<!-- {#if i > 0}<hr />{/if} -->
+		<hr />
 		<PostBody {post}></PostBody>
 	{/each}
 {:catch error}

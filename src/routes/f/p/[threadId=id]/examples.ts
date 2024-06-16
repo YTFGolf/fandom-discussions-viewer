@@ -100,4 +100,12 @@ const examplesRaw: DocModel[] = [
 	},
 ];
 
-export const examples = { _embedded: { 'doc:posts': examplesRaw } };
+export const examples = {
+	_embedded: {
+		'doc:posts': examplesRaw.map((e) => {
+			return {
+				jsonModel: JSON.stringify(e),
+			};
+		}),
+	},
+};
