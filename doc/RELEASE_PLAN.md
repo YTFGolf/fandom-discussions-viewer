@@ -3,8 +3,8 @@
     - [x] Fandom\FeedsAndPosts\Discussion\DiscussionPost
     - [x] Fandom\FeedsAndPosts\Discussion\DiscussionThread
     - [x] Fandom\ArticleComments\Api\ArticleComments
-    - [ ] Fandom\MessageWall\MessageWall
-    - [ ] Fandom\FeedsAndPosts\FeedsAndPosts
+    - [x] Fandom\MessageWall\MessageWall
+    - [x] Fandom\FeedsAndPosts\FeedsAndPosts
     - [ ] Fandom\Includes\Api\UserApi
   - Important
     - [ ] Fandom\DiscussionModeration\DiscussionImages

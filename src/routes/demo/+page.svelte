@@ -5,6 +5,7 @@
 	import { ArticleComments } from '$lib/controllers/wikia/ArticleComments';
 	import { getToken } from '$lib/controllers/api/custom';
 	import { MessageWall } from '$lib/controllers/wikia/MessageWall';
+	import { FeedsAndPosts } from '$lib/controllers/wikia/FeedsAndPosts';
 
 	const bcWiki: Wiki = {
 		name: 'battle-cats',
@@ -45,13 +46,13 @@
 	<meta name="description" content="Demonstration and scripting" />
 </svelte:head>
 
-<!-- {#await MessageWall.getThread(bcWiki, getParams)}
+{#await FeedsAndPosts.getAll(wwrWiki)}
 	<p>...waiting</p>
 {:then postData}
 	<p>{JSON.stringify(postData)}</p>
 {:catch error}
 	<p style="color: red">{error.message}</p>
-{/await} -->
+{/await}
 
 <!-- prettier-ignore -->
 <button on:click={async () => sendTokenRequest(wwrWiki, postParams, postData)}>
