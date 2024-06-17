@@ -6,18 +6,18 @@
 	export let props: Paragraph;
 </script>
 
-{@html '<p>'}
-{#if props.content}
-	{#each props.content as object}
-		{#if !object}
-			{new Error("Shouldn't happen")}
-		{:else if object.type == 'text'}
-			<Text props={object}></Text>
-		{:else}
-			<ParseError />
-		{/if}
-	{/each}
-{:else}
-	&nbsp;
-{/if}
-{@html '</p>'}
+<p>
+	{#if props.content}
+		{#each props.content as object}
+			{#if !object}
+				{new Error("Shouldn't happen")}
+			{:else if object.type == 'text'}
+				<Text props={object}></Text>
+			{:else}
+				<ParseError />
+			{/if}
+		{/each}
+	{:else}
+		&nbsp;
+	{/if}
+</p>
