@@ -10,8 +10,8 @@
 		responseGroup: 'full',
 	};
 
-	$: threadContent = DiscussionThread.getThread(wiki, params);
-	// $: threadContent = examples;
+	// $: threadContent = DiscussionThread.getThread(wiki, params);
+	$: threadContent = examples;
 </script>
 
 <svelte:head>

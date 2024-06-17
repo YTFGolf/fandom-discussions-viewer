@@ -1,7 +1,6 @@
 import type { DocModel } from '$lib/controllers/types/jsonModel';
 
 const examplesRaw: DocModel[] = [
-	// https://the-battle-doges.fandom.com/f/p/4400000000000033130/r/4400000000000086658
 	{
 		type: 'doc',
 		content: [
@@ -22,6 +21,14 @@ const examplesRaw: DocModel[] = [
 					{ type: 'text', text: 'end ' },
 					{ type: 'text', marks: [{ type: 'strong' }], text: 'bold' },
 					{ type: 'text', text: ' hi' },
+				],
+			},
+			{
+				type: 'paragraph',
+				content: [
+					{ type: 'text', text: 'J' },
+					{ type: 'text', marks: [{ type: 'em' }, { type: 'strong' }], text: 'bitalics' },
+					{ type: 'text', text: 'a' },
 				],
 			},
 			{
@@ -96,11 +103,29 @@ const examplesRaw: DocModel[] = [
 			{ type: 'paragraph', content: [{ type: 'text', text: 'Imagen' }] },
 			{ type: 'paragraph' },
 			{ type: 'paragraph', content: [{ type: 'text', text: 'Cool' }] },
+			{ type: 'paragraph' },
+			{
+				type: 'paragraph',
+				content: [
+					{ type: 'text', text: 'Text with ' },
+					{
+						type: 'text',
+						marks: [
+							{
+								type: 'mention',
+								attrs: { href: null, userId: '27706221', userName: 'TheWWRNerdGuy' },
+							},
+						],
+						text: '@TheWWRNerdGuy',
+					},
+					{ type: 'text', text: ' inside' },
+				],
+			},
 		],
 	},
 ];
 
-export const examples = {
+const examplesObj = {
 	_embedded: {
 		'doc:posts': examplesRaw.map((e) => {
 			return {
@@ -109,3 +134,7 @@ export const examples = {
 		}),
 	},
 };
+
+export const examples: Promise<typeof examplesObj> = new Promise((resolve) => {
+	resolve(examplesObj);
+});
