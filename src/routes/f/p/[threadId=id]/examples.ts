@@ -123,6 +123,26 @@ const examplesRaw: DocModel[] = [
 			},
 		],
 	},
+	{
+		content: [
+			{
+				type: 'paragraph',
+				content: [
+					{
+						type: 'text',
+						marks: [
+							{ type: 'link', attrs: { href: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' } },
+							{ type: 'mention', attrs: { userId: '27706221' } },
+						],
+						text: 'Definitely not a rickroll',
+					},
+					{ type: 'text', text: 'J' },
+					{ type: 'text', marks: [{ type: 'em' }, { type: 'strong' }], text: 'bi<br>talics' },
+					{ type: 'text', text: 'a' },
+				],
+			},
+		],
+	},
 ];
 
 const examplesObj = {
