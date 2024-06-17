@@ -48,6 +48,7 @@ export type HtmlList = {
 };
 
 export type ListItem = {
+	// TODO check what happens if you have multiple paragraphs in one listitem
 	type: 'listItem';
 	/** Technically you can nest lists but it's ugly */
 	content: Paragraph[];

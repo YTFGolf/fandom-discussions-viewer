@@ -1,0 +1,16 @@
+p,
+ul,
+ol {
+	margin-bottom: 0rem;
+}
+
+pre {
+	white-space: pre-wrap;
+}
+
+pre code {
+	background-color: rgba(183, 183, 183, 0.23);
+	display: block;
+	min-width: 296px;
+	padding: 12px 24px;
+}
