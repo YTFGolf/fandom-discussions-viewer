@@ -155,6 +155,234 @@ const examplesRaw: DocModel[] = [
 			},
 		],
 	},
+	{
+		type: 'doc',
+		content: [
+			{
+				type: 'paragraph',
+				content: [{ type: 'text', marks: [{ type: 'strong' }], text: 'Short answer:' }],
+			},
+			{ type: 'paragraph', content: [{ type: 'text', text: 'Because this:' }] },
+			{
+				type: 'code_block',
+				content: [
+					{
+						type: 'text',
+						text: '{{#ifexist: {{#var: sandbox}}\n   | [[{{#var: sandbox}}|sandbox]] <!--\n   --><small>(<!--\n     -->[[Special:EditPage/{{#var: sandbox}}|edit]] &#124; <!--\n     -->[{{fullurl: Special:ComparePages\n         | page1={{FULLPAGENAMEE:{{#var: base page}}}}&page2={{FULLPAGENAMEE:{{#var: current page}}}}\n         }} diff]<!--\n   -->)</small>\n      \n   | sandbox <small>(<!--\n   -->[{{fullurl: {{FULLPAGENAMEE:{{#var: sandbox}}}}\n     | action=edit&preload={{#var: preload-sandbox}}\n     }} create] &#124; [{{fullurl: {{FULLPAGENAMEE:{{#var: sandbox}}}}\n     | action=edit&preload={{FULLPAGENAMEE:{{#var: base page}}}}\n     }} mirror]<!--\n   -->)</small>\n   \n   }}',
+					},
+				],
+			},
+			{
+				type: 'paragraph',
+				content: [
+					{ type: 'text', text: '... is easier for humans to read and understand than this:' },
+				],
+			},
+			{
+				type: 'code_block',
+				content: [
+					{
+						type: 'text',
+						text: '{{#ifexist:{{#var:sandbox}}|[[{{#var:sandbox}}|sandbox]] <small>([[Special:EditPage/{{#var:sandbox}}|edit]] &#124; [{{fullurl:Special:ComparePages|page1={{FULLPAGENAMEE{{#var:base page}}}}&page2={{FULLPAGENAMEE:{{#var:current page}}}}}} diff])</small>|sandbox <small>([{{fullurl:{{FULLPAGENAMEE:{{#var:sandbox}}}}|action=edit&preload={{#var:preload-sandbox}}}} create] &#124; [{{fullurl:{{FULLPAGENAMEE:{{#var:sandbox}}}}|action=edit&preload={{FULLPAGENAMEE:{{#var:base page}}}}}} mirror])</small>}}',
+					},
+				],
+			},
+			{ type: 'paragraph' },
+			{
+				type: 'paragraph',
+				content: [{ type: 'text', marks: [{ type: 'strong' }], text: 'Long answer:' }],
+			},
+			{
+				type: 'paragraph',
+				content: [
+					{
+						type: 'text',
+						text: 'In order to really understand this matter, you have to have a basic notion of:',
+					},
+				],
+			},
+			{
+				type: 'bulletList',
+				attrs: { createdWith: null },
+				content: [
+					{
+						type: 'listItem',
+						content: [
+							{
+								type: 'paragraph',
+								content: [
+									{ type: 'text', text: 'what is ' },
+									{
+										type: 'text',
+										marks: [
+											{
+												type: 'link',
+												attrs: {
+													href: 'https://medium.com/@thepawanluhana/what-is-beautifying-your-code-and-why-do-you-need-it-966d7d592214',
+													title: null,
+												},
+											},
+										],
+										text: 'beautifying a code',
+									},
+									{ type: 'text', text: ' and ' },
+									{
+										type: 'text',
+										marks: [
+											{
+												type: 'link',
+												attrs: {
+													href: 'https://www.quora.com/What-is-beautiful-code-Why-do-some-developers-believe-that-developers-today-write-less-beautiful-code-than-they-did-in-the-past-with-languages-such-as-C-and-C/answer/Ken-Gregg',
+													title: null,
+												},
+											},
+										],
+										text: "why it's important",
+									},
+								],
+							},
+						],
+					},
+				],
+			},
+			{
+				type: 'bulletList',
+				attrs: { createdWith: null },
+				content: [
+					{
+						type: 'listItem',
+						content: [
+							{
+								type: 'paragraph',
+								content: [
+									{ type: 'text', text: 'how MediaWiki handles ' },
+									{
+										type: 'text',
+										marks: [
+											{
+												type: 'link',
+												attrs: {
+													href: 'https://meta.wikimedia.org/wiki/Help:Newlines_and_spaces',
+													title: null,
+												},
+											},
+										],
+										text: 'newlines and spaces',
+									},
+									{ type: 'text', text: '.' },
+								],
+							},
+						],
+					},
+				],
+			},
+			{ type: 'paragraph' },
+			{
+				type: 'paragraph',
+				content: [{ type: 'text', text: 'Empty comment tags can be useful, or not.' }],
+			},
+			{ type: 'paragraph' },
+			{
+				type: 'paragraph',
+				content: [
+					{ type: 'text', text: 'Example of ' },
+					{ type: 'text', marks: [{ type: 'strong' }], text: 'useless empty comments' },
+				],
+			},
+			{
+				type: 'code_block',
+				content: [
+					{
+						type: 'text',
+						text: "''Last month I bought:'' <!--\n-->chicken breasts, <!--\n-->oily fish, <!--\n-->luncheon meat, <!--\n-->chopped tomatoes, <!--\n-->soup, <!--\n-->dried fruit, <!--\n-->pasta, <!--\n-->rice, <!--\n-->bread, <!--\n-->flour, <!--\n-->breakfast cereal, <!--\n-->salt, <!--\n-->pepper, <!--\n-->fresh herbs, <!--\n-->honey, <!--\n-->vinegar, <!--\n-->sugar, <!--\n-->milk, <!--\n-->eggs, <!--\n-->cheese, <!--\n-->yogurt, <!--\n-->cooking oil and <!--\n-->butter.",
+					},
+				],
+			},
+			{
+				type: 'paragraph',
+				content: [{ type: 'text', text: 'The code above will appear on the page as:' }],
+			},
+			{ type: 'paragraph' },
+			{
+				type: 'paragraph',
+				content: [
+					{ type: 'text', marks: [{ type: 'em' }], text: 'Last month I bought:' },
+					{
+						type: 'text',
+						text: ' chicken breasts, oily fish, luncheon meat, chopped tomatoes, soup, dried fruit, pasta, rice, bread, flour, breakfast cereal, salt, pepper, fresh herbs, honey, vinegar, sugar, milk, eggs, cheese, yogurt, cooking oil and butter.',
+					},
+				],
+			},
+			{ type: 'paragraph' },
+			{
+				type: 'paragraph',
+				content: [
+					{
+						type: 'text',
+						text: 'The empty comments here are useless because the code below can produce the same result on the page, and is much cleaner and easier to read in source mode:',
+					},
+				],
+			},
+			{
+				type: 'code_block',
+				content: [
+					{
+						type: 'text',
+						text: "''Last month I bought:''\nchicken breasts,\noily fish,\nluncheon meat,\nchopped tomatoes,\nsoup,\ndried fruit,\npasta,\nrice,\nbread,\nflour,\nbreakfast cereal,\nsalt,\npepper,\nfresh herbs,\nhoney,\nvinegar,\nsugar,\nmilk,\neggs,\ncheese,\nyogurt,\ncooking oil and\nbutter.",
+					},
+				],
+			},
+			{ type: 'paragraph' },
+			{
+				type: 'paragraph',
+				content: [
+					{ type: 'text', text: 'Example of ' },
+					{ type: 'text', marks: [{ type: 'strong' }], text: 'useful empty comments' },
+				],
+			},
+			{
+				type: 'code_block',
+				content: [
+					{
+						type: 'text',
+						text: "''Last month I bought:'' <!--\n\n-->chicken breasts,\noily fish,\nluncheon meat, <!--\n\n-->chopped tomatoes,\nsoup,\ndried fruit, <!--\n\n-->pasta,\nrice,\nbread,\nflour,\nbreakfast cereal, <!--\n\n-->salt,\npepper,\nfresh herbs,\nhoney,\nvinegar,\nsugar, <!--\n\n-->milk,\neggs,\ncheese,\nyogurt, <!--\n\n-->cooking oil and\nbutter.",
+					},
+				],
+			},
+			{
+				type: 'paragraph',
+				content: [
+					{
+						type: 'text',
+						text: 'Here, the editor used empty comments to separate the products into categories that made sense for them, without even writing within the comments: Meat & Fish, Tinned & Dried, Grains & Bread, Condiments, etc; all that while avoiding the text being split into several paragraphs.',
+					},
+				],
+			},
+			{ type: 'paragraph' },
+			{
+				type: 'paragraph',
+				content: [
+					{
+						type: 'text',
+						text: 'In these examples I used a simple grocery list. You can escalate the concept in your mind to try and apply it on freaking complicated templates with dozens of nested conditionals.',
+					},
+				],
+			},
+			{ type: 'paragraph' },
+			{
+				type: 'paragraph',
+				content: [
+					{ type: 'text', marks: [{ type: 'strong' }], text: '"' },
+					{
+						type: 'text',
+						marks: [{ type: 'em' }],
+						text: 'How well an individual editor beautifies their code has more to do with having empathy for the next person (perhaps the future you) to read and/or maintain the code.',
+					},
+					{ type: 'text', marks: [{ type: 'strong' }], text: '"' },
+				],
+			},
+		],
+	},
 ];
 
 const attachments = [
@@ -222,3 +450,6 @@ const examplesObj: Thread = {
 export const examples: Promise<typeof examplesObj> = new Promise((resolve) => {
 	resolve(examplesObj);
 });
+
+// https://the-battle-doges.fandom.com/f/p/4400000000000033130/r/4400000000000086658
+// https://community.fandom.com/f/p/4400000000003692230/r/4400000000014035327

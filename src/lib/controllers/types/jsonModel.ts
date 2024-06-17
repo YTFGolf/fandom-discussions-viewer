@@ -44,7 +44,7 @@ export type HtmlList = {
 	/** Technically optional */
 	content: ListItem[];
 
-	attrs?: { createdWith?: string };
+	attrs?: { createdWith?: string | null };
 };
 
 export type ListItem = {
@@ -54,6 +54,7 @@ export type ListItem = {
 };
 
 export type CodeBlock = {
+	// TODO check what happens if you set marks over multiple lines
 	type: 'code_block';
 	/** Yes this does mean you can apply marks to stuff inside a code block */
 	content: TextItem[];
