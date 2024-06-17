@@ -30,11 +30,15 @@
 {#await threadContent}
 	<p>...waiting</p>
 {:then postData}
-	{#each postData._embedded['doc:posts'] as post, i}
-		<!-- {#if i > 0}<hr />{/if} -->
-		<hr />
-		<PostBody {post}></PostBody>
-	{/each}
+	{#if postData._embedded && postData._embedded['doc:posts']}
+		{#each postData._embedded['doc:posts'] as post, i}
+			<!-- {#if i > 0}<hr />{/if} -->
+			<hr />
+			<PostBody {post}></PostBody>
+		{/each}
+	{:else}
+		<p style="color: red">Error: post not found</p>
+	{/if}
 {:catch error}
 	<p style="color: red">{error.message}</p>
 {/await}

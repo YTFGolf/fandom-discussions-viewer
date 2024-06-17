@@ -1,7 +1,19 @@
 <script lang="ts">
+	import { post } from '$lib/caller';
 	import type { Paragraph } from '$lib/controllers/types/jsonModel';
 	import ParseError from '../ParseError.svelte';
-	import Text from '../Text.svelte';
+	import getHtml from '../Text';
+	// // complicated thing to render DOM
+	// const globProps = {
+	// 	document: null,
+	// };
+	// function elem<K extends keyof HTMLElementTagNameMap>(
+	// 	tagName: K,
+	// 	options?: ElementCreationOptions | undefined,
+	// ): HTMLElementTagNameMap[K] {
+	// 	// @ts-ignore
+	// 	return globProps.document.createElement(tagName, options);
+	// }
 
 	export let props: Paragraph;
 </script>
@@ -12,7 +24,9 @@
 			{#if !object}
 				{new Error("Shouldn't happen")}
 			{:else if object.type == 'text'}
-				<Text props={object}></Text>
+				{#await getHtml(object)}
+					Loading text...
+				{:then rawText}{@html rawText}{/await}
 			{:else}
 				<ParseError />
 			{/if}
