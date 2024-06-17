@@ -1,4 +1,5 @@
 import type { DocModel } from '$lib/controllers/types/jsonModel';
+import type { Attachments } from '$lib/responses/Post';
 import type { Thread } from '$lib/responses/Thread';
 
 const examplesRaw: DocModel[] = [
@@ -441,7 +442,8 @@ const examplesObj: Thread = {
 		'doc:posts': examplesRaw.map((e) => {
 			return {
 				jsonModel: JSON.stringify(e),
-				_embedded: { attachments: attachments },
+				// @ts-ignore
+				_embedded: { attachments: attachments as Attachments[] },
 			};
 		}),
 	},

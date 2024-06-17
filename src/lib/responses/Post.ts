@@ -5,8 +5,12 @@ export type Attachments = {
 		id: string;
 	}[];
 	openGraphs: {
-		originalUrl: string;
-		siteName: string | number | boolean;
+		url: string;
+		title: string;
+		siteName: string;
+		imageUrl: string;
+		imageHeight: number;
+		imageWidth: number;
 	}[];
 	contentImages: {
 		id?: number;

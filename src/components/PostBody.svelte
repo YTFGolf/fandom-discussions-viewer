@@ -17,9 +17,9 @@
 		return (await Promise.all(blocks)).join('');
 	}
 
-	function getHtmlWithFallback(jsonModel: string, attachments: Attachments) {
+	async function getHtmlWithFallback(jsonModel: string, attachments: Attachments) {
 		try {
-			return getHtml(jsonModel, attachments);
+			return await getHtml(jsonModel, attachments);
 		} catch (e) {
 			console.error(e);
 			return fallback(jsonModel);

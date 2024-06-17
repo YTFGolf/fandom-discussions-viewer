@@ -5,6 +5,7 @@ import type {
 	HtmlList,
 	Image,
 	ListItem,
+	OpenGraph,
 	Paragraph,
 } from '$lib/controllers/types/jsonModel';
 import { default as getText } from './Text';
@@ -87,22 +88,36 @@ async function getCodeBlock(block: CodeBlock) {
 	return outer.outerHTML;
 }
 
-export default async function getHtml(block: Block, attachments: Attachments) {
+async function getOpenGraph(g: OpenGraph, attachments: Attachments) {
+	const graph = attachments.openGraphs![g.attrs.id];
+	if (!graph) {
+		throw new Error(`Image ${g.attrs.id} doesn't exist!`);
+	}
+
+	const graphContainer = document.createElement('div');
+	graphContainer.className = 'open-graph';
+	const img = document.createElement('img');
+	img.src = graph.imageUrl;
+	img.width = (graph.imageWidth * 5) / 8;
+	img.height = (graph.imageHeight * 5) / 8;
+
+	const link = document.createElement('a');
+	link.href = graph.url;
+	link.textContent = graph.title;
+	link.target = '_blank';
+
+	graphContainer.append(img, link);
+
+	return graphContainer.outerHTML;
+}
+
+async function getHtml(block: Block, attachments: Attachments) {
 	if (!block.type) {
 		throw new Error('Block does not have a type!');
 	}
 	// await new Promise((resolve) => setTimeout(resolve, Math.random() * 1000));
 	/*
-
-    Plan:
-
-    <!-- prettier-ignore -->
-    - Block
     - OpenGraph (may be broken)
-    - HtmlList
-      - bulletList
-      - orderedList
-    - CodeBlock
 	 */
 
 	switch (block.type) {
@@ -119,7 +134,19 @@ export default async function getHtml(block: Block, attachments: Attachments) {
 		case 'code_block':
 			return getCodeBlock(block);
 
+		case 'openGraph':
+			return getOpenGraph(block, attachments);
+
 		default:
 			return fallback(JSON.stringify(block));
+	}
+}
+
+export default async function getHtmlWithFallback(block: Block, attachments: Attachments) {
+	try {
+		return await getHtml(block, attachments);
+	} catch (e) {
+		console.error(e);
+		return fallback(JSON.stringify(block));
 	}
 }
