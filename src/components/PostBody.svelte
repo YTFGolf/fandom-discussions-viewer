@@ -1,9 +1,14 @@
 <script lang="ts">
+	import type { Attachments } from '$lib/responses/Post';
+	import type { DocModel } from '$lib/controllers/types/jsonModel';
 	import getHtml from './JSONModel/Block';
 	import Fallback from './JSONModel/Fallback.svelte';
 
-	export let post: { jsonModel: string };
-	$: postParsed = JSON.parse(post.jsonModel);
+	export let jsonModel: string;
+	export let attachments: Attachments;
+
+	let postParsed: DocModel;
+	$: postParsed = JSON.parse(jsonModel);
 
 	// TODO figure out stores so attachments can be displayed.
 	// https://svelte.dev/docs/special-elements
@@ -25,7 +30,7 @@
 </script>
 
 {#each postParsed.content as block}
-	{#await getHtml(block)}
+	{#await getHtml(block, attachments)}
 		<p>Loading block...</p>
 	{:then rawText}
 		{@html rawText}

@@ -1,17 +1,20 @@
 <script lang="ts">
 	import { DiscussionThread } from '$lib/controllers/wikia/DiscussionThread';
+	import type { Thread } from '$lib/responses/Thread';
 	import type { Wiki } from '$lib/types';
 	import PostBody from '../../../../components/PostBody.svelte';
 	import { examples } from './examples';
 
 	const wiki: Wiki = { name: 'battle-cats', lang: 'en' };
 	const params: DiscussionThread.getThreadParams = {
-		threadId: '4400000000000822918',
+		// threadId: '4400000000000822918',
+		threadId: '4400000000000888963',
 		responseGroup: 'full',
 	};
 
-	// $: threadContent = DiscussionThread.getThread(wiki, params);
-	$: threadContent = examples;
+	let threadContent: Promise<Thread>;
+	$: threadContent = DiscussionThread.getThread(wiki, params);
+	// $: threadContent = examples;
 </script>
 
 <svelte:head>
@@ -34,7 +37,7 @@
 		{#each postData._embedded['doc:posts'] as post, i}
 			<!-- {#if i > 0}<hr />{/if} -->
 			<hr />
-			<PostBody {post}></PostBody>
+			<PostBody jsonModel={post.jsonModel} attachments={post._embedded.attachments[0]}></PostBody>
 		{/each}
 	{:else}
 		<p style="color: red">Error: post not found</p>
