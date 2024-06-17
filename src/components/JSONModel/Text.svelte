@@ -4,7 +4,7 @@
 	export let props: TextItem;
 	const elem = document.createElement.bind(document);
 
-	function getMark(mark: Mark): HTMLElement | undefined {
+	function getElement(mark: Mark): HTMLElement | undefined {
 		switch (mark.type) {
 			case 'strong':
 				return elem('strong');
@@ -30,36 +30,31 @@
 		}
 	}
 
-	/**
-	 *
-	 * @param marks List of marks from the TextItem.
-	 * @returns List of tag open/close pairs e.g. `[['<a>', '</a>']]`.
-	 */
-	function getMarks(marks?: Mark[]): HTMLElement[] {
+	function getElements(marks?: Mark[]): HTMLElement[] {
 		if (!marks) {
 			return [];
 		}
 
-		const tags = [];
+		const elements = [];
 		for (const mark of marks) {
-			const element = getMark(mark);
+			const element = getElement(mark);
 			if (element) {
-				tags.push(element);
+				elements.push(element);
 			}
 		}
-		console.log(tags);
+		console.log(elements);
 
-		return tags;
+		return elements;
 	}
 
 	function getHtml(props: TextItem) {
 		const dummy = elem('body');
 		let outer: HTMLElement = dummy;
 
-		const marks = getMarks(props.marks);
-		for (const mark of marks.reverse()) {
-			outer.append(mark);
-			outer = mark;
+		const elements = getElements(props.marks);
+		for (const element of elements.reverse()) {
+			outer.append(element);
+			outer = element;
 		}
 		outer.textContent = props.text;
 
