@@ -2,4 +2,4 @@
 	export let post;
 </script>
 
-<p>{JSON.stringify(post)}</p>
+<p><code>{JSON.stringify(post)}</code></p>
