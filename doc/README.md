@@ -123,7 +123,7 @@ Also talk about obtaining data if you have other data e.g. finding out whose mes
 `*<code>rawContent</code>/<code>body</code>. If there is no <code>jsonModel</code> then the post becomes <code>rawContent</code> + first image in <code>contentImages</code> if it exists. If a request contains both <code>rawContent</code> and <code>body</code>, then whichever one comes later takes priority.`
 `Fandom's message walls unironically try to load the entire thread into memory.`
 
-- Rickping
+- Rickping. Note: this doesn't work on fdv because fandom's using some wacky rendering engine that allows them to nest `<a>` tags.
 
   ```ts
   marks: [
