@@ -2,47 +2,31 @@
 	import type { Mark, TextItem } from '$lib/controllers/types/jsonModel';
 
 	export let props: TextItem;
+	const elem = document.createElement.bind(document);
 
-	// https://stackoverflow.com/a/4835406
-	/**
-	 * IMPORTANT: USE THIS ON ANYTHING THAT IS NOT FIXED IN THE CODE
-	 */
-	function escapeHtml(text: string): string {
-		var map = {
-			'&': '&amp;',
-			'<': '&lt;',
-			'>': '&gt;',
-			'"': '&quot;',
-			"'": '&#039;',
-		};
-
-		return text.replace(/[&<>"']/g, function (m) {
-			// @ts-ignore
-			return map[m];
-		});
-	}
-
-	function getMark(mark: Mark): [string, string] {
+	function getMark(mark: Mark): HTMLElement | undefined {
 		switch (mark.type) {
 			case 'strong':
-				return ['<strong>', '</strong>'];
+				return elem('strong');
 
 			case 'em':
-				return ['<em>', '</em>'];
+				return elem('em');
 
 			case 'link':
-				return [`<a href="${escapeHtml(mark.attrs.href)}" target="_blank">`, '</a>'];
+				const link = elem('a');
+				link.href = mark.attrs.href;
+				link.target = '_blank';
+				return link;
 
 			case 'mention':
-				return [
-					`<a class="mention" href="/f/u/${escapeHtml(mark.attrs.userId)}" target="_blank">`,
-					// TODO use actual wiki, also differentiate between normal
-					// links and mentions
-					'</a>',
-				];
+				let mention = elem('a');
+				mention.href = '/f/u/' + mark.attrs.userId;
+				mention.target = '_blank';
+				mention.className = 'mention';
+				return mention;
 
 			default:
-				return ['', ''];
+				return;
 		}
 	}
 
@@ -51,38 +35,36 @@
 	 * @param marks List of marks from the TextItem.
 	 * @returns List of tag open/close pairs e.g. `[['<a>', '</a>']]`.
 	 */
-	function getMarks(marks?: Mark[]): [string, string][] {
+	function getMarks(marks?: Mark[]): HTMLElement[] {
 		if (!marks) {
 			return [];
 		}
 
 		const tags = [];
 		for (const mark of marks) {
-			tags.push(getMark(mark));
+			const element = getMark(mark);
+			if (element) {
+				tags.push(element);
+			}
 		}
+		console.log(tags);
 
 		return tags;
 	}
 
-	function getOpeningTags(marks: [string, string][]): string {
-		return marks
-			.map((tag) => tag[0])
-			.reverse()
-			.join('');
-	}
+	function getHtml(props: TextItem) {
+		const dummy = elem('body');
+		let outer: HTMLElement = dummy;
 
-	function getClosingTags(marks: [string, string][]): string {
-		return marks
-			.map((tag) => tag[0])
-			.reverse()
-			.join('');
-	}
+		const marks = getMarks(props.marks);
+		for (const mark of marks.reverse()) {
+			outer.append(mark);
+			outer = mark;
+		}
+		outer.textContent = props.text;
 
-	$: marks = getMarks(props.marks);
+		return dummy.innerHTML;
+	}
 </script>
 
-<!--
-All interpolated strings are escaped and all other strings are constant values
-so there should not be any XSS opportunity.
--->
-{@html getOpeningTags(marks) + escapeHtml(props.text) + getClosingTags(marks)}
+{@html getHtml(props)}

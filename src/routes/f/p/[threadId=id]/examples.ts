@@ -136,6 +136,17 @@ const examplesRaw: DocModel[] = [
 						],
 						text: 'Definitely not a rickroll',
 					},
+					{
+						type: 'text',
+						marks: [
+							{
+								type: 'link',
+								attrs: { href: 'https://www."<pre>t</pre>youtube.com/watch?v=dQw4w9WgXcQ' },
+							},
+							{ type: 'mention', attrs: { userId: '27706221\'"><pre>t</pre>' } },
+						],
+						text: 'Definitely not a rickroll',
+					},
 					{ type: 'text', text: 'J' },
 					{ type: 'text', marks: [{ type: 'em' }, { type: 'strong' }], text: 'bi<br>talics' },
 					{ type: 'text', text: 'a' },
