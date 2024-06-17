@@ -1,40 +1,34 @@
 <script lang="ts">
 	import type { Attachments } from '$lib/responses/Post';
 	import type { DocModel } from '$lib/controllers/types/jsonModel';
-	import getHtml from './JSONModel/Block';
-	import Fallback from './JSONModel/Fallback.svelte';
+	import { default as getBlock } from './JSONModel/Block';
+	import fallback from './Fallback';
 
 	export let jsonModel: string;
 	export let attachments: Attachments;
 
-	let postParsed: DocModel;
-	$: postParsed = JSON.parse(jsonModel);
+	async function getHtml(jsonModel: string, attachments: Attachments) {
+		const postParsed: DocModel = JSON.parse(jsonModel);
 
-	// TODO figure out stores so attachments can be displayed.
-	// https://svelte.dev/docs/special-elements
-	// await new Promise((resolve) => setTimeout(resolve, Math.random() * 1000));
+		const blocks: Promise<string>[] = [];
+		for (const block of postParsed.content) {
+			blocks.push(getBlock(block, attachments));
+		}
+		return (await Promise.all(blocks)).join('');
+	}
 
-	/*
-
-    Plan:
-
-    <!-- prettier-ignore -->
-    - Block
-    - Image (will be broken)
-    - OpenGraph (will be broken)
-    - HtmlList
-      - bulletList
-      - orderedList
-    - CodeBlock
-	 */
+	function getHtmlWithFallback(jsonModel: string, attachments: Attachments) {
+		try {
+			return getHtml(jsonModel, attachments);
+		} catch (e) {
+			console.error(e);
+			return fallback(jsonModel);
+		}
+	}
 </script>
 
-{#each postParsed.content as block}
-	{#await getHtml(block, attachments)}
-		<p>Loading block...</p>
-	{:then rawText}
-		{@html rawText}
-	{:catch}
-		<Fallback post={block} />
-	{/await}
-{/each}
+{#await getHtmlWithFallback(jsonModel, attachments)}
+	<p>Loading post body...</p>
+{:then rawText}
+	{@html rawText}
+{/await}

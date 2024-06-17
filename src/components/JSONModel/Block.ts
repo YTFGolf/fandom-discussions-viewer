@@ -1,6 +1,7 @@
 import type { Attachments } from '$lib/responses/Post';
 import type { Block, Image, Paragraph } from '$lib/controllers/types/jsonModel';
 import { default as getText } from './Text';
+import fallback from '../Fallback';
 
 async function getParagraph(p: Paragraph) {
 	if (!p.content) {
@@ -35,6 +36,19 @@ export default async function getHtml(block: Block, attachments: Attachments) {
 	if (!block.type) {
 		throw new Error('Block does not have a type!');
 	}
+	// await new Promise((resolve) => setTimeout(resolve, Math.random() * 1000));
+	/*
+
+    Plan:
+
+    <!-- prettier-ignore -->
+    - Block
+    - OpenGraph (may be broken)
+    - HtmlList
+      - bulletList
+      - orderedList
+    - CodeBlock
+	 */
 
 	switch (block.type) {
 		case 'paragraph':
@@ -44,11 +58,6 @@ export default async function getHtml(block: Block, attachments: Attachments) {
 			return getImage(block, attachments);
 
 		default:
-			const code = document.createElement('code');
-			code.textContent = JSON.stringify(block);
-
-			const p = document.createElement('p');
-			p.append(code);
-			return p.outerHTML;
+			return fallback(JSON.stringify(block));
 	}
 }
