@@ -54,7 +54,7 @@
 		<p>...waiting</p>
 	{:then postData}
 		{#if postData._embedded && postData._embedded['doc:posts']}
-			{#each postData._embedded['doc:posts'] as post, i}
+			{#each postData._embedded['doc:posts'].reverse() as post, i}
 				<!-- {#if i > 0}<hr />{/if} -->
 				<hr />
 				<container>
