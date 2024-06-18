@@ -17,6 +17,17 @@
 		responseGroup: 'full',
 		pivot: postId,
 	};
+	if (params.pivot !== '') {
+		if (params.sortDirection && params.sortDirection === 'ascending') {
+			params.pivot = (BigInt(params.pivot!) - BigInt(1)).toString();
+		} else {
+			params.pivot = (BigInt(params.pivot!) + BigInt(1)).toString();
+		}
+	}
+	// Pivot uses strict inequality so this hack is needed so that e.g. the call
+	// below begins with the same post that the equivalent discussions link does
+	// http://localhost:5173/f/p/4400000000000822918/r/4400000000003058552
+	// https://battle-cats.fandom.com/f/p/4400000000000822918/r/4400000000003058552
 
 	let threadContent: Promise<Thread>;
 	$: threadContent = DiscussionThread.getThread(wiki, params);
