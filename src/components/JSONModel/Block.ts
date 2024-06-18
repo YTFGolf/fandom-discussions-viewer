@@ -32,12 +32,19 @@ async function getImage(i: Image, attachments: Attachments) {
 		throw new Error(`Image ${i.attrs.id} doesn't exist!`);
 	}
 
+	const container = document.createElement('div');
+	container.style.maxHeight = '850px';
+	container.style.overflow = 'scroll';
+	container.style.padding = '12px';
+	container.style.width = '755px';
+	// TODO e.g. see https://battle-cats.fandom.com/f/p/4400000000000822918/r/4400000000003556468
 	const img = document.createElement('img');
 	img.src = image.url + '/scale-to-width/755';
 	img.width = 708;
 	// img.height = image.height;
 
-	return img.outerHTML;
+	container.append(img);
+	return container.outerHTML;
 }
 
 async function getListItem(listItem: ListItem) {
