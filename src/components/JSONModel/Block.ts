@@ -33,9 +33,9 @@ async function getImage(i: Image, attachments: Attachments) {
 	}
 
 	const img = document.createElement('img');
-	img.src = image.url;
-	img.width = image.width;
-	img.height = image.height;
+	img.src = image.url + '/scale-to-width/755';
+	img.width = 708;
+	// img.height = image.height;
 
 	return img.outerHTML;
 }
@@ -97,9 +97,9 @@ async function getOpenGraph(g: OpenGraph, attachments: Attachments) {
 	const graphContainer = document.createElement('div');
 	graphContainer.className = 'open-graph';
 	const img = document.createElement('img');
-	img.src = graph.imageUrl;
-	img.width = (graph.imageWidth * 5) / 8;
-	img.height = (graph.imageHeight * 5) / 8;
+	img.src = graph.imageUrl + '/scale-to-width/755';
+	img.width = 708;
+	// img.height = graph.imageHeight;
 
 	const link = document.createElement('a');
 	link.href = graph.url;
@@ -116,9 +116,6 @@ async function getHtml(block: Block, attachments: Attachments) {
 		throw new Error('Block does not have a type!');
 	}
 	// await new Promise((resolve) => setTimeout(resolve, Math.random() * 1000));
-	/*
-    - OpenGraph (may be broken)
-	 */
 
 	switch (block.type) {
 		case 'paragraph':
