@@ -26,7 +26,12 @@
 			</li>
 
 			<li class="nav-item">
-				<a href="/f/p/1" class={navLinkClass($page.url.pathname, '/f/p/1')}>Store</a>
+				<a
+					href="/f/p/4400000000000822918"
+					class={navLinkClass($page.url.pathname, '/f/p/4400000000000822918')}
+				>
+					Store
+				</a>
 			</li>
 		</ul>
 	</div>
