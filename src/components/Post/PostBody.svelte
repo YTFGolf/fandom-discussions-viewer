@@ -15,10 +15,7 @@
 			blocks.push(getBlock(block, attachments));
 		}
 
-		const body = document.createElement('div');
-		body.className = 'post-content';
-		body.innerHTML = (await Promise.all(blocks)).join('');
-		return body.outerHTML;
+		return (await Promise.all(blocks)).join('');
 	}
 
 	async function getHtmlWithFallback(jsonModel: string, attachments: Attachments) {
@@ -34,15 +31,26 @@
 {#await getHtmlWithFallback(jsonModel, attachments)}
 	<p>Loading post body...</p>
 {:then rawText}
-	{@html rawText}
+	<div class="post-content">
+		{@html rawText}
+	</div>
 {/await}
 
 <style>
-	:global(.post-content a) {
+	.post-content :global(a) {
 		color: var(--theme-link-color);
 	}
 
-	:global(.post-content a:hover) {
+	.post-content :global(a:hover) {
 		color: var(--theme-link-color--hover);
 	}
+
+	.post-content :global(.image-container) {
+		max-height: 850px;
+		overflow: scroll;
+		padding: 12px;
+		width: 755px;
+	}
+
+	/* TODO opengraphs */
 </style>

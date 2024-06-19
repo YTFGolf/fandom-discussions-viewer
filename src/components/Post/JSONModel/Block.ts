@@ -33,10 +33,7 @@ async function getImage(i: Image, attachments: Attachments) {
 	}
 
 	const container = document.createElement('div');
-	container.style.maxHeight = '850px';
-	container.style.overflow = 'scroll';
-	container.style.padding = '12px';
-	container.style.width = '755px';
+	container.className = 'image-container';
 
 	const img = document.createElement('img');
 	img.src = image.url + '/scale-to-width/755';
