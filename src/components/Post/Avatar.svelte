@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { UserDetails } from '$lib/responses/Post';
+	import Badge, { type BadgeName } from './Badge.svelte';
 
 	export let user: UserDetails;
 
@@ -12,6 +13,8 @@
 	} else {
 		avatar = user.avatarUrl + '/scale-to-width/48';
 	}
+
+	let userBadge = user.badgePermission.replace('badge:', '') as BadgeName;
 </script>
 
 <div class="avatar">
@@ -24,7 +27,7 @@
 		{/if}
 	</a>
 	{#if user.badgePermission !== ''}
-		<p>Admin ig</p>
+		<Badge group={userBadge}></Badge>
 	{/if}
 </div>
 
