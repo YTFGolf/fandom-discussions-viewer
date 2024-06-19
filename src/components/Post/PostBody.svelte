@@ -14,7 +14,11 @@
 		for (const block of postParsed.content) {
 			blocks.push(getBlock(block, attachments));
 		}
-		return (await Promise.all(blocks)).join('');
+
+		const body = document.createElement('div');
+		body.className = 'post-content';
+		body.innerHTML = (await Promise.all(blocks)).join('');
+		return body.outerHTML;
 	}
 
 	async function getHtmlWithFallback(jsonModel: string, attachments: Attachments) {
@@ -32,3 +36,13 @@
 {:then rawText}
 	{@html rawText}
 {/await}
+
+<style>
+	:global(.post-content a) {
+		color: var(--theme-link-color);
+	}
+
+	:global(.post-content a:hover) {
+		color: var(--theme-link-color--hover);
+	}
+</style>

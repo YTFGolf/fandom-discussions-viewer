@@ -20,10 +20,6 @@
 </div>
 
 <style>
-	.post-container {
-		color: var(--theme-page-text-color);
-	}
-
 	.is-deleted {
 		opacity: 0.5;
 	}
