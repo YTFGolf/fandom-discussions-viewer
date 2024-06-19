@@ -17,6 +17,9 @@
 		<a class="user-link" href={'/f/u/' + post.createdBy.id}>{post.createdBy.name}</a>
 	</div>
 	<PostBody jsonModel={post.jsonModel} attachments={post._embedded.attachments[0]} />
+	{#if post.lastEditedBy}
+		<div class="edited-by">(Edited by {post.lastEditedBy.name})</div>
+	{/if}
 </div>
 
 <style>
@@ -48,6 +51,13 @@
 		/* vertical-align: middle; */
 		align-content: center;
 		white-space: nowrap;
+	}
+
+	.edited-by {
+		color: rgba(var(--theme-page-text-color--rgb), var(--theme-page-text-opacity-factor));
+		font-size: 12px;
+		font-style: italic;
+		margin-bottom: 12px;
 	}
 
 	a {
