@@ -6,7 +6,12 @@
 	export let post: Post;
 </script>
 
-<div class="post-container">
+<div class={'post-container' + ((post.isDeleted && ' is-deleted') || '')}>
+	{#if post.isDeleted}
+		<div class="deleted-by">
+			Deleted by {post.lastDeletedBy?.name}.
+		</div>
+	{/if}
 	<div class="user-info">
 		<Avatar user={post.createdBy} />
 		<a class="user-link" href={'/f/u/' + post.createdBy.id}>{post.createdBy.name}</a>
@@ -17,6 +22,10 @@
 <style>
 	.post-container {
 		color: var(--theme-page-text-color);
+	}
+
+	.is-deleted {
+		opacity: 0.5;
 	}
 
 	.user-info {
