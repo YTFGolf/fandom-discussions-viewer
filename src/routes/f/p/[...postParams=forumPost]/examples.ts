@@ -1,5 +1,5 @@
 import type { DocModel } from '$lib/controllers/types/jsonModel';
-import type { Attachments } from '$lib/responses/Post';
+import type { Attachments, Post } from '$lib/responses/Post';
 import type { Thread } from '$lib/responses/Thread';
 
 const examplesRaw: DocModel[] = [
@@ -437,13 +437,41 @@ const attachments = [
 	},
 ];
 
+const postObj: Post = {
+	rawContent: '',
+	jsonModel: '',
+
+	isContentSuppressed: false,
+	isDeleted: false,
+	isEditable: false,
+	isLocked: false,
+	isReported: false,
+
+	createdBy: {
+		id: '27706221',
+		avatarUrl: 'https://vignette.wikia.nocookie.net/messaging/images/e/e8/Avatar2.jpg',
+		name: 'TheWWRNerdGuy',
+		badgePermission: 'badge:sysop',
+	},
+	creationDate: '',
+
+	id: '',
+	threadId: '',
+
+	upvoteCount: 0,
+
+	_embedded: {
+		attachments: attachments,
+		userData: [{ hasReported: false, hasUpvoted: false, permissions: [] }],
+	},
+};
+
 const examplesObj: Thread = {
 	_embedded: {
 		'doc:posts': examplesRaw.map((e) => {
 			return {
+				...postObj,
 				jsonModel: JSON.stringify(e),
-				// @ts-ignore
-				_embedded: { attachments: attachments as Attachments[] },
 			};
 		}),
 	},
