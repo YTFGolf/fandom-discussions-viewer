@@ -8,6 +8,17 @@
  * `{hot: 'garbage'}` and it makes its way into the post. You don't even need
  * to make sure it's well-formed, although doing something wrong will lead to
  * errors whenever you're trying to view/edit the post (`Malformed content`).
+ *
+ * ```css
+ * .entity-content {
+ * 	white-space: pre-wrap;
+ * }
+ * ```
+ * Beautiful. Put a `\n` anywhere and it shows up like that.
+ *
+ * The Fandom editor itself does a decent job at removing weird stuff like
+ * having multiple paragraphs inside a ListItem or having newlines inside a line
+ * but doesn't fix everything.
  */
 export type DocModel = {
 	// technically these can be inline
@@ -48,16 +59,17 @@ export type HtmlList = {
 };
 
 export type ListItem = {
-	// TODO check what happens if you have multiple paragraphs in one listitem
 	type: 'listItem';
 	/** Technically you can nest lists but it's ugly */
 	content: Paragraph[];
 };
 
 export type CodeBlock = {
-	// TODO check what happens if you set marks over multiple lines
 	type: 'code_block';
-	/** Yes this does mean you can apply marks to stuff inside a code block */
+	/**
+	 * Yes this does mean you can apply marks to stuff inside a code block. If
+	 * you want text to be bold you need to wrap it in multiple strong tags.
+	 */
 	content: TextItem[];
 };
 

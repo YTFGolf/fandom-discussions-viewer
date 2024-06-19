@@ -27,18 +27,98 @@
 
 	const postParams = {};
 
-	const postData = {
-		postId: '4400000000000090143',
-		token: 'not given',
-		wallOwnerId: '28291873',
+	const postData: DiscussionPost.createData = {
+		// threadId: '4400000000000822918',
+		// siteId: '691085',
+		threadId: '4400000000000037009',
+		siteId: '3448675',
+		jsonModel: {
+			content: [
+				{
+					type: 'code_block',
+					content: [
+						{
+							type: 'text',
+							marks: [
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'strong' },
+								{ type: 'link', attrs: { href: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' } },
+								{ type: 'mention', attrs: { userId: '53976914' } },
+								{ type: 'em' },
+							],
+							text: 'Can any of you mere\nmortals do this',
+						},
+					],
+				},
+				{
+					type: 'bulletList',
+					content: [
+						{
+							type: 'listItem',
+							content: [
+								{
+									type: 'paragraph',
+									content: [{ type: 'text', text: 'para\n1 lol hi this is a sentence' }],
+								},
+								{
+									type: 'paragraph',
+									content: [{ type: 'text', text: 'para\n2 lol hi this is a sentence' }],
+								},
+								{
+									type: 'paragraph',
+									content: [{ type: 'text', text: 'para\n3 lol hi this is a sentence' }],
+								},
+							],
+						},
+						{
+							type: 'listItem',
+							content: [
+								{
+									type: 'paragraph',
+									content: [{ type: 'text', text: 'para\n1 lol hi this is a sentence' }],
+								},
+								{
+									type: 'paragraph',
+									content: [{ type: 'text', text: 'para\n2 lol hi this is a sentence' }],
+								},
+								{
+									type: 'paragraph',
+									content: [{ type: 'text', text: 'para\n3 lol hi this is a sentence' }],
+								},
+							],
+						},
+					],
+				},
+			],
+		},
 	};
-
-	// @ts-ignore
-	async function sendTokenRequest(wiki, params, data) {
-		let t = data;
-		t.token = await getToken(wiki);
-		console.log(await MessageWall.undeleteReply(wiki, params, data));
-	}
 </script>
 
 <svelte:head>
@@ -46,15 +126,15 @@
 	<meta name="description" content="Demonstration and scripting" />
 </svelte:head>
 
-{#await FeedsAndPosts.getAll(wwrWiki)}
+<!-- {#await FeedsAndPosts.getAll(wwrWiki)}
 	<p>...waiting</p>
 {:then postData}
 	<p>{JSON.stringify(postData)}</p>
 {:catch error}
 	<p style="color: red">{error.message}</p>
-{/await}
+{/await} -->
 
 <!-- prettier-ignore -->
-<button on:click={async () => sendTokenRequest(wwrWiki, postParams, postData)}>
+<button on:click={async () => DiscussionPost.create(wwrWiki, postParams, postData)}>
 	Click to post
 </button>

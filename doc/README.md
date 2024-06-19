@@ -12,7 +12,6 @@ This file is a placeholder I'm using for the main note hub (I really hope this s
   - [Data models](#data-models)
     - [Ignore this bit](#ignore-this-bit)
   - [Call arguments](#call-arguments)
-- [Frontend design](#frontend-design)
 - [Routes](#routes)
   - [Client routes](#client-routes)
   - [Server routes](#server-routes)
@@ -25,7 +24,7 @@ This project aims to implement most of the features of Fandom's Discussions clie
 
 ### General structure
 
-The project uses Svelte's ability to write the client and server in the same project so you only need one command to run the frontend and the backend.
+The project uses Svelte/SvelteKit's ability to write the client and server in the same project so you only need one command to run the frontend and the backend.
 
 When the user sends a request on the client, this is sent to the server. This server acts as a proxy server: it reads the user's request, then transforms that into another request sent directly to Fandom. The proxy server reads Fandom's response and returns the data to the client. The proxy server is necessary because of the same-origin policy: the browser would reject a request directly returned from Fandom.
 
@@ -111,7 +110,6 @@ Also talk about obtaining data if you have other data e.g. finding out whose mes
 // body is alias for rawContent
 // jsonModel isn't needed either
 // jsonModel > body
-// figure out how contentimages work, probably similar to attachments or directly in there
 // if jsonModel is not proper json just fails lmao
 // reply history relies on jsonModel
 // special:userprofileactivity relies on body/rawContent
@@ -124,6 +122,7 @@ Also talk about obtaining data if you have other data e.g. finding out whose mes
 `Fandom's message walls unironically try to load the entire thread into memory.`
 
 - Rickping. Note: this doesn't work on fdv because fandom's using some wacky rendering engine that allows them to nest `<a>` tags.
+- You can make it bold by just repeatedly applying strong tags.
 
   ```ts
   marks: [
@@ -157,10 +156,6 @@ I've tried to document these inline as much as possible but there are just too m
 - `stablePageId`: appears to actualy be different from `articleIds`. Is set after a comment has been made on the page.
 - `title`/`namespace`: they have to be correct internally (i.e. the page with that title in that namespace must exist and have comments), but for requests like `getThread` there is no requirement that they actually correspond to the page where the `threadId` is from. On stuff like `postNewCommentReply` and `editComment` even if you provide the wrong page `Special:SocialActivity` and `Special:UserProfileActivity` will display the right page.
 - `pivot`: I'm not entirely sure, but it seems like if I set pivot then it only shows posts that are `< pivot` (tested on `mw.getThread` and seems to be simliar on the `dt.getThread` calls above, only it's `> pivot` when `sortDirection=ascending`). Possibly different for each method, more testing is needed.
-
-## Frontend design
-
-I just put bootstrap in because I'm lazy. If you know how to actually design websites pls contribute.
 
 ## Routes
 
