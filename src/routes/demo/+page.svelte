@@ -6,18 +6,18 @@
 	import { getToken } from '$lib/controllers/api/custom';
 	import { MessageWall } from '$lib/controllers/wikia/MessageWall';
 	import { FeedsAndPosts } from '$lib/controllers/wikia/FeedsAndPosts';
+	import { get } from 'svelte/store';
 
 	const bcWiki: Wiki = {
 		name: 'battle-cats',
 		lang: 'en',
 	};
 
-	const getParams: MessageWall.getThreadParams = {
-		threadId: '4400000000000873805',
-		wallOwnerId: '45329321',
-		limit: 1,
+	const getParams: DiscussionThread.getThreadParams = {
+		threadId: '4400000000000037009',
+		pivot: '4400000000000090155',
 		responseGroup: 'full',
-		pivot: '4400000000003500938',
+		viewableOnly: false,
 	};
 
 	const wwrWiki: Wiki = {
@@ -70,7 +70,7 @@
 								{ type: 'strong' },
 								{ type: 'strong' },
 								{ type: 'link', attrs: { href: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' } },
-								{ type: 'mention', attrs: { userId: '53976914' } },
+								{ type: 'mention', attrs: { userId: '27706221' } },
 								{ type: 'em' },
 							],
 							text: 'Can any of you mere\nmortals do this',
@@ -126,13 +126,13 @@
 	<meta name="description" content="Demonstration and scripting" />
 </svelte:head>
 
-<!-- {#await FeedsAndPosts.getAll(wwrWiki)}
+{#await DiscussionThread.getThread(wwrWiki, getParams)}
 	<p>...waiting</p>
 {:then postData}
 	<p>{JSON.stringify(postData)}</p>
 {:catch error}
 	<p style="color: red">{error.message}</p>
-{/await} -->
+{/await}
 
 <!-- prettier-ignore -->
 <button on:click={async () => DiscussionPost.create(wwrWiki, postParams, postData)}>

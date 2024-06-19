@@ -2,9 +2,9 @@
 	import { DiscussionThread } from '$lib/controllers/wikia/DiscussionThread';
 	import type { Thread } from '$lib/responses/Thread';
 	import type { Wiki } from '$lib/types';
-	import PostBody from '../../../../components/PostBody.svelte';
 	import { examples } from './examples';
 	import { page } from '$app/stores';
+	import Post from '../../../../components/Post.svelte';
 
 	const [_, threadId, postId]: string[] = $page.params.postParams.match(/^(\d+)(?:\/r\/)?(.*)/)!;
 	// /f/p/{t} => [_, t, ""]
@@ -16,6 +16,7 @@
 		threadId: threadId,
 		responseGroup: 'full',
 		pivot: postId,
+		viewableOnly: false,
 	};
 	if (params.pivot !== '') {
 		if (params.sortDirection && params.sortDirection === 'ascending') {
@@ -57,9 +58,7 @@
 			{#each postData._embedded['doc:posts'].reverse() as post, i}
 				<!-- {#if i > 0}<hr />{/if} -->
 				<hr />
-				<container>
-					<PostBody jsonModel={post.jsonModel} attachments={post._embedded.attachments[0]} />
-				</container>
+				<Post {post} />
 			{/each}
 		{:else}
 			<p style="color: red">Error: posts not found</p>

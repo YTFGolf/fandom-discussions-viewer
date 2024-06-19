@@ -2,7 +2,7 @@
 	import type { Attachments } from '$lib/responses/Post';
 	import type { DocModel } from '$lib/controllers/types/jsonModel';
 	import { default as getBlock } from './JSONModel/Block';
-	import fallback from './Fallback';
+	import fallback from '../Fallback';
 
 	export let jsonModel: string;
 	export let attachments: Attachments;

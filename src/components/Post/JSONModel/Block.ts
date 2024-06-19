@@ -9,7 +9,7 @@ import type {
 	Paragraph,
 } from '$lib/controllers/types/jsonModel';
 import { default as getText } from './Text';
-import fallback from '../Fallback';
+import fallback from '../../Fallback';
 
 async function getParagraph(p: Paragraph) {
 	if (!p.content) {

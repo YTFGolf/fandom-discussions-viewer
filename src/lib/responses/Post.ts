@@ -1,5 +1,3 @@
-import type { JsonModel } from '$lib/controllers/types/jsonModel';
-
 export type Attachments = {
 	atMentions: {
 		id: string;
@@ -25,9 +23,43 @@ export type Attachments = {
 	quizzes: any[];
 };
 
+export type UserDetails = {
+	avatarUrl: string;
+	badgePermission: string;
+	id: string;
+	name: string;
+};
+
 export type Post = {
 	jsonModel: string;
 	_embedded: {
 		attachments: Attachments[];
+		userData: [
+			{
+				hasReported: boolean;
+				hasUpvoted: boolean;
+				permissions: ('canDelete' | 'canUndelete' | 'canModerate' | 'canEdit')[];
+			},
+		];
 	};
+	rawContent: string;
+
+	isContentSuppressed: boolean;
+	isDeleted: boolean;
+	isEditable: boolean;
+	isLocked: boolean;
+	isReported: boolean;
+
+	createdBy: UserDetails;
+	creationDate: any;
+
+	id: string;
+	threadId: string;
+
+	upvoteCount: number;
+
+	// Appear only if these actions have actually been done
+	/** Disappears if the post has been undeleted */
+	lastDeletedBy?: UserDetails;
+	lastEditedBy?: UserDetails;
 };
