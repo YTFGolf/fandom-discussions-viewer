@@ -30,6 +30,11 @@ export type UserDetails = {
 	name: string;
 };
 
+export type PostTime = {
+	epochSecond: number;
+	nano: number;
+};
+
 export type Post = {
 	jsonModel: string;
 	_embedded: {
@@ -51,7 +56,7 @@ export type Post = {
 	isReported: boolean;
 
 	createdBy: UserDetails;
-	creationDate: any;
+	creationDate: PostTime;
 
 	id: string;
 	threadId: string;
