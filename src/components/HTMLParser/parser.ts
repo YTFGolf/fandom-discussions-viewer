@@ -4,10 +4,16 @@ import parseBlock from './block';
 import PostBody from '../Post/PostBody.svelte';
 
 async function getRawContent(container: HTMLDivElement) {
-	// FIXME also contains the text of the link in OpenGraphs
-	// should probably be just based on the text elements of post.
-	// or I can change visibility lmao
-	return container.innerText;
+	// could just do `return container.innerText;` but that also includes stuff
+	// from opengraphs
+	const rawContent = [];
+	for (const child of container.children as any as HTMLElement[]) {
+		if (!(child.classList.contains('open-graph') || child.innerText === String.fromCharCode(160))) {
+			rawContent.push(child.innerText);
+		}
+	}
+
+	return rawContent.join('\n');
 }
 
 async function getPost(container: HTMLDivElement, attachments: Attachments) {
