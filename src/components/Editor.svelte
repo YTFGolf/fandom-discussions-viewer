@@ -8,7 +8,7 @@
 
 	async function logModel(event: MouseEvent) {
 		const target = (event.target as any).parentElement.firstChild.firstChild as HTMLDivElement;
-		console.log(target);
+		// console.log(target);
 		// const attachments: Attachments = {
 		// 	atMentions: [],
 		// 	contentImages: [],

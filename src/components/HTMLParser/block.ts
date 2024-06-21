@@ -3,17 +3,16 @@ import parseTextNode from './textItem';
 
 namespace parse {
 	export async function Paragraph(paragraph: HTMLParagraphElement): Promise<Paragraph> {
-		const children = [];
+		const children: Promise<TextItem | undefined>[] = [];
 		for (const node of paragraph.childNodes) {
 			children.push(parseTextNode(node));
 		}
 		const content = (await Promise.all(children)).filter((child) => child) as TextItem[];
+		// await children and remove undefined values
+
 		if (content.length === 0) {
 			return { type: 'paragraph' };
 		}
-
-		console.log(JSON.stringify(content));
-		// if (content.length === 1 && content)
 		return { type: 'paragraph', content: content };
 	}
 }
