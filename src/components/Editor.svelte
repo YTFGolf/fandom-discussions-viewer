@@ -5,6 +5,19 @@
 	import parse from './HTMLParser/parser';
 	import PostBody from './Post/PostBody.svelte';
 
+	/**
+	 * Plan: This takes in a few props: rawContent, JSONModel, Attachments. All
+	 * of these parameters have sensible defaults so that's fine.
+	 *
+	 * Also takes in a callback function that takes all 3 of these and posts it.
+	 *
+	 * Alternatively, this is only for the editing part and the caller always
+	 * controls the context in which it is used. E.g. caller has attachments and
+	 * then generates the body and jsonModel by using these functions, then
+	 * sends the appropriate POST.
+	 */
+
+	/***/
 	function logEvent(event: InputEvent) {}
 
 	async function logModel(event: MouseEvent) {
@@ -25,7 +38,7 @@
 
 	function cleanAttachments(attachments: Attachments): Attachments {
 		const atMentions: Attachments['atMentions'] = [];
-		for (const mention of attachments.atMentions!) {
+		for (const mention of attachments.atMentions || []) {
 			atMentions.push({ id: mention.id });
 		}
 
