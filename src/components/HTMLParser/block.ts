@@ -22,6 +22,7 @@ export default async function parseBlock(block: HTMLElement): Promise<Block> {
 		return {
 			type: 'code_block',
 			content: [{ type: 'text', text: block.innerText }],
+			// TODO make this like Paragraph
 		};
 	} else if (block.tagName === 'P') {
 		return parse.Paragraph(block as HTMLParagraphElement);

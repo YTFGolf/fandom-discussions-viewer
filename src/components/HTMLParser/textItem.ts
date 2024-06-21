@@ -9,11 +9,16 @@ function getMark(node: Node): Mark {
 	if (node.nodeName !== 'A') {
 		throw new Error(`Cannot parse an element of type <${node.nodeName.toLowerCase()}>`);
 	}
+	var newNode = node as HTMLAnchorElement;
+	// typecast
 
-	console.log(node);
+	if (newNode.classList.contains('mention')) {
+		const reUserId = /\/f\/u\/(\d+)$/;
+		const userId = newNode.href.match(reUserId)![1];
+		return { type: 'mention', attrs: { userId: userId } };
+	}
 
-	// @ts-ignore
-	return;
+	return { type: 'link', attrs: { href: newNode.href } };
 }
 
 function parseMarkedNode(markNode: Node): TextItem {
