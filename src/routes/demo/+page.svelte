@@ -6,7 +6,7 @@
 	import { getToken } from '$lib/controllers/api/custom';
 	import { MessageWall } from '$lib/controllers/wikia/MessageWall';
 	import { FeedsAndPosts } from '$lib/controllers/wikia/FeedsAndPosts';
-	import { get } from 'svelte/store';
+	import Editor from '../../components/Editor.svelte';
 
 	const bcWiki: Wiki = {
 		name: 'battle-cats',
@@ -126,15 +126,17 @@
 	<meta name="description" content="Demonstration and scripting" />
 </svelte:head>
 
-{#await DiscussionThread.getThread(wwrWiki, getParams)}
+<!-- {#await DiscussionThread.getThread(wwrWiki, getParams)}
 	<p>...waiting</p>
 {:then postData}
 	<p>{JSON.stringify(postData)}</p>
 {:catch error}
 	<p style="color: red">{error.message}</p>
-{/await}
+{/await} -->
 
 <!-- prettier-ignore -->
 <button on:click={async () => DiscussionPost.create(wwrWiki, postParams, postData)}>
 	Click to post
 </button>
+
+<Editor></Editor>
