@@ -7,6 +7,8 @@ export type Attachments = {
 		originalUrl: string;
 		/** Doesn't do anything */
 		siteName: string | number | boolean;
+		/** Doesn't do anything */
+		url?: string;
 	}[];
 	contentImages?: {
 		/** Must match `^http(s)?:\/\/(www\.)?(static\.wikia\.nocookie\.net|(vignette|static)\.(wikia-dev|fandom-dev)\.(us|pl))\/.+` */

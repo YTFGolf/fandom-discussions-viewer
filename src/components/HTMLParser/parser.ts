@@ -10,7 +10,7 @@ export default async function parse(
 
 	const postContent = [];
 	for (const child of container.children as any as HTMLElement[]) {
-		postContent.push(parseBlock(child));
+		postContent.push(parseBlock(child, attachments));
 	}
 
 	const post: DocModel = { content: await Promise.all(postContent) };
