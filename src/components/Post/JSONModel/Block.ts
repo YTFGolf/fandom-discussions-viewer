@@ -11,9 +11,9 @@ import type {
 import { default as getText } from './Text';
 import fallback from '../../Fallback';
 
-async function getParagraph(p: Paragraph) {
+export async function getParagraph(p: Paragraph) {
 	if (!p.content) {
-		return '<p>&nbsp;</p>';
+		return '<p><br></p>';
 	}
 
 	const root = document.createElement('p');
@@ -26,7 +26,7 @@ async function getParagraph(p: Paragraph) {
 	return root.outerHTML;
 }
 
-async function getImage(i: Image, attachments: Attachments) {
+export async function getImage(i: Image, attachments: Attachments) {
 	const image = attachments.contentImages![i.attrs.id];
 	if (!image) {
 		throw new Error(`Image ${i.attrs.id} doesn't exist!`);
@@ -44,7 +44,7 @@ async function getImage(i: Image, attachments: Attachments) {
 	return container.outerHTML;
 }
 
-async function getListItem(listItem: ListItem) {
+export async function getListItem(listItem: ListItem) {
 	const itemElement = document.createElement('li');
 
 	const paragraphs: Promise<string>[] = [];
@@ -56,7 +56,7 @@ async function getListItem(listItem: ListItem) {
 	return itemElement.outerHTML;
 }
 
-async function getHtmlList(list: HtmlList) {
+export async function getHtmlList(list: HtmlList) {
 	let tag;
 	if (list.type === 'bulletList') {
 		tag = 'ul';
@@ -77,7 +77,7 @@ async function getHtmlList(list: HtmlList) {
 	return listElement.outerHTML;
 }
 
-async function getCodeBlock(block: CodeBlock) {
+export async function getCodeBlock(block: CodeBlock) {
 	const codeBlock = document.createElement('code');
 
 	const elements: Promise<string>[] = [];
@@ -92,7 +92,7 @@ async function getCodeBlock(block: CodeBlock) {
 	return outer.outerHTML;
 }
 
-async function getOpenGraph(g: OpenGraph, attachments: Attachments) {
+export async function getOpenGraph(g: OpenGraph, attachments: Attachments) {
 	const graph = attachments.openGraphs![g.attrs.id];
 	// TODO what to do when this is null
 	// http://localhost:5173/f/p/4400000000000889237/r/4400000000003558416
@@ -118,7 +118,7 @@ async function getOpenGraph(g: OpenGraph, attachments: Attachments) {
 	return graphContainer.outerHTML;
 }
 
-async function getHtml(block: Block, attachments: Attachments) {
+export async function getHtml(block: Block, attachments: Attachments) {
 	if (!block.type) {
 		throw new Error('Block does not have a type!');
 	}
