@@ -2,7 +2,7 @@
 	import type { Post } from '$lib/responses/Post';
 	import Avatar from './Post/Avatar.svelte';
 	import PostBody from './Post/PostBody.svelte';
-	import Time from './Time.svelte';
+	import Time from './Post/Time.svelte';
 
 	export let post: Post;
 </script>

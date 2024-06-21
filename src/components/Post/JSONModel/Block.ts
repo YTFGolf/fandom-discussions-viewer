@@ -94,8 +94,11 @@ async function getCodeBlock(block: CodeBlock) {
 
 async function getOpenGraph(g: OpenGraph, attachments: Attachments) {
 	const graph = attachments.openGraphs![g.attrs.id];
+	// TODO what to do when this is null
+	// http://localhost:5173/f/p/4400000000000889237/r/4400000000003558416
+	// Fandom just returns malformed content
 	if (!graph) {
-		throw new Error(`Image ${g.attrs.id} doesn't exist!`);
+		throw new Error(`Open graph ${g.attrs.id} doesn't exist!`);
 	}
 
 	const graphContainer = document.createElement('div');
