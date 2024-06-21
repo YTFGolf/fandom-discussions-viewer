@@ -453,7 +453,10 @@ const postObj: Post = {
 		name: 'TheWWRNerdGuy',
 		badgePermission: 'badge:sysop',
 	},
-	creationDate: '',
+	creationDate: {
+		epochSecond: 12,
+		nano: 0,
+	},
 
 	id: '',
 	threadId: '',

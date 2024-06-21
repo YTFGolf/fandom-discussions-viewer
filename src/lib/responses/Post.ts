@@ -4,6 +4,7 @@ export type Attachments = {
 	}[];
 	openGraphs: {
 		url: string;
+		originalUrl: string;
 		title: string;
 		siteName: string;
 		imageUrl: string;
