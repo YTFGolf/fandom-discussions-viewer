@@ -7,6 +7,7 @@ export default async function parse(
 	attachments: Attachments,
 ): Promise<[string, DocModel]> {
 	const rawContent = container.innerText;
+	// FIXME also contains the text of the link in OpenGraphs
 
 	const postContent = [];
 	for (const child of container.children as any as HTMLElement[]) {

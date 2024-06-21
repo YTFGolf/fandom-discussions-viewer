@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Attachments } from '$lib/controllers/types/attachments';
+	import { DiscussionPost } from '$lib/controllers/wikia/DiscussionPost';
 	import { examples } from '../routes/f/p/[...postParams=forumPost]/examples';
 	import parse from './HTMLParser/parser';
 	import PostBody from './Post/PostBody.svelte';
@@ -8,7 +9,6 @@
 
 	async function logModel(event: MouseEvent) {
 		const target = (event.target as any).parentElement.firstChild.firstChild as HTMLDivElement;
-		// console.log(target);
 		// const attachments: Attachments = {
 		// 	atMentions: [],
 		// 	contentImages: [],
@@ -21,6 +21,39 @@
 
 		// console.log(JSON.stringify(rawContent), JSON.stringify(post), JSON.stringify(attachments));
 		console.log(JSON.stringify(rawContent), post, attachments);
+	}
+
+	function cleanAttachments(attachments: Attachments): Attachments {
+		const atMentions: Attachments['atMentions'] = [];
+		for (const mention of attachments.atMentions!) {
+			atMentions.push({ id: mention.id });
+		}
+
+		return {
+			atMentions: atMentions,
+			contentImages: attachments.contentImages,
+			openGraphs: attachments.openGraphs,
+		};
+	}
+
+	async function postModel(event: MouseEvent) {
+		const target = (event.target as any).parentElement.firstChild.firstChild as HTMLDivElement;
+		const attachments: Attachments = (await examples)._embedded['doc:posts'][0]._embedded
+			.attachments[0];
+
+		const [rawContent, post] = await parse(target, attachments);
+
+		DiscussionPost.create(
+			{ lang: 'en', name: 'wwr-test' },
+			{},
+			{
+				siteId: '3448675',
+				threadId: '4400000000000037009',
+				rawContent: rawContent,
+				jsonModel: post,
+				attachments: cleanAttachments(attachments),
+			},
+		);
 	}
 </script>
 
@@ -35,6 +68,7 @@
 		{/await}
 	</div>
 	<button on:click={logModel}>Log JSON model</button>
+	<button on:click={postModel}>Post JSON model</button>
 </div>
 
 <style>

@@ -109,7 +109,7 @@ namespace parse {
 	): Promise<OpenGraph> {
 		const target = (container.lastChild as HTMLAnchorElement).href;
 		for (let [i, graph] of openGraphs!.entries()) {
-			if (graph.originalUrl === target || graph.url === target) {
+			if (graph.url === target || graph.originalUrl === target) {
 				return { type: 'openGraph', attrs: { id: i } };
 			}
 		}
@@ -133,9 +133,6 @@ export default async function parseBlock(
 	} else if (block.tagName === 'DIV' && block.classList.contains('open-graph')) {
 		return parse.OpenGraph(block as HTMLDivElement, attachments.openGraphs);
 	} else {
-		// console.log(block.innerHTML);
+		throw new Error(`Block not recognised!`);
 	}
-
-	// @ts-ignore
-	return;
 }
