@@ -4,6 +4,7 @@
 	import { examples } from '../routes/f/p/[...postParams=forumPost]/examples';
 	import parse from './HTMLParser/parser';
 	import PostBody from './Post/PostBody.svelte';
+	import Test from './HTMLParser/Test.svelte';
 
 	/**
 	 * Plan: This takes in a few props: rawContent, JSONModel, Attachments. All
@@ -15,6 +16,16 @@
 	 * controls the context in which it is used. E.g. caller has attachments and
 	 * then generates the body and jsonModel by using these functions, then
 	 * sends the appropriate POST.
+	 *
+	 * Okay new plan for editor: all attachments are generated when converting
+	 * to JSON. Pings will have notifyuser: bool, images will just set the href
+	 * as an attr; this will be turned into an attachment when converting;
+	 * opengraphs same thing. This is fine since I can just directly check the
+	 * html with class name selectors. I can replace the images and opengraphs
+	 * with the id and leave the ping the same.
+	 *
+	 * https://prosemirror.net/examples/markdown/
+	 * https://prosemirror.net/examples/menu/
 	 */
 
 	/***/
@@ -68,9 +79,13 @@
 			},
 		);
 	}
+
+	// TODO just use ProseMirror lmao it's exactly what Fandom uses
+	// https://gist.github.com/michael/15b8a524f0e65f03bceccf4729d586c5
 </script>
 
-<div class="editor-container">
+<Test></Test>
+<!-- <div class="editor-container">
 	<div contenteditable="true" class="editor" on:beforeinput={logEvent}>
 		{#await examples.then((a) => a._embedded['doc:posts'][0])}
 			<p>...waiting</p>
@@ -89,4 +104,4 @@
 		background-color: var(--theme-page-background-color--secondary);
 		border: 1px solid var(--theme-border-color);
 	}
-</style>
+</style> -->

@@ -389,12 +389,12 @@ const examplesRaw: DocModel[] = [
 const attachments = [
 	{
 		atMentions: [
-			{
-				id: '27706221',
-				avatarUrl: 'https://vignette.wikia.nocookie.net/messaging/images/e/e8/Avatar2.jpg',
-				name: 'TheWWRNerdGuy',
-				badgePermission: '',
-			},
+			// {
+			// 	id: '27706221',
+			// 	avatarUrl: 'https://vignette.wikia.nocookie.net/messaging/images/e/e8/Avatar2.jpg',
+			// 	name: 'TheWWRNerdGuy',
+			// 	badgePermission: '',
+			// },
 		],
 		contentImages: [
 			{
