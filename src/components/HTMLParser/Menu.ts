@@ -89,12 +89,13 @@ export function getMenu() {
 	return menuPlugin([
 		{
 			command: toggleMark(schema.marks.strong),
-			dom: icon('<b>B</b>', 'Bold'),
+			dom: icon('<b>B</b>', 'Bold (Ctrl+B)'),
+			// TODO figure out how to change tooltip for Mac
 			isActive: isMarkActive('strong'),
 		},
 		{
 			command: toggleMark(schema.marks.em),
-			dom: icon('<b><i>I</i></b>', 'Italic'),
+			dom: icon('<b><i>I</i></b>', 'Italic (Ctrl+I)'),
 			isActive: isMarkActive('em'),
 		},
 	]);

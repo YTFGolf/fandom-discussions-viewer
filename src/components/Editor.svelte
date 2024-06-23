@@ -13,6 +13,9 @@
 	import { onMount } from 'svelte';
 	import { schema } from './HTMLParser/schema';
 	import { getMenu } from './HTMLParser/Menu';
+	import type { UserDetails } from '$lib/responses/Post';
+	import Badge from './Post/Badge.svelte';
+	import Avatar from './Post/Avatar.svelte';
 
 	/**
 	 * Plan: This takes in a few props: rawContent, JSONModel, Attachments. All
@@ -87,10 +90,13 @@
 	}
 
 	let editorView: EditorView;
+	let content: HTMLElement;
+	let editor: HTMLElement;
+	let isLoaded = false;
 	onMount(() => {
-		editorView = new EditorView(document.querySelector('#editor'), {
+		editorView = new EditorView(editor, {
 			state: EditorState.create({
-				doc: DOMParser.fromSchema(schema).parse(document.createElement('div')),
+				doc: DOMParser.fromSchema(schema).parse(content),
 				plugins: [
 					keymap(baseKeymap),
 					history(),
@@ -104,6 +110,9 @@
 				],
 			}),
 		});
+
+		content.remove();
+		isLoaded = true;
 	});
 
 	let model = '';
@@ -116,12 +125,25 @@
 
 		model = JSON.stringify(doc.toJSON(), undefined, '    ');
 	};
+
+	const userDetails: UserDetails = {
+		id: '27706221',
+		avatarUrl: 'https://vignette.wikia.nocookie.net/messaging/images/e/e8/Avatar2.jpg',
+		name: 'TheWWRNerdGuy',
+		badgePermission: 'badge:sysop',
+	};
+	// TODO actually dynamically load this
 </script>
 
-<div class="editor-container">
-	<div id="editor" data-placeholder="Share your thoughts…"></div>
-	<div class="actions"><button on:click={logDocumentModel}>Submit</button></div>
+<div id="post-content" bind:this={content} style="display:none"><slot /></div>
+<div class="editor-container" style={isLoaded ? '' : 'display: none'}>
+	<div class="form-content">
+		<Avatar user={userDetails} />
+		<div id="editor" data-placeholder="Share your thoughts…" bind:this={editor}></div>
+	</div>
+	<div class="form-actions"><button on:click={logDocumentModel}>Submit</button></div>
 </div>
+<div class="fallback" style={isLoaded ? 'display: none' : ''}>Loading editor...</div>
 <pre>{model}</pre>
 
 <style>
@@ -131,10 +153,15 @@
 
 	.editor-container {
 		border: 1px solid #ccc;
-		padding: 10px 20px;
+		padding: 10px 0;
 		min-height: 200px;
 		background-color: var(--theme-page-background-color--secondary);
 		border: 1px solid var(--theme-border-color);
+	}
+
+	#editor {
+		flex: 1;
+		max-height: unset;
 	}
 
 	#editor :global(.ProseMirror) {
@@ -184,11 +211,19 @@
 		color: var(--webeditor-link-color);
 	}
 
-	.actions {
+	.form-content {
+		display: flex;
+		flex: 1;
+		max-height: calc(100vh - 200px);
+		overflow: auto;
+		padding: 24px 18px 0;
+		position: relative;
+	}
+
+	.form-actions {
 		border-top: 1px solid var(--theme-border-color);
 		display: flex;
-		/* margin: 18px 18px 0; */
-		/* padding: 18px 0; */
-		padding-top: 18px;
+		margin: 0 18px;
+		padding-top: 12px;
 	}
 </style>
