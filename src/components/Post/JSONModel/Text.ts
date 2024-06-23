@@ -19,6 +19,9 @@ function getElement(mark: Mark): HTMLElement | undefined {
 			mention.href = '/f/u/' + mark.attrs.userId;
 			mention.target = '_blank';
 			mention.className = 'mention';
+			if (mark.attrs.notifyUser !== false) {
+				mention.dataset.notifyUser = '';
+			}
 			return mention;
 
 		default:

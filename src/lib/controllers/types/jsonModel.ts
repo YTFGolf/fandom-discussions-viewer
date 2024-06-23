@@ -113,6 +113,8 @@ export type Mention = {
 		userId: string;
 		href?: string | null;
 		userName?: string;
+		/** Custom data point for copying and pasting pinglists */
+		notifyUser?: boolean;
 	};
 };
 
