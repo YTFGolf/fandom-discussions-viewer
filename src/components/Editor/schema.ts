@@ -1,7 +1,5 @@
 import { Schema, type NodeSpec, type MarkSpec, type DOMOutputSpec } from 'prosemirror-model';
 
-const pDOM: DOMOutputSpec = ['p', 0];
-
 export const nodes = {
 	doc: {
 		content: 'block+',
@@ -12,7 +10,109 @@ export const nodes = {
 		group: 'block',
 		parseDOM: [{ tag: 'p' }],
 		toDOM() {
-			return pDOM;
+			return ['p', 0];
+		},
+	} as NodeSpec,
+
+	image: {
+		attrs: {
+			src: {},
+		},
+		group: 'block',
+		draggable: true,
+		parseDOM: [
+			{
+				tag: 'div.image-container img',
+				getAttrs(dom: HTMLElement) {
+					return {
+						src: dom.getAttribute('src')?.replace('/scale-to-width/755', ''),
+					};
+				},
+			},
+		],
+		toDOM(node) {
+			let { src } = node.attrs;
+			return ['div', { class: 'image-container' }, ['img', { src, width: 708 }]];
+		},
+	} as NodeSpec,
+
+	bulletList: {
+		content: 'listItem+',
+		// 	attrs?: { createdWith?: string | null };
+		group: 'block',
+		parseDOM: [
+			{
+				tag: 'ul',
+			},
+		],
+		toDOM() {
+			return ['ul', 0];
+		},
+	} as NodeSpec,
+
+	orderedList: {
+		content: 'listItem+',
+		// 	attrs?: { createdWith?: string | null };
+		group: 'block',
+		parseDOM: [
+			{
+				tag: 'ol',
+			},
+		],
+		toDOM() {
+			return ['ol', 0];
+		},
+	} as NodeSpec,
+
+	listItem: {
+		content: 'paragraph+',
+		defining: true,
+		parseDOM: [{ tag: 'li' }],
+		toDOM() {
+			return ['li', 0];
+		},
+	} as NodeSpec,
+
+	code_block: {
+		content: 'text*',
+		group: 'block',
+		code: true,
+		defining: true,
+		parseDOM: [
+			{
+				tag: 'pre code',
+				preserveWhitespace: 'full',
+			},
+		],
+		toDOM() {
+			return ['pre', ['code', 0]];
+		},
+	} as NodeSpec,
+
+	openGraph: {
+		attrs: {
+			originalUrl: {},
+		},
+		group: 'block',
+		draggable: true,
+		parseDOM: [
+			{
+				tag: 'div.open-graph',
+				getAttrs(dom: HTMLElement) {
+					return {
+						originalUrl: (dom.lastChild as HTMLAnchorElement).href,
+					};
+				},
+			},
+		],
+		toDOM(node) {
+			const url = node.attrs.originalUrl;
+			return [
+				'div',
+				{ class: 'open-graph' },
+				['a', { href: url, onclick: 'return false;' }, '|opengraph (display does not exist)|'],
+			];
+			// TODO actually display this
 		},
 	} as NodeSpec,
 
