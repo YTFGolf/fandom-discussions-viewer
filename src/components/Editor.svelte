@@ -2,8 +2,7 @@
 	import type { Attachments } from '$lib/controllers/types/attachments';
 	import { DiscussionPost } from '$lib/controllers/wikia/DiscussionPost';
 	import { examples } from '../routes/f/p/[...postParams=forumPost]/examples';
-	import parse from './HTMLParser/parser';
-	import PostBody from './Post/PostBody.svelte';
+	import parse from './Editor/parser';
 	import { keymap } from 'prosemirror-keymap';
 	import { EditorState } from 'prosemirror-state';
 	import { EditorView } from 'prosemirror-view';
@@ -11,10 +10,9 @@
 	import { baseKeymap, toggleMark } from 'prosemirror-commands';
 	import { history, redo, undo } from 'prosemirror-history';
 	import { onMount } from 'svelte';
-	import { schema } from './HTMLParser/schema';
-	import { getMenu } from './HTMLParser/Menu';
+	import { schema } from './Editor/schema';
+	import { getMenu } from './Editor/Menu';
 	import type { UserDetails } from '$lib/responses/Post';
-	import Badge from './Post/Badge.svelte';
 	import Avatar from './Post/Avatar.svelte';
 
 	/**
@@ -122,6 +120,7 @@
 		const doc = editorView.state.doc;
 		console.log(dom.children);
 		console.log(doc.toJSON());
+		console.log(doc);
 
 		model = JSON.stringify(doc.toJSON(), undefined, '    ');
 	};
