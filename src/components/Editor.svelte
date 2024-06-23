@@ -4,7 +4,15 @@
 	import { examples } from '../routes/f/p/[...postParams=forumPost]/examples';
 	import parse from './HTMLParser/parser';
 	import PostBody from './Post/PostBody.svelte';
-	import Test from './HTMLParser/Test.svelte';
+	import { keymap } from 'prosemirror-keymap';
+	import { EditorState } from 'prosemirror-state';
+	import { EditorView } from 'prosemirror-view';
+	import { DOMParser } from 'prosemirror-model';
+	import { baseKeymap } from 'prosemirror-commands';
+	import { history, redo, undo } from 'prosemirror-history';
+	import { onMount } from 'svelte';
+	import { schema } from './HTMLParser/schema';
+	import { getMenu } from './HTMLParser/Menu';
 
 	/**
 	 * Plan: This takes in a few props: rawContent, JSONModel, Attachments. All
@@ -29,23 +37,21 @@
 	 */
 
 	/***/
-	function logEvent(event: InputEvent) {}
+	// async function logModel(event: MouseEvent) {
+	// 	const target = (event.target as any).parentElement.firstChild.firstChild as HTMLDivElement;
+	// 	// const attachments: Attachments = {
+	// 	// 	atMentions: [],
+	// 	// 	contentImages: [],
+	// 	// 	openGraphs: [],
+	// 	// };
+	// 	const attachments: Attachments = (await examples)._embedded['doc:posts'][0]._embedded
+	// 		.attachments[0];
 
-	async function logModel(event: MouseEvent) {
-		const target = (event.target as any).parentElement.firstChild.firstChild as HTMLDivElement;
-		// const attachments: Attachments = {
-		// 	atMentions: [],
-		// 	contentImages: [],
-		// 	openGraphs: [],
-		// };
-		const attachments: Attachments = (await examples)._embedded['doc:posts'][0]._embedded
-			.attachments[0];
+	// 	const [rawContent, post] = await parse(target, attachments);
 
-		const [rawContent, post] = await parse(target, attachments);
-
-		// console.log(JSON.stringify(rawContent), JSON.stringify(post), JSON.stringify(attachments));
-		console.log(JSON.stringify(rawContent), post, attachments);
-	}
+	// 	// console.log(JSON.stringify(rawContent), JSON.stringify(post), JSON.stringify(attachments));
+	// 	console.log(JSON.stringify(rawContent), post, attachments);
+	// }
 
 	function cleanAttachments(attachments: Attachments): Attachments {
 		const atMentions: Attachments['atMentions'] = [];
@@ -80,28 +86,78 @@
 		);
 	}
 
-	// TODO just use ProseMirror lmao it's exactly what Fandom uses
-	// https://gist.github.com/michael/15b8a524f0e65f03bceccf4729d586c5
+	let editorView: EditorView;
+	onMount(() => {
+		editorView = new EditorView(document.querySelector('#editor'), {
+			state: EditorState.create({
+				doc: DOMParser.fromSchema(schema).parse(document.createElement('div')),
+				plugins: [
+					keymap(baseKeymap),
+					history(),
+					keymap({ 'Mod-z': undo, 'Mod-y': redo }),
+					getMenu(),
+				],
+			}),
+		});
+	});
+
+	let model = '';
+
+	const logDocumentModel = () => {
+		const dom = editorView.dom;
+		const doc = editorView.state.doc;
+		console.log(dom.children);
+		console.log(doc.toJSON());
+
+		model = JSON.stringify(doc.toJSON(), undefined, '    ');
+	};
 </script>
 
-<Test></Test>
-<!-- <div class="editor-container">
-	<div contenteditable="true" class="editor" on:beforeinput={logEvent}>
-		{#await examples.then((a) => a._embedded['doc:posts'][0])}
-			<p>...waiting</p>
-		{:then post}
-			<PostBody jsonModel={post.jsonModel} attachments={post._embedded.attachments[0]} />
-		{:catch error}
-			<p style="color: red">{error.message}</p>
-		{/await}
-	</div>
-	<button on:click={logModel}>Log JSON model</button>
-	<button on:click={postModel}>Post JSON model</button>
+<div class="editor-container">
+	<div id="editor" data-placeholder="Share your thoughts…"></div>
+	<hr />
+	<button on:click={logDocumentModel}>Submit</button>
 </div>
+<pre>{model}</pre>
 
 <style>
-	.editor {
+	.editor-container {
+		border: 1px solid #ccc;
+		padding: 10px;
+		min-height: 200px;
 		background-color: var(--theme-page-background-color--secondary);
 		border: 1px solid var(--theme-border-color);
 	}
-</style> -->
+
+	#editor :global(.ProseMirror) {
+		white-space: pre-wrap;
+		min-height: 135px;
+		max-height: 400px;
+		overflow: scroll;
+	}
+
+	#editor :global(.menubar) {
+		padding: 0.25em;
+	}
+
+	#editor :global(.menubar .menuicon) {
+		display: inline-block;
+		border-right: 1px solid rgba(0, 0, 0, 0.2);
+		color: #888;
+		line-height: 1;
+		padding: 0 7px;
+		margin: 1px;
+		cursor: pointer;
+		text-align: center;
+		min-width: 1.4em;
+	}
+
+	#editor :global(.menubar .menuicon:not(.active):hover) {
+		background: rgba(var(--webeditor-link-color--rgb), 0.15);
+	}
+
+	#editor :global(.menubar .menuicon.active) {
+		background: rgba(var(--webeditor-link-color--rgb), 0.15);
+		color: var(--webeditor-link-color);
+	}
+</style>
