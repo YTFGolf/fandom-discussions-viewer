@@ -2,7 +2,6 @@
 	import type { Attachments } from '$lib/controllers/types/attachments';
 	import { DiscussionPost } from '$lib/controllers/wikia/DiscussionPost';
 	import { examples } from '../routes/f/p/[...postParams=forumPost]/examples';
-	import parse from './Editor/parser';
 	import { keymap } from 'prosemirror-keymap';
 	import { EditorState } from 'prosemirror-state';
 	import { EditorView } from 'prosemirror-view';
@@ -35,6 +34,7 @@
 	 *
 	 * https://prosemirror.net/examples/markdown/
 	 * https://prosemirror.net/examples/menu/
+	 * https://prosemirror.net/examples/upload/
 	 */
 
 	/***/
@@ -67,25 +67,39 @@
 		};
 	}
 
-	async function postModel(event: MouseEvent) {
-		const target = (event.target as any).parentElement.firstChild.firstChild as HTMLDivElement;
-		const attachments: Attachments = (await examples)._embedded['doc:posts'][0]._embedded
-			.attachments[0];
+	// async function postModel(event: MouseEvent) {
+	// 	const target = (event.target as any).parentElement.firstChild.firstChild as HTMLDivElement;
+	// 	const attachments: Attachments = (await examples)._embedded['doc:posts'][0]._embedded
+	// 		.attachments[0];
 
-		const [rawContent, post] = await parse(target, attachments);
+	// 	const [rawContent, post] = await parse(target, attachments);
 
-		DiscussionPost.create(
-			{ lang: 'en', name: 'wwr-test' },
-			{},
-			{
-				siteId: '3448675',
-				threadId: '4400000000000037009',
-				rawContent: rawContent,
-				jsonModel: post,
-				attachments: cleanAttachments(attachments),
-			},
-		);
-	}
+	// 	DiscussionPost.create(
+	// 		{ lang: 'en', name: 'wwr-test' },
+	// 		{},
+	// 		{
+	// 			siteId: '3448675',
+	// 			threadId: '4400000000000037009',
+	// 			rawContent: rawContent,
+	// 			jsonModel: post,
+	// 			attachments: cleanAttachments(attachments),
+	// 		},
+	// 	);
+	// }
+
+	// async function getRawContent(container: HTMLDivElement) {
+	// 	// could just do `return container.innerText;` but that also includes stuff
+	// 	// from opengraphs
+	// 	const rawContent = [];
+	// 	for (const child of container.children as any as HTMLElement[]) {
+	// 		if (
+	// 			!(child.classList.contains('open-graph') || child.innerText === String.fromCharCode(160))
+	// 		) {
+	// 			rawContent.push(child.innerText);
+	// 		}
+	// 	}
+	// 	return rawContent.join('\n');
+	// }
 
 	let editorView: EditorView;
 	let content: HTMLElement;
@@ -198,7 +212,6 @@
 
 	#editor :global(.menubar .menuicon) {
 		display: inline-block;
-		color: #888;
 		padding: 0.5em;
 		margin: 1px;
 		text-align: center;
