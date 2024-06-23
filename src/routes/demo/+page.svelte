@@ -139,4 +139,4 @@
 	Click to post
 </button>
 
-<Editor></Editor>
+<Editor><p><strong>Testing preloading</strong></p></Editor>
