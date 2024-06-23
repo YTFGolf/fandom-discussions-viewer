@@ -8,7 +8,7 @@
 	import { EditorState } from 'prosemirror-state';
 	import { EditorView } from 'prosemirror-view';
 	import { DOMParser } from 'prosemirror-model';
-	import { baseKeymap } from 'prosemirror-commands';
+	import { baseKeymap, toggleMark } from 'prosemirror-commands';
 	import { history, redo, undo } from 'prosemirror-history';
 	import { onMount } from 'svelte';
 	import { schema } from './HTMLParser/schema';
@@ -94,7 +94,12 @@
 				plugins: [
 					keymap(baseKeymap),
 					history(),
-					keymap({ 'Mod-z': undo, 'Mod-y': redo }),
+					keymap({
+						'Mod-z': undo,
+						'Mod-y': redo,
+						'Mod-b': toggleMark(schema.marks.strong),
+						'Mod-i': toggleMark(schema.marks.em),
+					}),
 					getMenu(),
 				],
 			}),
@@ -115,8 +120,7 @@
 
 <div class="editor-container">
 	<div id="editor" data-placeholder="Share your thoughts…"></div>
-	<hr />
-	<button on:click={logDocumentModel}>Submit</button>
+	<div class="actions"><button on:click={logDocumentModel}>Submit</button></div>
 </div>
 <pre>{model}</pre>
 
@@ -127,7 +131,7 @@
 
 	.editor-container {
 		border: 1px solid #ccc;
-		padding: 10px;
+		padding: 10px 20px;
 		min-height: 200px;
 		background-color: var(--theme-page-background-color--secondary);
 		border: 1px solid var(--theme-border-color);
@@ -138,6 +142,11 @@
 		min-height: 135px;
 		max-height: 400px;
 		overflow: scroll;
+		margin-bottom: 12px;
+	}
+
+	#editor :global(.ProseMirror:focus) {
+		outline: none;
 	}
 
 	#editor :global(.menubar) {
@@ -145,7 +154,7 @@
 		border-radius: 3px;
 		display: inline-block;
 		margin: 0 12px;
-		margin-bottom: 6px;
+		margin-bottom: 12px;
 		max-width: min-content;
 		white-space: nowrap;
 		/* make sure padding is consistent between these 2 */
@@ -173,5 +182,13 @@
 	#editor :global(.menubar .menuicon.active) {
 		background: rgba(var(--webeditor-link-color--rgb), 0.15);
 		color: var(--webeditor-link-color);
+	}
+
+	.actions {
+		border-top: 1px solid var(--theme-border-color);
+		display: flex;
+		/* margin: 18px 18px 0; */
+		/* padding: 18px 0; */
+		padding-top: 18px;
 	}
 </style>
