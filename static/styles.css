@@ -45,3 +45,24 @@ h1 {
 	padding: 0.5em 0;
 	margin: 0;
 }
+
+:root {
+	/* https://wwr-test.fandom.com/feeds-and-posts/public/896cca73b/assets/client.css */
+	--webeditor-background-color: var(--theme-page-background-color);
+	--webeditor-background-color--rgb: var(--theme-page-background-color--rgb);
+	--webeditor-background-color--secondary: var(--theme-page-background-color--secondary);
+	--webeditor-border-color: var(--theme-border-color);
+	--webeditor-border-color--rgb: var(--theme-border-color--rgb);
+	--webeditor-text-color: var(--theme-page-text-color);
+	--webeditor-text-color--rgb: var(--theme-page-text-color--rgb);
+	--webeditor-link-color: var(--theme-link-color);
+	--webeditor-link-color--rgb: var(--theme-link-color--rgb);
+	--webeditor-alert-color: var(--theme-alert-color);
+	--webeditor-success-color: var(--theme-success-color);
+	--webeditor-warning-color: var(--theme-warning-color);
+
+	--wds-avatar-border-color: rgba(var(--theme-page-text-color--rgb), 0.7);
+	--wds-avatar-border-color--hover: var(--theme-link-color);
+	--wds-avatar-background-color: var(--theme-page-background-color);
+	--wds-avatar-border-width: 2px;
+}

@@ -32,14 +32,6 @@
 </div>
 
 <style>
-	/* prettier-ignore */
-	:root {
-		--wds-avatar-border-color: rgba(var(--theme-page-text-color--rgb), 0.7);
-		--wds-avatar-border-color--hover: var(--theme-link-color);
-		--wds-avatar-background-color: var(--theme-page-background-color);
-		--wds-avatar-border-width: 2px;
-	}
-
 	.avatar :global(img) {
 		vertical-align: middle;
 	}
