@@ -99,21 +99,25 @@ function icon(html: string, name: string) {
 export function toggleBlock(nodeType: NodeType, attrs: Attrs | null = null): Command {
 	return function (state, dispatch) {
 		let applicable = false;
+		let isType = false;
 		for (let i = 0; i < state.selection.ranges.length && !applicable; i++) {
 			let {
 				$from: { pos: from },
 				$to: { pos: to },
 			} = state.selection.ranges[i];
 			state.doc.nodesBetween(from, to, (node, pos) => {
-				if (applicable) return false;
-				if (!node.isTextblock || node.hasMarkup(nodeType, attrs)) return;
-				if (node.type == nodeType) {
-					applicable = true;
-				} else {
-					let $pos = state.doc.resolve(pos),
-						index = $pos.index();
-					applicable = $pos.parent.canReplaceWith(index, index + 1, nodeType);
+				if (applicable) {
+					return false;
 				}
+				if (node.type == nodeType) {
+					isType = true;
+				}
+				if (!node.isTextblock || node.hasMarkup(nodeType, attrs)) {
+					return;
+				}
+				let $pos = state.doc.resolve(pos),
+					index = $pos.index();
+				applicable = $pos.parent.canReplaceWith(index, index + 1, nodeType);
 			});
 		}
 		if (dispatch) {
@@ -131,8 +135,7 @@ export function toggleBlock(nodeType: NodeType, attrs: Attrs | null = null): Com
 			}
 			dispatch(tr.scrollIntoView());
 		}
-		if (!applicable) return false;
-		return true;
+		return !isType;
 	};
 }
 
