@@ -158,6 +158,14 @@
 		border: 1px solid var(--theme-border-color);
 	}
 
+	.editor-container :global(a) {
+		color: var(--theme-link-color);
+	}
+
+	.editor-container :global(a:hover) {
+		color: var(--theme-link-color--hover);
+	}
+
 	#editor {
 		flex: 1;
 		max-height: unset;

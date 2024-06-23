@@ -105,6 +105,7 @@ export type Mark = { type: 'em' | 'strong' } | Link | Mention;
 export type Link = {
 	type: 'link';
 	attrs: { href: string; title?: string | null };
+	// TODO test if title controls the title attribute of posts
 };
 
 export type Mention = {
