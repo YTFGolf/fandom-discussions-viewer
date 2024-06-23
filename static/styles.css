@@ -37,6 +37,51 @@ textarea {
 	font-size: inherit;
 }
 
+button {
+	--wds-primary-button-background-color: var(--theme-accent-color);
+	--wds-primary-button-background-color--hover: var(--theme-accent-color--hover);
+	--wds-primary-button-label-color: var(--theme-accent-label-color);
+	--wds-secondary-button-label-color: var(--theme-page-text-color);
+	--wds-secondary-button-label-color--hover: var(--theme-page-text-color--hover);
+	--wds-text-button-label-color: var(--theme-page-text-color);
+	--wds-text-button-label-color--hover: var(--theme-page-text-color--hover);
+
+	align-items: center;
+	-webkit-appearance: none;
+	background-color: var(--wds-primary-button-background-color);
+	border: 1px solid var(--wds-primary-button-background-color);
+	border-radius: 3px;
+	box-sizing: content-box;
+	color: var(--wds-primary-button-label-color);
+	cursor: default;
+	display: inline-flex;
+	font-family: inherit;
+	font-size: 12px;
+	font-weight: 600;
+	justify-content: center;
+	letter-spacing: .15px;
+	line-height: 16px;
+	margin: 0;
+	min-height: 18px;
+	outline: none;
+	padding: 7px 18px;
+	text-decoration: none;
+	text-transform: uppercase;
+	transition-duration: .3s;
+	transition-property: background-color, border-color, color;
+	vertical-align: top;
+}
+
+button:active,
+button:focus,
+button:hover {
+	background-color: var(--wds-primary-button-background-color--hover);
+	border: 1px solid var(--wds-primary-button-background-color--hover);
+	color: var(--wds-primary-button-label-color);
+	text-decoration: none;
+
+}
+
 button:hover {
 	cursor: pointer;
 }

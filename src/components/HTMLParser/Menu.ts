@@ -76,11 +76,11 @@ function menuPlugin(items: ViewItem[]) {
 }
 
 // Helper function to create menu icons
-function icon(text: string, name: string) {
+function icon(html: string, name: string) {
 	let span = document.createElement('span');
 	span.className = 'menuicon ' + name;
 	span.title = name;
-	span.textContent = text;
+	span.innerHTML = html;
 	return span;
 	// TODO figure out how to use fandom icons (https://fandomdesignsystem.com/?path=/docs/assets-icons--docs)
 }
@@ -89,12 +89,12 @@ export function getMenu() {
 	return menuPlugin([
 		{
 			command: toggleMark(schema.marks.strong),
-			dom: icon('B', 'strong'),
+			dom: icon('<b>B</b>', 'Bold'),
 			isActive: isMarkActive('strong'),
 		},
 		{
 			command: toggleMark(schema.marks.em),
-			dom: icon('i', 'em'),
+			dom: icon('<b><i>I</i></b>', 'Italic'),
 			isActive: isMarkActive('em'),
 		},
 	]);

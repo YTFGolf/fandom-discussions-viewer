@@ -121,6 +121,10 @@
 <pre>{model}</pre>
 
 <style>
+	:root {
+		--icon-gap: 8px;
+	}
+
 	.editor-container {
 		border: 1px solid #ccc;
 		padding: 10px;
@@ -137,19 +141,29 @@
 	}
 
 	#editor :global(.menubar) {
-		padding: 0.25em;
+		border: 1px solid var(--webeditor-border-color);
+		border-radius: 3px;
+		display: inline-block;
+		margin: 0 12px;
+		margin-bottom: 6px;
+		max-width: min-content;
+		white-space: nowrap;
+		/* make sure padding is consistent between these 2 */
+		padding: 4px;
+		padding-right: calc(4px + var(--icon-gap));
 	}
 
 	#editor :global(.menubar .menuicon) {
 		display: inline-block;
-		border-right: 1px solid rgba(0, 0, 0, 0.2);
 		color: #888;
-		line-height: 1;
-		padding: 0 7px;
+		padding: 0.5em;
 		margin: 1px;
-		cursor: pointer;
 		text-align: center;
 		min-width: 1.4em;
+		border-radius: 3px;
+		cursor: pointer;
+		margin-left: var(--icon-gap);
+		transition: background-color 0.3s;
 	}
 
 	#editor :global(.menubar .menuicon:not(.active):hover) {
