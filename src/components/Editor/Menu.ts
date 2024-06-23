@@ -2,7 +2,7 @@ import { EditorState, Plugin, Transaction, type Command } from 'prosemirror-stat
 import type { EditorView } from 'prosemirror-view';
 import { schema } from './schema';
 import { setBlockType, toggleMark } from 'prosemirror-commands';
-import type { Mark, NodeType } from 'prosemirror-model';
+import type { Attrs, Mark, NodeType } from 'prosemirror-model';
 
 type ViewItem = {
 	command: Command;
@@ -65,16 +65,6 @@ function isMarkActive(markName: string) {
 	};
 }
 
-// function isBlockActive(command: Command) {
-// 	return function (menu: MenuView): boolean {
-// 		let active = command(menu.editorView.state, undefined, menu.editorView);
-// 		// console.log(active);
-// 		// console.log(menu.editorView.state);
-
-// 		return false;
-// 	};
-// }
-
 // function toggleList(bulletList: NodeType): Command {
 // 	return function (state: EditorState, dispatch?: (tr: Transaction) => void, view?: EditorView) {
 // 		console.log(bulletList);
@@ -104,6 +94,48 @@ function icon(html: string, name: string) {
 	// TODO figure out how to use fandom icons (https://fandomdesignsystem.com/?path=/docs/assets-icons--docs)
 }
 
+// https://github.com/ProseMirror/prosemirror-commands/blob/904e3b39374cc147c36d79fccfe83a3f9fd4ee68/src/commands.ts#L536
+// IDK MIT license or something
+export function toggleBlock(nodeType: NodeType, attrs: Attrs | null = null): Command {
+	return function (state, dispatch) {
+		let applicable = false;
+		for (let i = 0; i < state.selection.ranges.length && !applicable; i++) {
+			let {
+				$from: { pos: from },
+				$to: { pos: to },
+			} = state.selection.ranges[i];
+			state.doc.nodesBetween(from, to, (node, pos) => {
+				if (applicable) return false;
+				if (!node.isTextblock || node.hasMarkup(nodeType, attrs)) return;
+				if (node.type == nodeType) {
+					applicable = true;
+				} else {
+					let $pos = state.doc.resolve(pos),
+						index = $pos.index();
+					applicable = $pos.parent.canReplaceWith(index, index + 1, nodeType);
+				}
+			});
+		}
+		if (dispatch) {
+			let tr = state.tr;
+			for (let i = 0; i < state.selection.ranges.length; i++) {
+				let {
+					$from: { pos: from },
+					$to: { pos: to },
+				} = state.selection.ranges[i];
+				if (applicable) {
+					tr.setBlockType(from, to, nodeType, attrs);
+				} else {
+					tr.setBlockType(from, to, schema.nodes.paragraph, attrs);
+				}
+			}
+			dispatch(tr.scrollIntoView());
+		}
+		if (!applicable) return false;
+		return true;
+	};
+}
+
 function Alert() {
 	alert('Not implemented!');
 	return false;
@@ -111,6 +143,12 @@ function Alert() {
 
 function never() {
 	return false;
+}
+
+function isBlockActive(nodeType: NodeType) {
+	return (menu: MenuView) => {
+		return !toggleBlock(nodeType)(menu.editorView.state, undefined, menu.editorView);
+	};
 }
 
 export function getMenu() {
@@ -142,12 +180,9 @@ export function getMenu() {
 			isActive: never,
 		},
 		{
-			// command: setBlockType(schema.nodes.code_block),
-			command: Alert,
+			command: toggleBlock(schema.nodes.code_block),
 			dom: icon('<b>&lt;&gt;</b>', 'Preformatted'),
-			isActive: never,
-			// isActive: (menu) =>
-			// 	!(setBlockType(schema.nodes.code_block)(menu.editorView.state), undefined, menu.editorView),
+			isActive: isBlockActive(schema.nodes.code_block),
 		},
 		{
 			command: Alert,
