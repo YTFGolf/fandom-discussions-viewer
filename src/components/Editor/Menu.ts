@@ -1,9 +1,8 @@
 import { EditorState, Plugin, Transaction, type Command } from 'prosemirror-state';
 import type { EditorView } from 'prosemirror-view';
 import { schema } from './schema';
-import { toggleMark } from 'prosemirror-commands';
-import type { Mark } from 'prosemirror-model';
-import Modal from './LinkModal.svelte';
+import { setBlockType, toggleMark } from 'prosemirror-commands';
+import type { Mark, NodeType } from 'prosemirror-model';
 
 type ViewItem = {
 	command: Command;
@@ -66,6 +65,25 @@ function isMarkActive(markName: string) {
 	};
 }
 
+// function isBlockActive(command: Command) {
+// 	return function (menu: MenuView): boolean {
+// 		let active = command(menu.editorView.state, undefined, menu.editorView);
+// 		// console.log(active);
+// 		// console.log(menu.editorView.state);
+
+// 		return false;
+// 	};
+// }
+
+// function toggleList(bulletList: NodeType): Command {
+// 	return function (state: EditorState, dispatch?: (tr: Transaction) => void, view?: EditorView) {
+// 		console.log(bulletList);
+// 		console.log(state, view);
+
+// 		return true;
+// 	};
+// }
+
 function menuPlugin(items: ViewItem[]) {
 	return new Plugin({
 		view(editorView) {
@@ -85,28 +103,6 @@ function icon(html: string, name: string) {
 	return span;
 	// TODO figure out how to use fandom icons (https://fandomdesignsystem.com/?path=/docs/assets-icons--docs)
 }
-
-// function displayLinkModal(): Command {
-// 	return function (
-// 		state: EditorState,
-// 		dispatch?: (tr: Transaction) => void,
-// 		view?: EditorView,
-// 	): boolean {
-// 		console.log(state, dispatch, view);
-
-// 		const modal = new Modal({
-// 			target: document.body,
-// 			props: {
-// 				handleSubmit(e: SubmitEvent) {
-// 					console.log(e);
-// 				},
-// 			},
-// 		}).element!;
-// 		console.log(modal);
-
-// 		return true;
-// 	};
-// }
 
 function Alert() {
 	alert('Not implemented!');
@@ -129,6 +125,29 @@ export function getMenu() {
 			command: toggleMark(schema.marks.em),
 			dom: icon('<b><i>I</i></b>', 'Italic (Ctrl+I)'),
 			isActive: isMarkActive('em'),
+		},
+		// {
+		// 	command: toggleList(schema.nodes.bulletList),
+		// 	dom: icon('<b>•</b>', 'Add bullet list'),
+		// 	isActive: isBlockActive(setBlockType(schema.nodes.bulletList)),
+		// },
+		{
+			command: Alert,
+			dom: icon('<b>•</b>', 'Add bullet list'),
+			isActive: never,
+		},
+		{
+			command: Alert,
+			dom: icon('<b>1.</b>', 'Add ordered list'),
+			isActive: never,
+		},
+		{
+			// command: setBlockType(schema.nodes.code_block),
+			command: Alert,
+			dom: icon('<b>&lt;&gt;</b>', 'Preformatted'),
+			isActive: never,
+			// isActive: (menu) =>
+			// 	!(setBlockType(schema.nodes.code_block)(menu.editorView.state), undefined, menu.editorView),
 		},
 		{
 			command: Alert,
