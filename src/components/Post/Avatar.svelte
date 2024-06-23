@@ -27,11 +27,15 @@
 		{/if}
 	</a>
 	{#if user.badgePermission !== ''}
-		<Badge group={userBadge}></Badge>
+		<div class="user-badge"><Badge group={userBadge}></Badge></div>
 	{/if}
 </div>
 
 <style>
+	.avatar {
+		position: relative;
+	}
+
 	.avatar :global(img) {
 		vertical-align: middle;
 	}
@@ -65,5 +69,15 @@
 
 	.avatar-image {
 		border: var(--wds-avatar-border-width) solid;
+	}
+
+	.user-badge {
+		height: var(--wds-avatar-badge-size);
+		left: var(--wds-avatar-badge-left);
+		line-height: 0;
+		min-width: var(--wds-avatar-badge-size);
+		position: absolute;
+		top: var(--wds-avatar-badge-top);
+		width: var(--wds-avatar-badge-size);
 	}
 </style>
