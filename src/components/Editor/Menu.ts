@@ -86,10 +86,13 @@ function menuPlugin(items: ViewItem[]) {
 }
 
 // Helper function to create menu icons
-function icon(html: string, name: string) {
+function icon(html: string, title: string, className?: string) {
 	let span = document.createElement('span');
-	span.className = 'menuicon ' + name;
-	span.title = name;
+	span.className = 'menuicon';
+	if (className) {
+		span.classList.add(className);
+	}
+	span.title = title;
 	span.innerHTML = html;
 	return span;
 	// TODO figure out how to use fandom icons (https://fandomdesignsystem.com/?path=/docs/assets-icons--docs)
@@ -193,17 +196,17 @@ export function getMenu() {
 		},
 		{
 			command: Alert,
-			dom: icon('<b>LINK</b>', 'Insert link'),
+			dom: icon('<b>LINK</b>', 'Insert link', 'disabled'),
 			isActive: never,
 		},
 		{
 			command: Alert,
-			dom: icon('<b>IMAGE</b>', 'Insert image'),
+			dom: icon('<b>IMAGE</b>', 'Insert image', 'disabled'),
 			isActive: never,
 		},
 		{
 			command: Alert,
-			dom: icon('<b>MENTION</b>', 'Mention user'),
+			dom: icon('<b>MENTION</b>', 'Mention user', 'disabled'),
 			isActive: never,
 		},
 		// TODO fix these
