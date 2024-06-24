@@ -103,9 +103,9 @@ export class ProseMirrorView implements View {
 	get content(): any {
 		const dom = this.view.dom;
 		const doc = this.view.state.doc;
-		console.log(dom.children);
-		console.log(doc.toJSON());
-		console.log(doc);
+		// console.log(dom.children);
+		// console.log(doc.toJSON());
+		// console.log(doc);
 
 		return doc.toJSON();
 	}
@@ -126,8 +126,9 @@ export class JSONView implements View {
 	}
 
 	get content() {
-		return this.textarea.value;
+		return JSON.parse(this.textarea.value);
 	}
+
 	focus() {
 		this.textarea.focus();
 	}

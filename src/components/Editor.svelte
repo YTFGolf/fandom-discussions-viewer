@@ -6,6 +6,7 @@
 	import type { UserDetails } from '$lib/responses/Post';
 	import Avatar from './Post/Avatar.svelte';
 	import { JSONView, ProseMirrorView, type View } from './Editor/Switcher';
+	import { getHtmlWithFallback } from './Post/JSONModel/Body';
 
 	/**
 	 * Plan: This takes in a few props: rawContent, JSONModel, Attachments. All
@@ -98,11 +99,25 @@
 	let editor: HTMLElement;
 	let content: HTMLElement;
 	let isLoaded = false;
+	let switcher: HTMLElement;
+
+	type SwitchMode = 'RTE' | 'JSON';
+	function activateSwitcher(mode: SwitchMode) {
+		Object.values(switcher.children).forEach((child) => {
+			if ((child as HTMLElement).dataset.switchTo === mode) {
+				child.classList.add('current');
+			} else {
+				child.classList.remove('current');
+			}
+		});
+	}
+
 	onMount(() => {
 		editorView = new ProseMirrorView(editor, content);
 
 		content.remove();
 		isLoaded = true;
+		activateSwitcher('RTE');
 	});
 
 	let model = '';
@@ -112,12 +127,66 @@
 		// editorView.destroy();
 	};
 
+	const attachments = {
+		contentImages: [],
+		openGraphs: [],
+	};
+	// TODO turn this into overload
+	// content is an object
+	/**
+	 * Converts document model object into format suitable for constructor of
+	 * the view used.
+	 * @param content
+	 * @param mode
+	 */
+	async function convertDoc(content: any, mode: SwitchMode): Promise<any> {
+		switch (mode) {
+			case 'RTE':
+				console.log(content);
+				console.log();
+				const html = await getHtmlWithFallback(content, attachments);
+				const div = document.createElement('div');
+				div.innerHTML = html;
+				return div;
+
+			case 'JSON':
+				// JSONViewer's content in constructor is string
+				// JSONModel -> string
+				return JSON.stringify(content, undefined, '    ');
+		}
+	}
+
+	/** TODO ensure that attaachmments is agctually generated */
 	function switchEditor(event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }) {
-		logDocumentModel();
-		// model = JSON.stringify(editorView.content, undefined, '    ');
+		const mode = (event.target as HTMLButtonElement).dataset.switchTo as SwitchMode;
+		let view: View = (
+			{
+				RTE: ProseMirrorView,
+				JSON: JSONView,
+			} as any as Record<SwitchMode, View>
+		)[mode];
+		if (editorView instanceof (view as any)) {
+			return;
+		}
+
+		let content = editorView.content;
+		console.log(content, typeof content);
+		convertDoc(content, mode).then((newDoc) => {
+			model = newDoc;
+
+			editorView.destroy();
+			editorView = new (view as any)(editor, model);
+			activateSwitcher(mode);
+		});
+		// // need a custom method
+		// // if (typeof content !== 'string') {
+		// // 	content = JSON.stringify(content, undefined, '    ');
+		// // }
+		// // model = content;
+
 		// editorView.destroy();
-		// editorView = new JSONView(editor, model);
-		// console.log(event);
+		// editorView = new (view as any)(editor, model);
+		// activateSwitcher(mode);
 	}
 
 	const userDetails: UserDetails = {
@@ -131,13 +200,16 @@
 
 <div id="post-content" bind:this={content} style="display:none"><slot /></div>
 <div class="editor-container" style={isLoaded ? '' : 'display: none'}>
+	<div class="switcher" bind:this={switcher}>
+		<button class="current" on:click={switchEditor} data-switch-to="RTE">Switch to RTE</button>
+		<button class="" on:click={switchEditor} data-switch-to="JSON">Switch to JSON</button>
+	</div>
 	<div class="form-content">
 		<Avatar user={userDetails} />
 		<div id="editor" data-placeholder="Share your thoughts…" bind:this={editor}></div>
 	</div>
 	<div class="form-actions">
 		<!-- <button on:click={logDocumentModel}>Submit</button> -->
-		<button on:click={switchEditor}>Switch Editor</button>
 	</div>
 </div>
 <div class="fallback" style={isLoaded ? 'display: none' : ''}>Loading editor...</div>
@@ -154,6 +226,18 @@
 		min-height: 200px;
 		background-color: var(--theme-page-background-color--secondary);
 		border: 1px solid var(--theme-border-color);
+	}
+
+	.switcher button.current {
+		color: grey;
+		background-color: transparent;
+		cursor: default;
+		border-color: var(--wds-primary-button-background-color);
+	}
+
+	.switcher button.current {
+		color: grey;
+		background-color: transparent;
 	}
 
 	.editor-container :global(a) {
