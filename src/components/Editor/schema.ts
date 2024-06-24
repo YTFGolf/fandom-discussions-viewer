@@ -1,3 +1,8 @@
+/**
+ * Important note: don't update this without making sure that other files in
+ * this directory have been updated to reflect that change. Especially
+ * Switcher's `getAttachments` function.
+ */
 import { Schema, type NodeSpec, type MarkSpec, type DOMOutputSpec } from 'prosemirror-model';
 
 export const nodes = {

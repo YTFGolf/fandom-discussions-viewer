@@ -9,6 +9,8 @@ export type Attachments = {
 		siteName: string | number | boolean;
 		/** Doesn't do anything */
 		url?: string;
+		/** Doesn't do anything */
+		imageUrl?: string;
 	}[];
 	contentImages?: {
 		/** Must match `^http(s)?:\/\/(www\.)?(static\.wikia\.nocookie\.net|(vignette|static)\.(wikia-dev|fandom-dev)\.(us|pl))\/.+` */

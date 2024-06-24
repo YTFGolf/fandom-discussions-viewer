@@ -120,17 +120,11 @@
 		activateSwitcher('RTE');
 	});
 
-	let model = '';
-
 	const logDocumentModel = () => {
-		model = JSON.stringify(editorView.content, undefined, '    ');
+		// model = JSON.stringify(editorView.content, undefined, '    ');
 		// editorView.destroy();
 	};
 
-	const attachments = {
-		contentImages: [],
-		openGraphs: [],
-	};
 	// TODO turn this into overload
 	// content is an object
 	/**
@@ -142,9 +136,7 @@
 	async function convertDoc(content: any, mode: SwitchMode): Promise<any> {
 		switch (mode) {
 			case 'RTE':
-				console.log(content);
-				console.log();
-				const html = await getHtmlWithFallback(content, attachments);
+				const html = await getHtmlWithFallback(content.jsonModel, content.attachments);
 				const div = document.createElement('div');
 				div.innerHTML = html;
 				return div;
@@ -156,7 +148,6 @@
 		}
 	}
 
-	/** TODO ensure that attaachmments is agctually generated */
 	function switchEditor(event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }) {
 		const mode = (event.target as HTMLButtonElement).dataset.switchTo as SwitchMode;
 		let view: View = (
@@ -170,12 +161,9 @@
 		}
 
 		let content = editorView.content;
-		console.log(content, typeof content);
 		convertDoc(content, mode).then((newDoc) => {
-			model = newDoc;
-
 			editorView.destroy();
-			editorView = new (view as any)(editor, model);
+			editorView = new (view as any)(editor, newDoc);
 			activateSwitcher(mode);
 		});
 		// // need a custom method
@@ -213,7 +201,6 @@
 	</div>
 </div>
 <div class="fallback" style={isLoaded ? 'display: none' : ''}>Loading editor...</div>
-<pre>{model}</pre>
 
 <style>
 	:root {
