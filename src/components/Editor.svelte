@@ -7,6 +7,7 @@
 	import Avatar from './Post/Avatar.svelte';
 	import { JSONView, ProseMirrorView, type View } from './Editor/Switcher';
 	import { getHtmlWithFallback } from './Post/JSONModel/Body';
+	import type { DocModel } from '$lib/controllers/types/jsonModel';
 
 	/**
 	 * Plan: This takes in a few props: rawContent, JSONModel, Attachments. All
@@ -148,6 +149,27 @@
 		}
 	}
 
+	type ViewContent = {
+		jsonModel: DocModel;
+		attachments: Attachments;
+		rawContent: string;
+	};
+	function submitPost(event: MouseEvent) {
+		const data: ViewContent = editorView.content;
+
+		DiscussionPost.create(
+			{ name: 'wwr-test', lang: 'en' },
+			{},
+			{
+				...data,
+				threadId: '4400000000000037009',
+				siteId: '3448675',
+			},
+		);
+
+		editorView.destroy();
+	}
+
 	function switchEditor(event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }) {
 		const mode = (event.target as HTMLButtonElement).dataset.switchTo as SwitchMode;
 		let view: View = (
@@ -197,7 +219,7 @@
 		<div id="editor" data-placeholder="Share your thoughts…" bind:this={editor}></div>
 	</div>
 	<div class="form-actions">
-		<!-- <button on:click={logDocumentModel}>Submit</button> -->
+		<button on:click={submitPost}>Submit</button>
 	</div>
 </div>
 <div class="fallback" style={isLoaded ? 'display: none' : ''}>Loading editor...</div>
