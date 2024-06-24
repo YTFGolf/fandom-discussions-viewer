@@ -3,6 +3,7 @@ import type { EditorView } from 'prosemirror-view';
 import { schema } from './schema';
 import { setBlockType, toggleMark } from 'prosemirror-commands';
 import type { Attrs, Mark, NodeType } from 'prosemirror-model';
+import { liftListItem, wrapInList } from 'prosemirror-schema-list';
 
 type ViewItem = {
 	command: Command;
@@ -139,6 +140,14 @@ export function toggleBlock(nodeType: NodeType, attrs: Attrs | null = null): Com
 	};
 }
 
+function toggleList(listType: NodeType): Command {
+	return function (state, dispatch) {
+		liftListItem(schema.nodes.listItem)(state, dispatch);
+		wrapInList(listType)(state, dispatch);
+		return false;
+	};
+}
+
 function Alert() {
 	alert('Not implemented!');
 	return false;
@@ -167,20 +176,15 @@ export function getMenu() {
 			dom: icon('<b><i>I</i></b>', 'Italic (Ctrl+I)'),
 			isActive: isMarkActive('em'),
 		},
-		// {
-		// 	command: toggleList(schema.nodes.bulletList),
-		// 	dom: icon('<b>•</b>', 'Add bullet list'),
-		// 	isActive: isBlockActive(setBlockType(schema.nodes.bulletList)),
-		// },
 		{
-			command: Alert,
+			command: toggleList(schema.nodes.bulletList),
 			dom: icon('<b>•</b>', 'Add bullet list'),
-			isActive: never,
+			isActive: isBlockActive(schema.nodes.bulletList),
 		},
 		{
-			command: Alert,
+			command: toggleList(schema.nodes.orderedList),
 			dom: icon('<b>1.</b>', 'Add ordered list'),
-			isActive: never,
+			isActive: isBlockActive(schema.nodes.orderedList),
 		},
 		{
 			command: toggleBlock(schema.nodes.code_block),
