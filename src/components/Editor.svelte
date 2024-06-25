@@ -145,7 +145,7 @@
 			case 'JSON':
 				// JSONViewer's content in constructor is string
 				// JSONModel -> string
-				return JSON.stringify(content, undefined, '    ');
+				return JSON.stringify(content, undefined, '\t');
 		}
 	}
 
@@ -280,6 +280,9 @@
 		width: 100%;
 		min-height: 400px;
 		font-family: monospace;
+		background-color: var(--theme-page-background-color--secondary);
+		border: 1px solid var(--theme-border-color);
+		color: var(--theme-page-text-color);
 	}
 
 	#editor :global(.menubar) {

@@ -1,8 +1,8 @@
 body {
+	color-scheme: dark;
 	background-color: var(--theme-page-background-color);
 	color: var(--theme-page-text-color);
 	font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-	color-scheme: dark;
 }
 
 a {
@@ -26,6 +26,11 @@ pre code {
 	min-width: 296px;
 	padding: 12px 24px;
 	text-decoration: none;
+}
+
+pre,
+textarea {
+	tab-size: 4;
 }
 
 button,
