@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { Attachments } from '$lib/controllers/types/attachments';
 	import { DiscussionPost } from '$lib/controllers/wikia/DiscussionPost';
-	import { examples } from '../routes/f/p/[...postParams=forumPost]/examples';
 	import { onMount } from 'svelte';
 	import type { UserDetails } from '$lib/responses/Post';
 	import Avatar from './Post/Avatar.svelte';
@@ -18,9 +17,10 @@
 
 	/***/
 
+	export let content: HTMLElement | null;
+
 	let editorView: View;
 	let editor: HTMLElement;
-	let content: HTMLElement;
 	let isLoaded = false;
 	let switcher: HTMLElement;
 
@@ -36,9 +36,15 @@
 	}
 
 	onMount(() => {
-		editorView = new ProseMirrorView(editor, content);
+		if (!content) {
+			editorView = new ProseMirrorView(editor, document.createElement('div'));
+		} else {
+			editorView = new ProseMirrorView(editor, content);
+		}
 
-		content.remove();
+		if (content) {
+			content.remove();
+		}
 		isLoaded = true;
 		activateSwitcher('RTE');
 	});
@@ -118,7 +124,6 @@
 	// TODO actually dynamically load this
 </script>
 
-<div id="post-content" bind:this={content} style="display:none"><slot /></div>
 <div class="editor-container" style={isLoaded ? '' : 'display: none'}>
 	<div class="switcher" bind:this={switcher}>
 		<button class="current" on:click={handleSwitchEditor} data-switch-to="RTE">
@@ -134,7 +139,9 @@
 		<button on:click={submitPost}>Submit</button>
 	</div>
 </div>
-<div class="fallback" style={isLoaded ? 'display: none' : ''}>Loading editor...</div>
+{#if !isLoaded}
+	<div class="fallback" style={isLoaded ? 'display: none' : ''}>Loading editor...</div>
+{/if}
 
 <style>
 	:root {
