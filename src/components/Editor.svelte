@@ -71,7 +71,7 @@
 		}
 	}
 
-	function submitPost(event: MouseEvent) {
+	function submitPost() {
 		const data: ViewContent = editorView.content;
 
 		DiscussionPost.create(

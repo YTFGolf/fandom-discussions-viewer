@@ -43,11 +43,11 @@ export class ProseMirrorView implements View {
 	}
 
 	getRawContent(container: HTMLElement) {
-		// could just do `return container.innerText;` but that also includes stuff
-		// from opengraphs
 		const rawContent = [];
 		for (const child of container.children as any as HTMLElement[]) {
-			if (!child.classList.contains('open-graph')) {
+			if (child.classList.contains('open-graph') || child.innerText === '\n') {
+				rawContent.push('');
+			} else {
 				rawContent.push(child.innerText);
 			}
 		}
