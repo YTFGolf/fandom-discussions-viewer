@@ -1,8 +1,8 @@
-import { EditorState, Plugin, Transaction, type Command } from 'prosemirror-state';
+import { Plugin, type Command } from 'prosemirror-state';
 import type { EditorView } from 'prosemirror-view';
 import { schema } from './schema';
-import { setBlockType, toggleMark } from 'prosemirror-commands';
-import type { Attrs, Mark, NodeType } from 'prosemirror-model';
+import { toggleMark } from 'prosemirror-commands';
+import { type Attrs, type Mark, type NodeType } from 'prosemirror-model';
 import { liftListItem, wrapInList } from 'prosemirror-schema-list';
 
 type ViewItem = {
@@ -52,54 +52,12 @@ class MenuView {
 	}
 }
 
-function markInStoredMarks(name: string, marks: readonly Mark[]) {
-	return marks?.some((m) => m.type.name === name) || false;
-}
-
-function isMarkActive(markName: string) {
-	return function (menu: MenuView): boolean {
-		const storedMarks = menu.editorView.state.storedMarks;
-		if (storedMarks) {
-			return markInStoredMarks(markName, storedMarks);
-		}
-		return markInStoredMarks(markName, menu.editorView.state.selection.$to.marks());
-	};
-}
-
-// function toggleList(bulletList: NodeType): Command {
-// 	return function (state: EditorState, dispatch?: (tr: Transaction) => void, view?: EditorView) {
-// 		console.log(bulletList);
-// 		console.log(state, view);
-
-// 		return true;
-// 	};
-// }
-
-function menuPlugin(items: ViewItem[]) {
-	return new Plugin({
-		view(editorView) {
-			let menuView = new MenuView(items, editorView);
-			editorView.dom.parentNode?.insertBefore(menuView.dom, editorView.dom);
-			return menuView;
-		},
-	});
-}
-
-// Helper function to create menu icons
-function icon(html: string, title: string, className?: string) {
-	let span = document.createElement('span');
-	span.className = 'menuicon';
-	if (className) {
-		span.classList.add(className);
-	}
-	span.title = title;
-	span.innerHTML = html;
-	return span;
-	// TODO figure out how to use fandom icons (https://fandomdesignsystem.com/?path=/docs/assets-icons--docs)
-}
-
 // https://github.com/ProseMirror/prosemirror-commands/blob/904e3b39374cc147c36d79fccfe83a3f9fd4ee68/src/commands.ts#L536
 // IDK MIT license or something
+/**
+ * Toggle between `nodeType` and paragraph. Only really useful on code blocks or
+ * for checking if a transaction is applicable.
+ */
 export function toggleBlock(nodeType: NodeType, attrs: Attrs | null = null): Command {
 	return function (state, dispatch) {
 		let applicable = false;
@@ -156,14 +114,51 @@ function Alert() {
 	return false;
 }
 
-function never() {
-	return false;
+function markInStoredMarks(name: string, marks: readonly Mark[]) {
+	return marks?.some((m) => m.type.name === name) || false;
+}
+
+function isMarkActive(markName: string) {
+	return function (menu: MenuView): boolean {
+		const storedMarks = menu.editorView.state.storedMarks;
+		if (storedMarks) {
+			return markInStoredMarks(markName, storedMarks);
+		}
+		return markInStoredMarks(markName, menu.editorView.state.selection.$to.marks());
+	};
 }
 
 function isBlockActive(nodeType: NodeType) {
 	return (menu: MenuView) => {
 		return !toggleBlock(nodeType)(menu.editorView.state, undefined, menu.editorView);
 	};
+}
+
+function never() {
+	return false;
+}
+
+// Helper function to create menu icons
+function icon(html: string, title: string, className?: string) {
+	let span = document.createElement('span');
+	span.className = 'menuicon';
+	if (className) {
+		span.classList.add(className);
+	}
+	span.title = title;
+	span.innerHTML = html;
+	return span;
+	// TODO figure out how to use fandom icons (https://fandomdesignsystem.com/?path=/docs/assets-icons--docs)
+}
+
+function menuPlugin(items: ViewItem[]) {
+	return new Plugin({
+		view(editorView) {
+			let menuView = new MenuView(items, editorView);
+			editorView.dom.parentNode?.insertBefore(menuView.dom, editorView.dom);
+			return menuView;
+		},
+	});
 }
 
 export function getMenu() {
