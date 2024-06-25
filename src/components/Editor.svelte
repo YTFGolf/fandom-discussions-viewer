@@ -172,6 +172,7 @@
 
 	function switchEditor(event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }) {
 		const mode = (event.target as HTMLButtonElement).dataset.switchTo as SwitchMode;
+		// TODO uncouple this from button interface
 		let view: View = (
 			{
 				RTE: ProseMirrorView,
@@ -272,6 +273,13 @@
 
 	#editor :global(.ProseMirror:focus) {
 		outline: none;
+	}
+
+	#editor :global(.json-editor) {
+		overflow: scroll;
+		width: 100%;
+		min-height: 400px;
+		font-family: monospace;
 	}
 
 	#editor :global(.menubar) {

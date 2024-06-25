@@ -224,6 +224,7 @@ export class JSONView implements View {
 	constructor(target: HTMLElement, content: string) {
 		this.textarea = target.appendChild(document.createElement('textarea'));
 		this.textarea.value = content;
+		this.textarea.classList.add('json-editor');
 	}
 
 	get content() {
