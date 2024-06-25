@@ -2,6 +2,7 @@ import type { DocModel, JsonModel } from '$lib/controllers/types/jsonModel';
 import { default as getBlock } from './Block';
 import fallback from '../../Fallback';
 import type { Attachments } from '$lib/responses/Post';
+import { stringify } from '$lib/controllers/util';
 
 async function getHtml(jsonModel: DocModel, attachments: Attachments) {
 	const blocks: Promise<string>[] = [];
@@ -20,6 +21,6 @@ export async function getHtmlWithFallback(jsonModel: JsonModel, attachments: Att
 		return await getHtml(jsonModel as DocModel, attachments);
 	} catch (e) {
 		console.error(e);
-		return fallback(jsonModel as any);
+		return fallback(stringify(jsonModel)!);
 	}
 }
