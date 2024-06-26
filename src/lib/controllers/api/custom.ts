@@ -21,7 +21,8 @@ export async function getToken(wiki: Wiki) {
 		formatversion: 2,
 	};
 
-	const data = await post(wiki, params, undefined, { script: 'api.php' });
+	const res = await post(wiki, params, undefined, { script: 'api.php' });
+	const data = await res.json();
 	const token: string = data.query.tokens.csrftoken;
 	return token;
 }
