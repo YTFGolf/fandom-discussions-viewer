@@ -18,6 +18,8 @@ export interface View {
 
 export class ProseMirrorView implements View {
 	view: EditorView;
+	/** HTML representation of internal view used as a fallback */
+	internalView: string = '';
 
 	constructor(target: HTMLElement, content: HTMLElement) {
 		this.view = new EditorView(target, {
@@ -56,9 +58,7 @@ export class ProseMirrorView implements View {
 	}
 
 	// NOTE: this entire function will break if the schema changes
-	getAttachments(): Attachments {
-		const dom = this.view.dom;
-		const doc = this.view.state.doc;
+	getAttachments(dom: typeof this.view.dom): Attachments {
 		const attachments: Attachments = {};
 
 		attachments.atMentions = [];
@@ -109,7 +109,8 @@ export class ProseMirrorView implements View {
 			}
 		}
 
-		throw new Error("Shouldn't be possible");
+		this.view.dom.innerHTML = this.internalView;
+		throw new Error('Malformed HTML content. Reverting to backup internal state.');
 	}
 
 	/**
@@ -134,12 +135,19 @@ export class ProseMirrorView implements View {
 	get content(): { jsonModel: DocModel; attachments: Attachments; rawContent: string } {
 		const dom = this.view.dom;
 		const doc = this.view.state.doc;
+		this.internalView = dom.innerHTML;
 
 		let jsonModel = doc.toJSON();
-		const attachments = this.getAttachments();
+		const attachments = this.getAttachments(dom);
 		const rawContent = this.getRawContent(dom);
 
-		jsonModel = this.fixDocModel(jsonModel, attachments);
+		try {
+			jsonModel = this.fixDocModel(jsonModel, attachments);
+		} catch (e) {
+			console.error(e);
+			// if fixDocModel throws an error then jsonModel will already be
+			// well-formed so it doesn't need to be fixed
+		}
 
 		return {
 			jsonModel,
