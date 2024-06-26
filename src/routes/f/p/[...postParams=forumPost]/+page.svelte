@@ -11,12 +11,14 @@
 	// /f/p/{t}/r/{p} => [_, t, p]
 	// Format is guaranteed by forumPost param
 
-	const wiki: Wiki = { name: 'battle-cats', lang: 'en' };
+	// const wiki: Wiki = { name: 'battle-cats', lang: 'en' };
+	const wiki: Wiki = { name: 'wwr-test', lang: 'en' };
 	const params: DiscussionThread.getThreadParams = {
 		threadId: threadId,
 		responseGroup: 'full',
 		pivot: postId,
 		viewableOnly: false,
+		limit: 10,
 	};
 	if (params.pivot !== '') {
 		if (params.sortDirection && params.sortDirection === 'ascending') {
@@ -49,6 +51,8 @@
 <input type="text" id="threadId" bind:value={params.threadId} />
 <label for="pivot">pivot:</label>
 <input type="text" id="pivot" bind:value={params.pivot} />
+<label for="limit">limit:</label>
+<input type="text" id="limit" bind:value={params.limit} />
 
 <container>
 	{#await threadContent}
