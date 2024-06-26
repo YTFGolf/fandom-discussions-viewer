@@ -5,6 +5,10 @@
 	import Editor, { type ViewContent } from './Editor.svelte';
 
 	export let post: Post;
+	export let status: {
+		color: string;
+		message: string;
+	};
 	export let onSubmit: (viewContent: ViewContent) => void;
 	export let onCancel: () => void;
 
@@ -22,7 +26,14 @@
 <div bind:this={target} style="display:none"></div>
 <div bind:this={modal} class="edit-modal">
 	{#if loaded}
-		<div class="edit-modal-content"><Editor content={target} {onSubmit} {onCancel} /></div>
+		<div class="edit-modal-content">
+			<Editor content={target} {onSubmit} {onCancel} />
+			{#if status?.message}
+				<div class="status">
+					<span style="color: {status.color}">{status.message}</span>
+				</div>
+			{/if}
+		</div>
 	{:else}
 		Loading editor...
 	{/if}
@@ -47,5 +58,31 @@
 
 	.edit-modal .edit-modal-content :global(#editor :is(.ProseMirror, textarea)) {
 		max-height: 500px;
+	}
+
+	.status {
+		--wds-banner-notification-background-color: var(--fandom-banner-notification-background-color);
+		--wds-banner-notification-text-color: var(--fandom-text-color);
+		--wds-banner-notification-link-color: var(--fandom-link-color);
+		--wds-banner-notification-link-color--hover: var(--fandom-link-color--hover);
+		--wds-banner-notification-border-color: var(--fandom-border-color);
+		--wds-banner-notification-close-icon: var(--fandom-banner-notifications-close-icon);
+		background-color: var(--wds-banner-notification-background-color);
+		border-radius: 3px;
+		border-right: 1px solid var(--wds-banner-notification-border-color);
+		color: var(--wds-banner-notification-text-color);
+		display: flex;
+		margin-bottom: 3px;
+		overflow: hidden;
+		transition: opacity 0.4s;
+		width: inherit;
+		border-bottom: 1px solid var(--wds-banner-notification-border-color);
+		border-top: 1px solid var(--wds-banner-notification-border-color);
+		flex: 1;
+		font-size: 14px;
+		line-height: 1.5;
+		padding: 11px 12px;
+		width: 100%;
+		box-sizing: border-box;
 	}
 </style>

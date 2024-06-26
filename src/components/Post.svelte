@@ -1,4 +1,5 @@
 <script lang="ts">
+	import HTTP from '$lib/HTTPCodes';
 	import { DiscussionPost } from '$lib/controllers/wikia/DiscussionPost';
 	import type { Post } from '$lib/responses/Post';
 	import EditModal from './EditModal.svelte';
@@ -12,13 +13,18 @@
 	let container: HTMLElement;
 	let modalContainer: HTMLElement;
 	let openEditor: boolean;
+	let status: { color: string; message: string };
 
 	function edit() {
 		openEditor = true;
 	}
 
-	function onSubmit(data: ViewContent) {
-		DiscussionPost.update(
+	async function onSubmit(data: ViewContent) {
+		status = {
+			color: '',
+			message: '...',
+		};
+		const res = await DiscussionPost.update(
 			{ name: 'wwr-test', lang: 'en' },
 			{ postId: post.id },
 			{
@@ -26,8 +32,16 @@
 				...data,
 			},
 		);
-
-		onCancel();
+		if (res.status == HTTP.OK) {
+			onCancel();
+			post = await res.json();
+			// FIXME doesn't show edited by
+		} else {
+			status = {
+				color: 'red',
+				message: (await res.json()).title,
+			};
+		}
 	}
 	function onCancel() {
 		modalContainer.remove();
@@ -57,7 +71,7 @@
 	{#if openEditor}
 		<!-- <Editor content={container.querySelector('.post-content')} /> -->
 		<div bind:this={modalContainer} class="modal-container">
-			<EditModal {post} {onSubmit} {onCancel} />
+			<EditModal {post} {onSubmit} {onCancel} {status} />
 		</div>
 	{/if}
 </div>
