@@ -42,7 +42,7 @@
 	<meta name="description" content="wait a minute" />
 </svelte:head>
 
-<h1>hi</h1>
+{#await threadContent}<h1>Loading post...</h1>{:then content}<h1>{content.title}</h1>{/await}
 <label for="lang">Language:</label>
 <input type="text" id="lang" bind:value={wiki.lang} />
 <label for="wiki">Wiki:</label>
