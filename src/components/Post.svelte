@@ -2,7 +2,7 @@
 	import { DiscussionPost } from '$lib/controllers/wikia/DiscussionPost';
 	import type { Post } from '$lib/responses/Post';
 	import EditModal from './EditModal.svelte';
-	import Editor, { type ViewContent } from './Editor.svelte';
+	import { type ViewContent } from './Editor.svelte';
 	import Avatar from './Post/Avatar.svelte';
 	import PostBody from './Post/PostBody.svelte';
 	import Time from './Post/Time.svelte';
@@ -18,13 +18,12 @@
 	}
 
 	function onSubmit(data: ViewContent) {
-		DiscussionPost.create(
+		DiscussionPost.update(
 			{ name: 'wwr-test', lang: 'en' },
-			{},
+			{ postId: post.id },
 			{
+				...post,
 				...data,
-				threadId: '4400000000000037009',
-				siteId: '3448675',
 			},
 		);
 
