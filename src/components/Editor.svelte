@@ -30,6 +30,8 @@
 	export let content: HTMLElement | null;
 	export let onSubmit: (viewContent: ViewContent) => void;
 	export let onCancel: () => void;
+	// export let setError: (msg: string) => void = () => {};
+	export let setErrors: (msg: string) => void;
 
 	let editorView: View;
 	let editor: HTMLElement;
@@ -81,7 +83,13 @@
 	}
 
 	function submitPost() {
-		return onSubmit(editorView.content);
+		try {
+			const content = editorView.content;
+			return onSubmit(content);
+		} catch (e: any) {
+			setErrors(e);
+			return;
+		}
 	}
 
 	function switchEditor(mode: SwitchMode) {
@@ -93,7 +101,13 @@
 			return;
 		}
 
-		let content = editorView.content;
+		let content;
+		try {
+			content = editorView.content;
+		} catch (e: any) {
+			setErrors(e);
+			return;
+		}
 		convertDoc(content, mode).then((newDoc) => {
 			editorView.destroy();
 			editorView = new view(editor, newDoc);
@@ -102,6 +116,7 @@
 	}
 
 	function handleSwitchEditor(event: MouseEvent) {
+		setErrors('');
 		const mode = (event.target as HTMLButtonElement).dataset.switchTo as SwitchMode;
 		return switchEditor(mode);
 	}

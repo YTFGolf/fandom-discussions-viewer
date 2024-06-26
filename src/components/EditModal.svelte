@@ -11,6 +11,12 @@
 	};
 	export let onSubmit: (viewContent: ViewContent) => void;
 	export let onCancel: () => void;
+	function setErrors(msg: string) {
+		status = {
+			color: 'red',
+			message: msg,
+		};
+	}
 
 	let loaded = false;
 	let target: HTMLDivElement;
@@ -27,7 +33,7 @@
 <div bind:this={modal} class="edit-modal">
 	{#if loaded}
 		<div class="edit-modal-content">
-			<Editor content={target} {onSubmit} {onCancel} />
+			<Editor content={target} {onSubmit} {onCancel} {setErrors} />
 			{#if status?.message}
 				<div class="status">
 					<span style="color: {status.color}">{status.message}</span>

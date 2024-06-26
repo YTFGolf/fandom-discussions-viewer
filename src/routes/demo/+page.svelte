@@ -146,7 +146,7 @@
 	{@html '<div class="post-content s-EztHMNfjy4h3"><p>Normal text ahi</p><p>Alkdfa;d <strong>bold </strong>end bold</p><p>H <em>italics </em>end <strong>bold</strong> hi</p><p>J<strong><em>bitalics</em></strong>a</p><p>This <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">https://www.youtube.com/watch?v=dQw4w9WgXcQ</a> and <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">customised</a> link</p><ul><li><p>Bullet</p></li><li><p>Second</p></li></ul><p>I</p><ol><li><p>List</p></li><li><p>Second</p></li></ol><pre><code>something</code></pre><p>And</p><div class="image-container"><img src="https://static.wikia.nocookie.net/cad8d7f8-2e3b-44d2-bd7e-a09a9d436f15/scale-to-width/755" width="708"></div><p>Hi</p><div class="open-graph"><img src="https://static.wikia.nocookie.net/f05bb310-1a0b-4241-9553-0f56b91161d7/scale-to-width/755" width="708"><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">Rick Astley - Never Gonna Give You Up (Official Music Video)</a></div><p>Imagen</p><p><br></p><p>Cool</p><p><br></p><p>Text with <a href="/f/u/27706221" target="_blank" class="mention">@TheWWRNerdGuy</a> inside</p></div>'}
 </div>
 {#if content}
-	<Editor {content} onSubmit={noop} onCancel={noop} />
+	<Editor {content} onSubmit={noop} onCancel={noop} setErrors={noop} />
 {:else}
 	<div>Loading...</div>
 {/if}

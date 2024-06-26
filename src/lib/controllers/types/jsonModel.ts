@@ -1,8 +1,8 @@
 /**
- * Fandom provides zero validation of the jsonModel. All listed required
- * parameters are only what won't break the website, not what the API actually
- * checks for. Optional types are ones where I don't know what they do but the
- * website puts in.
+ * Fandom provides zero validation of the jsonModel besides checking it is not
+ * empty. All listed required parameters are only what won't break the website,
+ * not what the API actually checks for. Optional types are ones where I don't
+ * know what they do but the website puts in.
  *
  * Every type of object here is indexable. This means you can literally put in
  * `{hot: 'garbage'}` and it makes its way into the post. You don't even need
