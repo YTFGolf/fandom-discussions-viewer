@@ -144,7 +144,9 @@ export class ProseMirrorView implements View {
 		try {
 			jsonModel = this.fixDocModel(jsonModel, attachments);
 		} catch (e) {
+			console.groupCollapsed('Long error message');
 			console.error(e);
+			console.groupEnd();
 			// if fixDocModel throws an error then jsonModel will already be
 			// well-formed so it doesn't need to be fixed
 		}
