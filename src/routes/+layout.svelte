@@ -2,7 +2,7 @@
 	import type { Wiki } from '$lib/types';
 	import Header from './Header.svelte';
 
-	const wiki: Wiki = { name: 'wwr-test', lang: 'en' };
+	const wiki: Wiki = { name: 'battle-cats', lang: 'en' };
 	const theme = 'light';
 	let entrypoint = `https://${wiki.name}.fandom.com`;
 
@@ -33,3 +33,5 @@
 
 	<!-- <footer>Footer</footer> -->
 </div>
+
+{@html `<style>body{color-scheme:${theme};}</style>`}
