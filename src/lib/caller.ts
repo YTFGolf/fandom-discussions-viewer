@@ -47,7 +47,7 @@ function buildUrl(wiki: Wiki, params: any, script?: WikiScript) {
  * @param wiki
  * @param params
  * @param options
- * @returns Promise containing Fandom server response
+ * @returns Promise containing Fandom's server response.
  */
 export async function get(wiki: Wiki, params: any, options?: CallOptions) {
 	const url = buildUrl(wiki, params, options?.script);
@@ -56,9 +56,7 @@ export async function get(wiki: Wiki, params: any, options?: CallOptions) {
 		method: 'GET',
 	};
 
-	const res = await fetch(url, init);
-
-	return await res.json();
+	return fetch(url, init);
 }
 
 /**
@@ -67,7 +65,7 @@ export async function get(wiki: Wiki, params: any, options?: CallOptions) {
  * @param params
  * @param data
  * @param options
- * @returns Promise containing Fandom server response
+ * @returns Promise containing Fandom's server response.
  */
 export async function post(wiki: Wiki, params: any, data?: any, options?: CallOptions) {
 	const url = buildUrl(wiki, params, options?.script);
@@ -91,9 +89,5 @@ export async function post(wiki: Wiki, params: any, data?: any, options?: CallOp
 		body: data,
 	};
 
-	const res = await fetch(url, init);
-
-	if (res.status !== HTTP.NO_CONTENT) {
-		return await res.json();
-	}
+	return fetch(url, init);
 }

@@ -33,7 +33,7 @@
 	// https://battle-cats.fandom.com/f/p/4400000000000822918/r/4400000000003058552
 
 	let threadContent: Promise<Thread>;
-	$: threadContent = DiscussionThread.getThread(wiki, params);
+	$: threadContent = DiscussionThread.getThread(wiki, params).then((res) => res.json());
 	// $: threadContent = examples;
 </script>
 
