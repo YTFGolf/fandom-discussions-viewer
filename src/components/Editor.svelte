@@ -1,6 +1,16 @@
+<script context="module" lang="ts">
+	/**
+	 * Information about the content of a post.
+	 */
+	export type ViewContent = {
+		jsonModel: DocModel;
+		attachments: Attachments;
+		rawContent: string;
+	};
+</script>
+
 <script lang="ts">
 	import type { Attachments } from '$lib/controllers/types/attachments';
-	import { DiscussionPost } from '$lib/controllers/wikia/DiscussionPost';
 	import { onMount } from 'svelte';
 	import type { UserDetails } from '$lib/responses/Post';
 	import Avatar from './Post/Avatar.svelte';
@@ -18,6 +28,8 @@
 	/***/
 
 	export let content: HTMLElement | null;
+	export let onSubmit: (viewContent: ViewContent) => void;
+	export let onCancel: () => void;
 
 	let editorView: View;
 	let editor: HTMLElement;
@@ -50,15 +62,6 @@
 	});
 
 	/**
-	 * Information about the content of a post.
-	 */
-	type ViewContent = {
-		jsonModel: DocModel;
-		attachments: Attachments;
-		rawContent: string;
-	};
-
-	/**
 	 * Converts document model object into format suitable for constructor of
 	 * the view used.
 	 */
@@ -78,19 +81,7 @@
 	}
 
 	function submitPost() {
-		const data: ViewContent = editorView.content;
-
-		DiscussionPost.create(
-			{ name: 'wwr-test', lang: 'en' },
-			{},
-			{
-				...data,
-				threadId: '4400000000000037009',
-				siteId: '3448675',
-			},
-		);
-
-		editorView.destroy();
+		return onSubmit(editorView.content);
 	}
 
 	function switchEditor(mode: SwitchMode) {
@@ -136,6 +127,7 @@
 		<div id="editor" data-placeholder="Share your thoughts…" bind:this={editor}></div>
 	</div>
 	<div class="form-actions">
+		<button class="text" on:click={onCancel}>Cancel</button>
 		<button on:click={submitPost}>Submit</button>
 	</div>
 </div>
@@ -154,6 +146,18 @@
 		min-height: 200px;
 		background-color: var(--theme-page-background-color--secondary);
 		border: 1px solid var(--theme-border-color);
+	}
+
+	.form-actions .text {
+		background: none;
+		border: 0;
+		color: var(--wds-text-button-label-color);
+	}
+
+	.form-actions .text:active,
+	.form-actions .text:focus,
+	.form-actions .text:hover {
+		color: var(--wds-text-button-label-color--hover);
 	}
 
 	.switcher button.current {
