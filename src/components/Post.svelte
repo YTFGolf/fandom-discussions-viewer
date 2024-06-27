@@ -35,11 +35,12 @@
 		if (res.status == HTTP.OK) {
 			onCancel();
 			post = await res.json();
-			// FIXME doesn't show edited by
+			status = null as any;
 		} else {
+			const json = await res.json();
 			status = {
 				color: 'red',
-				message: (await res.json()).title,
+				message: json.title || json.errorText || JSON.stringify(json),
 			};
 		}
 	}
