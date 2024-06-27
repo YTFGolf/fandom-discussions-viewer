@@ -9,6 +9,7 @@
 	import Time from './Post/Time.svelte';
 
 	export let post: Post;
+	const permissions = post._embedded.userData[0].permissions;
 
 	let container: HTMLElement;
 	let modalContainer: HTMLElement;
@@ -64,7 +65,9 @@
 			<Time time={post.creationDate} />
 		</a>
 	</div>
-	<button on:click={edit}>EDIT</button>
+	<div class="form-actions">
+		{#if permissions?.includes('canEdit')}<button on:click={edit}>EDIT</button>{/if}
+	</div>
 	<PostBody jsonModel={post.jsonModel} attachments={post._embedded.attachments[0]} />
 	{#if post.lastEditedBy}
 		<div class="edited-by">(Edited by {post.lastEditedBy.name})</div>

@@ -44,7 +44,7 @@ export type Post = {
 			{
 				hasReported: boolean;
 				hasUpvoted: boolean;
-				permissions: ('canDelete' | 'canUndelete' | 'canModerate' | 'canEdit')[];
+				permissions?: ('canDelete' | 'canUndelete' | 'canModerate' | 'canEdit')[];
 			},
 		];
 	};
