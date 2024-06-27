@@ -20,7 +20,6 @@
 
 	let loaded = false;
 	let target: HTMLDivElement;
-	let modal: HTMLDivElement;
 
 	onMount(async () => {
 		const postHtml = await getHtmlWithFallback(post.jsonModel, post._embedded.attachments[0]);
@@ -30,7 +29,7 @@
 </script>
 
 <div bind:this={target} style="display:none"></div>
-<div bind:this={modal} class="edit-modal">
+<div class="edit-modal">
 	{#if loaded}
 		<div class="edit-modal-content">
 			<Editor content={target} {onSubmit} {onCancel} {setErrors} />
