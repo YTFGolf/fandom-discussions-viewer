@@ -2,6 +2,7 @@
 	import HTTP from '$lib/HTTPCodes';
 	import { DiscussionPost } from '$lib/controllers/wikia/DiscussionPost';
 	import type { Post } from '$lib/responses/Post';
+	import type { Wiki } from '$lib/types';
 	import EditModal from './EditModal.svelte';
 	import { type ViewContent } from './Editor.svelte';
 	import Avatar from './Post/Avatar.svelte';
@@ -10,23 +11,42 @@
 
 	export let post: Post;
 	const permissions = post._embedded.userData[0].permissions;
+	const wiki: Wiki = { name: 'wwr-test', lang: 'en' };
 
 	let container: HTMLElement;
 	let modalContainer: HTMLElement;
 	let openEditor: boolean;
-	let status: { color: string; message: string };
+	let modalStatus: { color: string; message: string };
 
 	function edit() {
 		openEditor = true;
 	}
+	async function deletePost() {
+		const res = await DiscussionPost.deletePost(wiki, { postId: post.id });
+		if (res.status == HTTP.OK) {
+			post = await res.json();
+		} else {
+			const json = await res.json();
+			alert(json.title || json.errorText || JSON.stringify(json));
+		}
+	}
+	async function undeletePost() {
+		const res = await DiscussionPost.undelete(wiki, { postId: post.id });
+		if (res.status == HTTP.OK) {
+			post = await res.json();
+		} else {
+			const json = await res.json();
+			alert(json.title || json.errorText || JSON.stringify(json));
+		}
+	}
 
 	async function onSubmit(data: ViewContent) {
-		status = {
+		modalStatus = {
 			color: '',
 			message: '...',
 		};
 		const res = await DiscussionPost.update(
-			{ name: 'wwr-test', lang: 'en' },
+			wiki,
 			{ postId: post.id },
 			{
 				...post,
@@ -36,10 +56,10 @@
 		if (res.status == HTTP.OK) {
 			onCancel();
 			post = await res.json();
-			status = null as any;
+			modalStatus = null as any;
 		} else {
 			const json = await res.json();
-			status = {
+			modalStatus = {
 				color: 'red',
 				message: json.title || json.errorText || JSON.stringify(json),
 			};
@@ -67,6 +87,12 @@
 	</div>
 	<div class="form-actions">
 		{#if permissions?.includes('canEdit')}<button on:click={edit}>EDIT</button>{/if}
+		{#if permissions?.includes('canDelete') && !post.isDeleted}
+			<button on:click={deletePost}>DELETE</button>
+		{/if}
+		{#if permissions?.includes('canUndelete') && post.isDeleted}
+			<button on:click={undeletePost}>UNDELETE</button>
+		{/if}
 	</div>
 	<PostBody jsonModel={post.jsonModel} attachments={post._embedded.attachments[0]} />
 	{#if post.lastEditedBy}
@@ -75,7 +101,7 @@
 	{#if openEditor}
 		<!-- <Editor content={container.querySelector('.post-content')} /> -->
 		<div bind:this={modalContainer} class="modal-container">
-			<EditModal {post} {onSubmit} {onCancel} {status} />
+			<EditModal {post} {onSubmit} {onCancel} status={modalStatus} />
 		</div>
 	{/if}
 </div>
