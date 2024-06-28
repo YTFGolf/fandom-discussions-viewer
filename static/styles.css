@@ -120,4 +120,12 @@ h1 {
 	--wds-secondary-button-label-color--hover: var(--theme-page-text-color--hover);
 	--wds-text-button-label-color: var(--theme-page-text-color);
 	--wds-text-button-label-color--hover: var(--theme-page-text-color--hover);
+
+	--wds-dropdown-background-color: var(--theme-page-background-color--secondary);
+    --wds-dropdown-border-color: var(--theme-border-color);
+    --wds-dropdown-text-color: var(--theme-page-text-color);
+    --wds-dropdown-linked-item-color: var(--theme-link-color);
+    --wds-dropdown-linked-item-background-color: rgba(var(--theme-link-color--rgb),0.1);
+    --wds-dropdown-scrollable-shadow-color: rgba(var(--theme-page-text-color--rgb),0.1);
+	--wds-list-border-color: var(--theme-border-color);
 }

@@ -56,7 +56,6 @@
 		if (res.status == HTTP.OK) {
 			onCancel();
 			post = await res.json();
-			modalStatus = null as any;
 		} else {
 			const json = await res.json();
 			modalStatus = {
@@ -67,6 +66,7 @@
 	}
 	function onCancel() {
 		modalContainer.remove();
+		modalStatus = null as any;
 		openEditor = false;
 	}
 </script>
@@ -114,6 +114,7 @@
 	.is-deleted {
 		opacity: 0.5;
 	}
+	/* this also makes the edit modal have 50% opacity but tbh that looks cool */
 
 	.user-info {
 		display: flex;
@@ -157,6 +158,35 @@
 		align-content: center;
 		white-space: nowrap;
 		color: rgba(var(--theme-page-text-color--rgb), var(--theme-page-text-opacity-factor));
+	}
+
+	.form-actions {
+		background-color: var(--wds-dropdown-background-color);
+		border: 1px solid var(--wds-dropdown-border-color);
+		border-radius: 3px;
+		color: var(--wds-dropdown-text-color);
+		padding: 0.5em;
+		display: inline-flex;
+		gap: 0.5em;
+	}
+
+	.form-actions button {
+		background: none;
+		border: 1px solid var(--wds-dropdown-border-color);
+		border-radius: 3px;
+		color: var(--wds-dropdown-text-color);
+		cursor: pointer;
+		font-weight: 400;
+		padding-left: 9px;
+		padding-right: 9px;
+		text-decoration: none;
+		transition-duration: 0.3s;
+		transition-property: background-color, color;
+	}
+
+	.form-actions button:hover {
+		background-color: var(--wds-dropdown-linked-item-background-color);
+		color: var(--wds-dropdown-linked-item-color);
 	}
 
 	.edited-by {
