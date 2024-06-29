@@ -94,10 +94,16 @@
 			</button>
 		{/if}
 		{#if permissions?.includes('canDelete') && !post.isDeleted}
-			<button on:click={deletePost}>DELETE</button>
+			<button class="action" on:click={deletePost}>
+				<FandomIcon icon="delete" width="18" />
+				Delete
+			</button>
 		{/if}
 		{#if permissions?.includes('canUndelete') && post.isDeleted}
-			<button on:click={undeletePost}>UNDELETE</button>
+			<button class="action" on:click={undeletePost}>
+				<FandomIcon icon="restore" width="18" />
+				Undelete
+			</button>
 		{/if}
 	</div>
 	<PostBody jsonModel={post.jsonModel} attachments={post._embedded.attachments[0]} />
