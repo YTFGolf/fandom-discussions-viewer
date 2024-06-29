@@ -5,6 +5,7 @@
 	import type { Wiki } from '$lib/types';
 	import EditModal from './EditModal.svelte';
 	import { type ViewContent } from './Editor.svelte';
+	import FandomIcon from './FandomIcon.svelte';
 	import Avatar from './Post/Avatar.svelte';
 	import PostBody from './Post/PostBody.svelte';
 	import Time from './Post/Time.svelte';
@@ -86,7 +87,12 @@
 		</a>
 	</div>
 	<div class="form-actions">
-		{#if permissions?.includes('canEdit')}<button on:click={edit}>EDIT</button>{/if}
+		{#if permissions?.includes('canEdit')}
+			<button class="action" on:click={edit}>
+				<FandomIcon icon="edit" width="18" />
+				Edit
+			</button>
+		{/if}
 		{#if permissions?.includes('canDelete') && !post.isDeleted}
 			<button on:click={deletePost}>DELETE</button>
 		{/if}
@@ -170,7 +176,7 @@
 		gap: 0.5em;
 	}
 
-	.form-actions button {
+	.form-actions .action {
 		background: none;
 		border: 1px solid var(--wds-dropdown-border-color);
 		border-radius: 3px;
@@ -182,11 +188,18 @@
 		text-decoration: none;
 		transition-duration: 0.3s;
 		transition-property: background-color, color;
+		text-transform: none;
+		font-size: 0.875rem;
 	}
 
-	.form-actions button:hover {
+	.form-actions .action:hover {
 		background-color: var(--wds-dropdown-linked-item-background-color);
 		color: var(--wds-dropdown-linked-item-color);
+	}
+
+	.form-actions .action :global(img) {
+		margin-right: 4px;
+		vertical-align: middle;
 	}
 
 	.edited-by {
