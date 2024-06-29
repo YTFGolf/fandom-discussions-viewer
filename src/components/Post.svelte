@@ -86,26 +86,28 @@
 			<Time time={post.creationDate} />
 		</a>
 	</div>
-	<div class="form-actions">
-		{#if permissions?.includes('canEdit')}
-			<button class="action" on:click={edit}>
-				<FandomIcon icon="edit" width="18" />
-				Edit
-			</button>
-		{/if}
-		{#if permissions?.includes('canDelete') && !post.isDeleted}
-			<button class="action" on:click={deletePost}>
-				<FandomIcon icon="delete" width="18" />
-				Delete
-			</button>
-		{/if}
-		{#if permissions?.includes('canUndelete') && post.isDeleted}
-			<button class="action" on:click={undeletePost}>
-				<FandomIcon icon="restore" width="18" />
-				Undelete
-			</button>
-		{/if}
-	</div>
+	{#if permissions}
+		<div class="form-actions">
+			{#if permissions?.includes('canEdit')}
+				<button class="action" on:click={edit}>
+					<FandomIcon icon="edit" width="18" />
+					Edit
+				</button>
+			{/if}
+			{#if permissions?.includes('canDelete') && !post.isDeleted}
+				<button class="action" on:click={deletePost}>
+					<FandomIcon icon="delete" width="18" />
+					Delete
+				</button>
+			{/if}
+			{#if permissions?.includes('canUndelete') && post.isDeleted}
+				<button class="action" on:click={undeletePost}>
+					<FandomIcon icon="restore" width="18" />
+					Undelete
+				</button>
+			{/if}
+		</div>
+	{/if}
 	<PostBody jsonModel={post.jsonModel} attachments={post._embedded.attachments[0]} />
 	{#if post.lastEditedBy}
 		<div class="edited-by">(Edited by {post.lastEditedBy.name})</div>
