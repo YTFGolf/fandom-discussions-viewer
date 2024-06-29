@@ -41,23 +41,24 @@
 	$: threadContent = DiscussionThread.getThread(wiki, params).then((res) => res.json());
 	// $: threadContent = examples;
 	let editor: ReplyEditor;
+	let postList: HTMLElement;
 
 	function rebuildEditor() {
 		editor.$destroy();
 		editor = new ReplyEditor({
-			target: document.querySelector('.post-list')!,
+			target: postList,
 			props: { onSubmit: submitReply },
 		});
 	}
 
 	async function submitReply(viewContent: ViewContent) {
+		await threadContent;
 		const res = await DiscussionPost.create(
 			wiki,
 			{},
 			{
 				threadId,
-				siteId: '3448675',
-				// TODO dynamically generate
+				siteId: (await threadContent).siteId,
 				...viewContent,
 			},
 		);
@@ -101,7 +102,7 @@
 		<p>...waiting</p>
 	{:then postData}
 		{#if postData._embedded && postData._embedded['doc:posts']}
-			<div class="post-list">
+			<div bind:this={postList} class="post-list">
 				{#each postData._embedded['doc:posts'].toReversed() as post, i}
 					<!-- {#if i > 0}<hr />{/if} -->
 					<hr />
