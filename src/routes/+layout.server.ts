@@ -2,6 +2,10 @@ import { page } from '$app/stores';
 import type { Cookies } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
 
+export type Config = {
+	theme: 'light' | 'dark';
+};
+
 /**
  * Sets wiki name as a cookie. Wiki is the first given of:
  * - URL search param (`?wiki=en.battle-cats`)
@@ -15,7 +19,13 @@ export const load: LayoutServerLoad = function (data) {
 	const wiki = url.searchParams.get('wiki') || cookies.get('wiki') || 'en.community';
 	cookies.set('wiki', wiki, { path: '/' });
 
+	const config: Config = {
+		theme: 'light',
+	};
+	// TODO make the config a cookie or store it in a file or something
+
 	return {
 		wiki: wiki,
+		config,
 	};
 };

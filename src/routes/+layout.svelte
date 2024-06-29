@@ -1,11 +1,11 @@
 <script lang="ts">
 	import type { Wiki } from '$lib/types';
 	import Header from './Header.svelte';
-	import { page } from '$app/stores';
-	import { browser } from '$app/environment';
+	import { parseWiki } from '$lib/wiki';
 
-	const wiki: Wiki = { name: 'battle-cats', lang: 'en' };
-	const theme = 'light';
+	export let data;
+	const wiki: Wiki = parseWiki(data.wiki);
+	const theme = data.config.theme;
 	let entrypoint = `https://${wiki.name}.fandom.com`;
 
 	if (wiki.lang && wiki.lang !== 'en') {
