@@ -1,11 +1,18 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { browser } from '$app/environment';
+	import { parseWiki } from '$lib/wiki';
 
 	function navLinkClass(page: string, route: string) {
 		if (page === route) {
 			return 'nav-link active';
 		}
 		return 'nav-link';
+	}
+
+	const wiki: string | null | undefined = $page.data?.wiki;
+	if (wiki) {
+		console.log(parseWiki(wiki));
 	}
 </script>
 

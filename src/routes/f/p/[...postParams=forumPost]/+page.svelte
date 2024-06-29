@@ -13,7 +13,8 @@
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 
-	const [_, threadId, postId]: string[] = $page.params.postParams.match(/^(\d+)(?:\/r\/)?(.*)/)!;
+	const rePostParams = /^(\d+)(?:\/r\/)?(\d*)$/;
+	const [_, threadId, postId]: string[] = $page.params.postParams.match(rePostParams)!;
 	// /f/p/{t} => [_, t, ""]
 	// /f/p/{t}/r/{p} => [_, t, p]
 	// Format is guaranteed by forumPost param

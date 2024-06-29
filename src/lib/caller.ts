@@ -1,5 +1,4 @@
 import { ContentType, type Wiki, type WikiScript } from '$lib/types';
-import HTTP from './HTTPCodes';
 import { stringify } from './controllers/util';
 
 export type CallOptions = {
