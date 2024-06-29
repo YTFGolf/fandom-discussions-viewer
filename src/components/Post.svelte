@@ -3,6 +3,7 @@
 	import { DiscussionPost } from '$lib/controllers/wikia/DiscussionPost';
 	import type { Post } from '$lib/responses/Post';
 	import type { Wiki } from '$lib/types';
+	import { wiki } from '../routes/stores';
 	import EditModal from './EditModal.svelte';
 	import { type ViewContent } from './Editor.svelte';
 	import FandomIcon from './FandomIcon.svelte';
@@ -12,7 +13,6 @@
 
 	export let post: Post;
 	const permissions = post._embedded.userData[0].permissions;
-	const wiki: Wiki = { name: 'wwr-test', lang: 'en' };
 
 	let container: HTMLElement;
 	let modalContainer: HTMLElement;
@@ -23,7 +23,7 @@
 		openEditor = true;
 	}
 	async function deletePost() {
-		const res = await DiscussionPost.deletePost(wiki, { postId: post.id });
+		const res = await DiscussionPost.deletePost($wiki, { postId: post.id });
 		if (res.status == HTTP.OK) {
 			post = await res.json();
 		} else {
@@ -32,7 +32,7 @@
 		}
 	}
 	async function undeletePost() {
-		const res = await DiscussionPost.undelete(wiki, { postId: post.id });
+		const res = await DiscussionPost.undelete($wiki, { postId: post.id });
 		if (res.status == HTTP.OK) {
 			post = await res.json();
 		} else {
@@ -47,7 +47,7 @@
 			message: '...',
 		};
 		const res = await DiscussionPost.update(
-			wiki,
+			$wiki,
 			{ postId: post.id },
 			{
 				...post,

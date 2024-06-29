@@ -2,14 +2,15 @@
 	import type { Wiki } from '$lib/types';
 	import Header from './Header.svelte';
 	import { parseWiki } from '$lib/wiki';
+	import { wiki } from './stores';
 
 	export let data;
-	const wiki: Wiki = parseWiki(data.wiki);
 	const theme = data.config.theme;
-	let entrypoint = `https://${wiki.name}.fandom.com`;
+	$wiki = parseWiki(data.wiki);
 
-	if (wiki.lang && wiki.lang !== 'en') {
-		entrypoint += '/' + wiki.lang;
+	let entrypoint = `https://${$wiki.name}.fandom.com`;
+	if ($wiki.lang && $wiki.lang !== 'en') {
+		entrypoint += '/' + $wiki.lang;
 	}
 
 	// console.log($page.data?.wiki);

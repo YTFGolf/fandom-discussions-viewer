@@ -12,6 +12,7 @@
 	import { post } from '$lib/caller';
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
+	import { wiki } from '../../../stores';
 
 	const rePostParams = /^(\d+)(?:\/r\/)?(\d*)$/;
 	const [_, threadId, postId]: string[] = $page.params.postParams.match(rePostParams)!;
@@ -19,8 +20,6 @@
 	// /f/p/{t}/r/{p} => [_, t, p]
 	// Format is guaranteed by forumPost param
 
-	// const wiki: Wiki = { name: 'battle-cats', lang: 'en' };
-	const wiki: Wiki = { name: 'wwr-test', lang: 'en' };
 	const params: DiscussionThread.getThreadParams = {
 		threadId: threadId,
 		responseGroup: 'full',
@@ -41,7 +40,7 @@
 	// https://battle-cats.fandom.com/f/p/4400000000000822918/r/4400000000003058552
 
 	let threadContent: Promise<Thread>;
-	$: threadContent = DiscussionThread.getThread(wiki, params).then((res) => res.json());
+	$: threadContent = DiscussionThread.getThread($wiki, params).then((res) => res.json());
 	// $: threadContent = examples;
 	let editor: ReplyEditor;
 	let postList: HTMLElement;
@@ -57,7 +56,7 @@
 	async function submitReply(viewContent: ViewContent) {
 		await threadContent;
 		const res = await DiscussionPost.create(
-			wiki,
+			$wiki,
 			{},
 			{
 				threadId,
@@ -97,9 +96,9 @@
 
 {#await threadContent}<h1>Loading post...</h1>{:then content}<h1>{content.title}</h1>{/await}
 <label for="lang">Language:</label>
-<input type="text" id="lang" bind:value={wiki.lang} />
+<input type="text" id="lang" bind:value={$wiki.lang} />
 <label for="wiki">Wiki:</label>
-<input type="text" id="wiki" bind:value={wiki.name} />
+<input type="text" id="wiki" bind:value={$wiki.name} />
 <label for="threadId">ThreadId:</label>
 <input type="text" id="threadId" bind:value={params.threadId} />
 <label for="pivot">pivot:</label>
