@@ -122,10 +122,17 @@ h1 {
 	--wds-text-button-label-color--hover: var(--theme-page-text-color--hover);
 
 	--wds-dropdown-background-color: var(--theme-page-background-color--secondary);
-    --wds-dropdown-border-color: var(--theme-border-color);
-    --wds-dropdown-text-color: var(--theme-page-text-color);
-    --wds-dropdown-linked-item-color: var(--theme-link-color);
-    --wds-dropdown-linked-item-background-color: rgba(var(--theme-link-color--rgb),0.1);
-    --wds-dropdown-scrollable-shadow-color: rgba(var(--theme-page-text-color--rgb),0.1);
+	--wds-dropdown-border-color: var(--theme-border-color);
+	--wds-dropdown-text-color: var(--theme-page-text-color);
+	--wds-dropdown-linked-item-color: var(--theme-link-color);
+	--wds-dropdown-linked-item-background-color: rgba(var(--theme-link-color--rgb), 0.1);
+	--wds-dropdown-scrollable-shadow-color: rgba(var(--theme-page-text-color--rgb), 0.1);
 	--wds-list-border-color: var(--theme-border-color);
+
+	--wds-banner-notification-background-color: var(--fandom-banner-notification-background-color);
+	--wds-banner-notification-text-color: var(--fandom-text-color);
+	--wds-banner-notification-link-color: var(--fandom-link-color);
+	--wds-banner-notification-link-color--hover: var(--fandom-link-color--hover);
+	--wds-banner-notification-border-color: var(--fandom-border-color);
+	--wds-banner-notification-close-icon: var(--fandom-banner-notifications-close-icon);
 }

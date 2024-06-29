@@ -10,6 +10,8 @@
 	import HTTP from '$lib/HTTPCodes';
 	import ReplyEditor from '../../../../components/ReplyEditor.svelte';
 	import { post } from '$lib/caller';
+	import { browser } from '$app/environment';
+	import { goto } from '$app/navigation';
 
 	const [_, threadId, postId]: string[] = $page.params.postParams.match(/^(\d+)(?:\/r\/)?(.*)/)!;
 	// /f/p/{t} => [_, t, ""]
@@ -78,6 +80,13 @@
 			// };
 		}
 	}
+
+	// function movePage() {
+	// 	const url = `/f/p/${params.threadId}` + (params.pivot ? `/r/${params.pivot}` : '');
+	// 	if (browser) {
+	// 		goto(url);
+	// 	}
+	// }
 </script>
 
 <svelte:head>
@@ -96,6 +105,7 @@
 <input type="text" id="pivot" bind:value={params.pivot} />
 <label for="limit">limit:</label>
 <input type="text" id="limit" bind:value={params.limit} />
+<!-- <button on:click={movePage}>Move page</button> -->
 
 <container>
 	{#await threadContent}

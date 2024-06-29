@@ -66,12 +66,6 @@
 	}
 
 	.status {
-		--wds-banner-notification-background-color: var(--fandom-banner-notification-background-color);
-		--wds-banner-notification-text-color: var(--fandom-text-color);
-		--wds-banner-notification-link-color: var(--fandom-link-color);
-		--wds-banner-notification-link-color--hover: var(--fandom-link-color--hover);
-		--wds-banner-notification-border-color: var(--fandom-border-color);
-		--wds-banner-notification-close-icon: var(--fandom-banner-notifications-close-icon);
 		background-color: var(--wds-banner-notification-background-color);
 		border-radius: 3px;
 		border-right: 1px solid var(--wds-banner-notification-border-color);
