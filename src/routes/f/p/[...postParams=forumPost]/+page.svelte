@@ -5,6 +5,11 @@
 	import { examples } from './examples';
 	import { page } from '$app/stores';
 	import Post from '../../../../components/Post.svelte';
+	import type { ViewContent } from '../../../../components/Editor.svelte';
+	import { DiscussionPost } from '$lib/controllers/wikia/DiscussionPost';
+	import HTTP from '$lib/HTTPCodes';
+	import ReplyEditor from '../../../../components/ReplyEditor.svelte';
+	import { post } from '$lib/caller';
 
 	const [_, threadId, postId]: string[] = $page.params.postParams.match(/^(\d+)(?:\/r\/)?(.*)/)!;
 	// /f/p/{t} => [_, t, ""]
@@ -35,6 +40,43 @@
 	let threadContent: Promise<Thread>;
 	$: threadContent = DiscussionThread.getThread(wiki, params).then((res) => res.json());
 	// $: threadContent = examples;
+	let editor: ReplyEditor;
+
+	function rebuildEditor() {
+		editor.$destroy();
+		editor = new ReplyEditor({
+			target: document.querySelector('.post-list')!,
+			props: { onSubmit: submitReply },
+		});
+	}
+
+	async function submitReply(viewContent: ViewContent) {
+		const res = await DiscussionPost.create(
+			wiki,
+			{},
+			{
+				threadId,
+				siteId: '3448675',
+				// TODO dynamically generate
+				...viewContent,
+			},
+		);
+		if (res.status == HTTP.CREATED) {
+			// onCancel();
+			// post = await res.json();
+			(await threadContent)._embedded['doc:posts'].splice(0, 0, await res.json());
+			// @ts-ignore
+			threadContent = await threadContent;
+			rebuildEditor();
+		} else {
+			const json = await res.json();
+			console.error('Failed', json);
+			// modalStatus = {
+			// 	color: 'red',
+			// 	message: json.title || json.errorText || JSON.stringify(json),
+			// };
+		}
+	}
 </script>
 
 <svelte:head>
@@ -59,11 +101,15 @@
 		<p>...waiting</p>
 	{:then postData}
 		{#if postData._embedded && postData._embedded['doc:posts']}
-			{#each postData._embedded['doc:posts'].reverse() as post, i}
-				<!-- {#if i > 0}<hr />{/if} -->
+			<div class="post-list">
+				{#each postData._embedded['doc:posts'].toReversed() as post, i}
+					<!-- {#if i > 0}<hr />{/if} -->
+					<hr />
+					<Post {post} />
+				{/each}
 				<hr />
-				<Post {post} />
-			{/each}
+				<ReplyEditor bind:this={editor} onSubmit={submitReply} />
+			</div>
 		{:else}
 			<p style="color: red">Error: posts not found</p>
 		{/if}
@@ -71,3 +117,9 @@
 		<p style="color: red">{error.message}</p>
 	{/await}
 </container>
+
+<style>
+	.post-list {
+		padding: 36px;
+	}
+</style>
