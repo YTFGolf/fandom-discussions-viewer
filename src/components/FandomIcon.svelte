@@ -21,6 +21,20 @@
 
 	export let icon: keyof typeof ICONS;
 	export let width: string;
+	export let color: string = '';
 </script>
 
-<img {width} src={ICONS[icon]} alt={icon} />
+<!-- https://stackoverflow.com/a/43916743 -->
+<img
+	class="fandom-icon-svg"
+	style="background-color: {color}; mask-image: url({ICONS[icon]});"
+	{width}
+	alt={icon}
+/>
+
+<style>
+	img {
+		mask: none no-repeat center;
+		color: transparent;
+	}
+</style>

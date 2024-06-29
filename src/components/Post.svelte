@@ -184,6 +184,10 @@
 		gap: 0.5em;
 	}
 
+	.form-actions :global(.fandom-icon-svg) {
+		background-color: var(--wds-dropdown-text-color);
+	}
+
 	.form-actions .action {
 		background: none;
 		border: 1px solid var(--wds-dropdown-border-color);
