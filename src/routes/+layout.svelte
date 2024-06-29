@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { Wiki } from '$lib/types';
 	import Header from './Header.svelte';
+	import { page } from '$app/stores';
+	import { browser } from '$app/environment';
 
 	const wiki: Wiki = { name: 'battle-cats', lang: 'en' };
 	const theme = 'light';
@@ -9,6 +11,8 @@
 	if (wiki.lang && wiki.lang !== 'en') {
 		entrypoint += '/' + wiki.lang;
 	}
+
+	// console.log($page.data?.wiki);
 	// TODO make this a config option
 	/**
 	 * Would entail:

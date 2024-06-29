@@ -1,11 +1,21 @@
+import { page } from '$app/stores';
 import type { Cookies } from '@sveltejs/kit';
+import type { LayoutServerLoad } from './$types';
 
-const wiki = 'en.battle-cats';
+/**
+ * Sets wiki name as a cookie. Wiki is the first given of:
+ * - URL search param (`?wiki=en.battle-cats`)
+ * - Wiki cookie
+ * - `en.community`
+ */
+export const load: LayoutServerLoad = function (data) {
+	const cookies = data.cookies;
+	const url = data.url;
 
-export function load({ cookies }: { cookies: Cookies }) {
+	const wiki = url.searchParams.get('wiki') || cookies.get('wiki') || 'en.community';
 	cookies.set('wiki', wiki, { path: '/' });
 
 	return {
-		wiki: cookies.get('wiki'),
+		wiki: wiki,
 	};
-}
+};

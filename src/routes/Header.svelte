@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { browser } from '$app/environment';
 	import { parseWiki } from '$lib/wiki';
 
 	function navLinkClass(page: string, route: string) {
@@ -10,7 +9,8 @@
 		return 'nav-link';
 	}
 
-	const wiki: string | null | undefined = $page.data?.wiki;
+	// const wiki: string | null | undefined = $page.data?.wiki;
+	const wiki = 'en.battle-cats';
 	if (wiki) {
 		console.log(parseWiki(wiki));
 	}
