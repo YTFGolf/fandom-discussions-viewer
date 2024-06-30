@@ -24,6 +24,9 @@ export const load: LayoutServerLoad = async function (data) {
 		theme: 'light',
 	};
 	// TODO make the config a cookie or store it in a file or something
+	// theme
+	// hideDeleted
+	// themeWiki
 
 	return {
 		wiki: wiki,

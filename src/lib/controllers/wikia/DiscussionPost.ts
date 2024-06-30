@@ -1,6 +1,7 @@
 import { get, post } from '$lib/caller';
 import type { Wiki } from '$lib/types';
 import type { Attachments } from '../types/attachments';
+import type { JsonModel } from '../types/jsonModel';
 import type { ContainerType, HasData, Source } from '../types/string-types';
 import { getParams } from '../util';
 
@@ -9,6 +10,7 @@ import { getParams } from '../util';
 export namespace DiscussionPost {
 	export type updateData = {
 		attachments: Attachments;
+		jsonModel: string;
 	} & HasData;
 	export async function update(wiki: Wiki, { postId }: { postId: string }, data: updateData) {
 		const params = getParams('DiscussionPost', 'update', { postId });
