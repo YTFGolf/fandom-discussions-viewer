@@ -1,8 +1,11 @@
 <script lang="ts">
-	import type { Wiki } from '$lib/types';
 	import Header from './Header.svelte';
 	import { parseWiki } from '$lib/wiki';
 	import { wiki } from './stores';
+	import { onMount } from 'svelte';
+	import { FeedsAndPosts } from '$lib/controllers/wikia/FeedsAndPosts';
+	import { get } from '$lib/caller';
+	import type { UserData } from '$lib/server/userData';
 
 	export let data;
 	const theme = data.config.theme;
@@ -12,6 +15,37 @@
 	if ($wiki.lang && $wiki.lang !== 'en') {
 		entrypoint += '/' + $wiki.lang;
 	}
+
+	async function getUserDetails() {
+		// https://wwr-test.fandom.com/api.php?action=query&format=json&meta=userinfo&uiprop=options
+		// https://wwr-test.fandom.com/wikia.php&controller=FeedsAndPosts&method=getAll
+
+		const params = {
+			action: 'query',
+			format: 'json',
+			meta: 'userinfo',
+			uiprop: 'options',
+		};
+		const userInfo = get($wiki, params, { script: 'api.php' });
+		const wikiInfo = FeedsAndPosts.getAll($wiki);
+
+		const responses = [userInfo.then((res) => res.json()), wikiInfo.then((res) => res.json())];
+		const [userData, wikiData] = await Promise.all(responses);
+		const info = userData.query.userinfo;
+
+		const userDetails: UserData = {
+			id: info.id,
+			name: info.name,
+			avatarUrl: info.options.avatar || null,
+			badgePermission: wikiData.badge,
+		};
+
+		console.log(userDetails);
+	}
+
+	onMount(() => {
+		getUserDetails();
+	});
 
 	// console.log($page.data?.wiki);
 	// TODO make this a config option
