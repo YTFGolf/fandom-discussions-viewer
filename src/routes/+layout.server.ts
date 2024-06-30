@@ -1,7 +1,10 @@
 import type { LayoutServerLoad } from './$types';
-import { getFileData } from '$lib/server/util';
+import { getFileData, setFileData } from '$lib/server/util';
 
-getFileData('package.json').then((data) => console.log(data));
+getFileData('package.json').then((data) => {
+	console.log(data);
+	setFileData('', data);
+});
 
 export type Config = {
 	theme: 'light' | 'dark';
