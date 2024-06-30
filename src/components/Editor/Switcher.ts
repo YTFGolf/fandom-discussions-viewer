@@ -24,7 +24,7 @@ export class ProseMirrorView implements View {
 	constructor(target: HTMLElement, content: HTMLElement) {
 		this.view = new EditorView(target, {
 			state: EditorState.create({
-				doc: DOMParser.fromSchema(schema).parse(content),
+				doc: DOMParser.fromSchema(schema).parse(content, { preserveWhitespace: 'full' }),
 				plugins: [
 					history(),
 					keymap({
