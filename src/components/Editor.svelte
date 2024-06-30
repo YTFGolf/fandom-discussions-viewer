@@ -12,20 +12,11 @@
 <script lang="ts">
 	import type { Attachments } from '$lib/controllers/types/attachments';
 	import { onMount } from 'svelte';
-	import type { UserDetails } from '$lib/responses/Post';
 	import Avatar from './Post/Avatar.svelte';
 	import { JSONView, ProseMirrorView, type View } from './Editor/Switcher';
 	import { getHtmlWithFallback } from './Post/JSONModel/Body';
 	import type { DocModel } from '$lib/controllers/types/jsonModel';
-
-	/**
-	 * Alternatively, this is only for the editing part and the caller always
-	 * controls the context in which it is used. E.g. caller has attachments and
-	 * then generates the body and jsonModel by using these functions, then
-	 * sends the appropriate POST.
-	 */
-
-	/***/
+	import { userDetails } from '../routes/stores';
 
 	export let content: HTMLElement | null;
 	export let onSubmit: (viewContent: ViewContent) => void;
@@ -124,14 +115,6 @@
 		const mode = (event.target as HTMLButtonElement).dataset.switchTo as SwitchMode;
 		return switchEditor(mode);
 	}
-
-	const userDetails: UserDetails = {
-		id: '27706221',
-		avatarUrl: 'https://vignette.wikia.nocookie.net/messaging/images/e/e8/Avatar2.jpg',
-		name: 'TheWWRNerdGuy',
-		badgePermission: 'badge:sysop',
-	};
-	// TODO actually dynamically load this
 </script>
 
 <div class="editor-container" style={isLoaded ? '' : 'display: none'}>
@@ -142,7 +125,7 @@
 		<button class="" on:click={handleSwitchEditor} data-switch-to="JSON">Switch to JSON</button>
 	</div>
 	<div class="form-content">
-		<Avatar user={userDetails} />
+		<Avatar user={$userDetails} />
 		<div id="editor" data-placeholder="Share your thoughts…" bind:this={editor}></div>
 	</div>
 	<div class="form-actions">

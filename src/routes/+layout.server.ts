@@ -24,7 +24,6 @@ export const load: LayoutServerLoad = async function (data) {
 		theme: 'light',
 	};
 	// TODO make the config a cookie or store it in a file or something
-	// TODO make user badge not in config and only generate it when necessary
 
 	return {
 		wiki: wiki,
