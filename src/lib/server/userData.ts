@@ -1,14 +1,13 @@
 import type { UserDetails } from '$lib/responses/Post';
 import { getFileData, setFileData } from './util';
 
-export type UserData = UserDetails;
+export type UserData = Omit<UserDetails, 'badgePermission'>;
 
 const FILE_NAME = 'userData.json';
 const defaultUserData: UserData = {
 	id: '0',
 	avatarUrl: null,
 	name: null,
-	badgePermission: '',
 };
 
 export async function get(): Promise<UserData> {

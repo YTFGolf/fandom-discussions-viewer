@@ -17,19 +17,18 @@ export const load: LayoutServerLoad = async function (data) {
 	const url = data.url;
 
 	const wiki = url.searchParams.get('wiki') || cookies.get('wiki') || 'en.community';
+	const userDetails = await get(Option.UserData);
 	cookies.set('wiki', wiki, { path: '/' });
-	get(Option.UserData).then((data) => {
-		console.log(data);
-		// set
-	});
 
 	const config: Config = {
 		theme: 'light',
 	};
 	// TODO make the config a cookie or store it in a file or something
+	// TODO make user badge not in config and only generate it when necessary
 
 	return {
 		wiki: wiki,
 		config,
+		userDetails,
 	};
 };

@@ -27,7 +27,7 @@ export type Attachments = {
 export type UserDetails = {
 	avatarUrl: string | null;
 	badgePermission: string;
-	id: string;
+	id: string | number;
 	name: string | null;
 };
 

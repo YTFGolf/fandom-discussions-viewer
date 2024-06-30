@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Header from './Header.svelte';
 	import { parseWiki } from '$lib/wiki';
-	import { wiki } from './stores';
+	import { userDetails, wiki } from './stores';
 	import { onMount } from 'svelte';
 	import { FeedsAndPosts } from '$lib/controllers/wikia/FeedsAndPosts';
 	import { get } from '$lib/caller';
@@ -11,6 +11,7 @@
 	export let data;
 	const theme = data.config.theme;
 	$wiki = parseWiki(data.wiki);
+	$userDetails = { ...data.userDetails, badgePermission: '' };
 
 	let entrypoint = `https://${$wiki.name}.fandom.com`;
 	if ($wiki.lang && $wiki.lang !== 'en') {
@@ -19,32 +20,41 @@
 
 	async function getUserDetails() {
 		// https://wwr-test.fandom.com/api.php?action=query&format=json&meta=userinfo&uiprop=options
-		// https://wwr-test.fandom.com/wikia.php&controller=FeedsAndPosts&method=getAll
-
 		const params = {
 			action: 'query',
 			format: 'json',
 			meta: 'userinfo',
 			uiprop: 'options',
 		};
-		const userInfo = get($wiki, params, { script: 'api.php' }).then((res) => res.json());
-		const wikiInfo = FeedsAndPosts.getAll($wiki).then((res) => res.json());
+		const userQuery = await get($wiki, params, { script: 'api.php' });
+		const userInfo = await userQuery.json();
 
-		const [userData, wikiData] = await Promise.all([userInfo, wikiInfo]);
-		const info = userData.query.userinfo;
-
-		const userDetails: UserData = {
+		const info = userInfo.query.userinfo;
+		const userData: UserData = {
 			id: info.id,
 			name: info.name,
 			avatarUrl: info.options.avatar || null,
-			badgePermission: wikiData.badge,
 		};
 
-		setFromClient(Option.UserData, userDetails);
+		setFromClient(Option.UserData, userData);
+		$userDetails = {
+			...userData,
+			badgePermission: $userDetails.badgePermission,
+		};
+		// I don't know if this causes race conditions
+	}
+
+	async function getUserBadge() {
+		// https://wwr-test.fandom.com/wikia.php&controller=FeedsAndPosts&method=getAll
+		const wikiInfo = await FeedsAndPosts.getAll($wiki);
+		const wikiData = await wikiInfo.json();
+
+		$userDetails.badgePermission = wikiData.badge;
 	}
 
 	onMount(() => {
 		getUserDetails();
+		getUserBadge();
 	});
 
 	// console.log($page.data?.wiki);
