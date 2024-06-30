@@ -3,9 +3,10 @@
 	import { getHtmlWithFallback } from './JSONModel/Body';
 	export let jsonModel: string;
 	export let attachments: Attachments;
+	export let rawContent: string;
 </script>
 
-{#await getHtmlWithFallback(jsonModel, attachments)}
+{#await getHtmlWithFallback(jsonModel, attachments, rawContent)}
 	<p>Loading post body...</p>
 {:then rawText}
 	<div class="post-content">
@@ -14,6 +15,10 @@
 {/await}
 
 <style>
+	.post-content {
+		white-space: pre-wrap;
+	}
+
 	.post-content :global(a) {
 		color: var(--theme-link-color);
 	}

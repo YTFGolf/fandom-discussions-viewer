@@ -108,7 +108,11 @@
 			{/if}
 		</div>
 	{/if}
-	<PostBody jsonModel={post.jsonModel} attachments={post._embedded.attachments[0]} />
+	<PostBody
+		jsonModel={post.jsonModel}
+		attachments={post._embedded.attachments[0]}
+		rawContent={post.rawContent}
+	/>
 	{#if post.lastEditedBy}
 		<div class="edited-by">(Edited by {post.lastEditedBy.name})</div>
 	{/if}

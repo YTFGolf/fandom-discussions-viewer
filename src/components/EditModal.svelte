@@ -22,7 +22,11 @@
 	let target: HTMLDivElement;
 
 	onMount(async () => {
-		const postHtml = await getHtmlWithFallback(post.jsonModel, post._embedded.attachments[0]);
+		const postHtml = await getHtmlWithFallback(
+			post.jsonModel,
+			post._embedded.attachments[0],
+			post.rawContent,
+		);
 		target.innerHTML = postHtml;
 		loaded = true;
 	});

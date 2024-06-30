@@ -72,7 +72,11 @@
 	async function convertDoc(content: ViewContent, mode: SwitchMode): Promise<any> {
 		switch (mode) {
 			case 'RTE':
-				const html = await getHtmlWithFallback(content.jsonModel, content.attachments as any);
+				const html = await getHtmlWithFallback(
+					content.jsonModel,
+					content.attachments as any,
+					content.rawContent,
+				);
 				const div = document.createElement('div');
 				div.innerHTML = html;
 				return div;

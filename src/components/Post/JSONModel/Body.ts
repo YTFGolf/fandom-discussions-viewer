@@ -1,5 +1,5 @@
 import type { DocModel, JsonModel } from '$lib/controllers/types/jsonModel';
-import { default as getBlock } from './Block';
+import { default as getBlock, getImage } from './Block';
 import fallback from '../../Fallback';
 import type { Attachments } from '$lib/responses/Post';
 import { stringify } from '$lib/controllers/util';
@@ -13,7 +13,19 @@ async function getHtml(jsonModel: DocModel, attachments: Attachments) {
 	return (await Promise.all(blocks)).join('');
 }
 
-export async function getHtmlWithFallback(jsonModel: JsonModel, attachments: Attachments) {
+export async function getHtmlWithFallback(
+	jsonModel: JsonModel,
+	attachments: Attachments,
+	rawContent: string,
+) {
+	if (!jsonModel) {
+		let content = rawContent;
+		if (attachments.contentImages[0]) {
+			content += getImage({ type: 'image', attrs: { id: 0 } }, attachments);
+		}
+		return content;
+	}
+
 	try {
 		if (typeof jsonModel === 'string') {
 			jsonModel = JSON.parse(jsonModel);
