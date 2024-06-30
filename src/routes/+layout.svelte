@@ -6,6 +6,7 @@
 	import { FeedsAndPosts } from '$lib/controllers/wikia/FeedsAndPosts';
 	import { get } from '$lib/caller';
 	import type { UserData } from '$lib/server/userData';
+	import { Option, setFromClient } from '$lib/client';
 
 	export let data;
 	const theme = data.config.theme;
@@ -26,11 +27,10 @@
 			meta: 'userinfo',
 			uiprop: 'options',
 		};
-		const userInfo = get($wiki, params, { script: 'api.php' });
-		const wikiInfo = FeedsAndPosts.getAll($wiki);
+		const userInfo = get($wiki, params, { script: 'api.php' }).then((res) => res.json());
+		const wikiInfo = FeedsAndPosts.getAll($wiki).then((res) => res.json());
 
-		const responses = [userInfo.then((res) => res.json()), wikiInfo.then((res) => res.json())];
-		const [userData, wikiData] = await Promise.all(responses);
+		const [userData, wikiData] = await Promise.all([userInfo, wikiInfo]);
 		const info = userData.query.userinfo;
 
 		const userDetails: UserData = {
@@ -40,7 +40,8 @@
 			badgePermission: wikiData.badge,
 		};
 
-		console.log(userDetails);
+		// @ts-ignore
+		setFromClient(Option.UserData, userDetails);
 	}
 
 	onMount(() => {

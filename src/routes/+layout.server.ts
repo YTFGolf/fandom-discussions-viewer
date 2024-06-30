@@ -1,4 +1,5 @@
-import { Option, get } from '$lib/server';
+import { Option } from '$lib/client';
+import { get } from '$lib/server';
 import type { LayoutServerLoad } from './$types';
 
 export type Config = {
