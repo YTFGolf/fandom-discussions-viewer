@@ -1,6 +1,7 @@
-import { page } from '$app/stores';
-import type { Cookies } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
+import { getFileData } from '$lib/server/util';
+
+getFileData('package.json').then((data) => console.log(data));
 
 export type Config = {
 	theme: 'light' | 'dark';
@@ -12,7 +13,7 @@ export type Config = {
  * - Wiki cookie
  * - `en.community`
  */
-export const load: LayoutServerLoad = function (data) {
+export const load: LayoutServerLoad = async function (data) {
 	const cookies = data.cookies;
 	const url = data.url;
 
