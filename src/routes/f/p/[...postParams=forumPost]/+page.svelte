@@ -95,10 +95,6 @@
 </svelte:head>
 
 {#await threadContent}<h1>Loading post...</h1>{:then content}<h1>{content.title}</h1>{/await}
-<label for="lang">Language:</label>
-<input type="text" id="lang" bind:value={$wiki.lang} />
-<label for="wiki">Wiki:</label>
-<input type="text" id="wiki" bind:value={$wiki.name} />
 <label for="threadId">ThreadId:</label>
 <input type="text" id="threadId" bind:value={params.threadId} />
 <label for="pivot">pivot:</label>
