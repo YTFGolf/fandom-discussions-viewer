@@ -1,4 +1,4 @@
-import { Option } from './client';
+import { Option, setFromClient } from './client';
 import { get as getUserData, set as setUserData, type UserData } from './server/userData';
 
 /**
@@ -18,10 +18,9 @@ export async function get(option: Option.UserData): Promise<UserData> {
 	}
 }
 
-// export async function set(option: Option, data: any);
-export async function set(option: Option.UserData, data: UserData): Promise<void> {
+export const set: typeof setFromClient = async function (option, data) {
 	switch (option) {
 		case Option.UserData:
 			return setUserData(data);
 	}
-}
+};

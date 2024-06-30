@@ -40,7 +40,6 @@
 			badgePermission: wikiData.badge,
 		};
 
-		// @ts-ignore
 		setFromClient(Option.UserData, userDetails);
 	}
 
