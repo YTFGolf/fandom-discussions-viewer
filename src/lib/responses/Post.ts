@@ -28,7 +28,7 @@ export type UserDetails = {
 	avatarUrl: string | null;
 	badgePermission: string;
 	id: string;
-	name: string;
+	name: string | null;
 };
 
 export type PostTime = {

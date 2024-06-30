@@ -1,10 +1,5 @@
+import { Option, get } from '$lib/server';
 import type { LayoutServerLoad } from './$types';
-import { getFileData, setFileData } from '$lib/server/util';
-
-getFileData('package.json').then((data) => {
-	console.log(data);
-	setFileData('', data);
-});
 
 export type Config = {
 	theme: 'light' | 'dark';
@@ -22,6 +17,10 @@ export const load: LayoutServerLoad = async function (data) {
 
 	const wiki = url.searchParams.get('wiki') || cookies.get('wiki') || 'en.community';
 	cookies.set('wiki', wiki, { path: '/' });
+	get(Option.UserData).then((data) => {
+		console.log(data);
+		// set
+	});
 
 	const config: Config = {
 		theme: 'light',

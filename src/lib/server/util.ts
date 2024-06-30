@@ -1,4 +1,6 @@
-import { readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+
+const CONFIG_FOLDER_PATH = '.userconfig';
 
 /**
  * Get the data stored in `fileName` as a JSON object.
@@ -7,8 +9,7 @@ export async function getFileData(fileName: string): Promise<any | null> {
 	let content: any | null = null;
 
 	try {
-		// filehandle = await open(`.userdata/${fileName}`, 'r');
-		const buf = await readFile('package.json');
+		const buf = await readFile(`${CONFIG_FOLDER_PATH}/${fileName}`);
 		content = JSON.parse(buf.toString());
 	} catch (e) {
 		console.error(e);
@@ -23,9 +24,9 @@ export async function getFileData(fileName: string): Promise<any | null> {
  */
 export async function setFileData(fileName: string, data: any): Promise<boolean> {
 	try {
-		// filehandle = await open(`.userdata/${fileName}`, 'r');
 		const repr = JSON.stringify(data, undefined, '\t');
-		await writeFile('static/test.json', repr);
+		await mkdir(CONFIG_FOLDER_PATH, { recursive: true });
+		await writeFile(`${CONFIG_FOLDER_PATH}/${fileName}`, repr);
 
 		return true;
 	} catch (e) {
