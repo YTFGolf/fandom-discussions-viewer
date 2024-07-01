@@ -12,7 +12,7 @@
 	import Time from './Post/Time.svelte';
 
 	export let post: Post;
-	const permissions = post._embedded.userData[0].permissions;
+	const permissions = post._embedded.userData?.[0].permissions;
 
 	let container: HTMLElement;
 	let modalContainer: HTMLElement;

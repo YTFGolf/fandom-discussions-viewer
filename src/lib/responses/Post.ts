@@ -40,7 +40,7 @@ export type Post = {
 	jsonModel: string;
 	_embedded: {
 		attachments: Attachments[];
-		userData: [
+		userData?: [
 			{
 				hasReported: boolean;
 				hasUpvoted: boolean;
