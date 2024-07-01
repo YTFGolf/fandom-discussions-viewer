@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Avatar from '../components/Avatar.svelte';
 	import { userDetails, wiki } from './stores';
 
 	function setWiki() {
@@ -18,6 +19,7 @@
 
 		<button type="submit">Set</button>
 	</form>
+	<Avatar user={$userDetails} />
 	<!-- <span>{JSON.stringify($userDetails)}</span> -->
 </nav>
 
@@ -33,5 +35,6 @@
 		display: inline-flex;
 		align-items: center;
 		gap: 0.4em;
+		padding-right: 1em;
 	}
 </style>
