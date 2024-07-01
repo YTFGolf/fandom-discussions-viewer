@@ -7,6 +7,11 @@
 		url.searchParams.set('wiki', `${$wiki.lang}.${$wiki.name}`);
 		window.location.href = url.href;
 	}
+
+	async function logout() {
+		await fetch('/api/logout');
+		window.location.reload();
+	}
 </script>
 
 <nav class="top-nav">
@@ -20,7 +25,7 @@
 		<button type="submit">Set</button>
 	</form>
 	<Avatar user={$userDetails} />
-	<!-- <span>{JSON.stringify($userDetails)}</span> -->
+	<button on:click={logout}>Logout</button>
 </nav>
 
 <style>
