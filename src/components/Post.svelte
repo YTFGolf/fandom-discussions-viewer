@@ -7,7 +7,7 @@
 	import EditModal from './EditModal.svelte';
 	import { type ViewContent } from './Editor.svelte';
 	import FandomIcon from './FandomIcon.svelte';
-	import Avatar from './Post/Avatar.svelte';
+	import Avatar from './Avatar.svelte';
 	import PostBody from './Post/PostBody.svelte';
 	import Time from './Post/Time.svelte';
 

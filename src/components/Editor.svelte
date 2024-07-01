@@ -12,7 +12,7 @@
 <script lang="ts">
 	import type { Attachments } from '$lib/controllers/types/attachments';
 	import { onMount } from 'svelte';
-	import Avatar from './Post/Avatar.svelte';
+	import Avatar from './Avatar.svelte';
 	import { JSONView, ProseMirrorView, type View } from './Editor/Switcher';
 	import { getHtmlWithFallback } from './Post/JSONModel/Body';
 	import type { DocModel } from '$lib/controllers/types/jsonModel';

@@ -10,7 +10,7 @@ import { getParams } from '../util';
 export namespace DiscussionPost {
 	export type updateData = {
 		attachments: Attachments;
-		jsonModel: string;
+		jsonModel: JsonModel;
 	} & HasData;
 	export async function update(wiki: Wiki, { postId }: { postId: string }, data: updateData) {
 		const params = getParams('DiscussionPost', 'update', { postId });
