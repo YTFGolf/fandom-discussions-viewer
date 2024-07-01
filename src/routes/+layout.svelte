@@ -37,12 +37,19 @@
 			avatarUrl: info.options.avatar || null,
 		};
 
-		setFromClient(Option.UserData, userData);
+		const oldImage = $userDetails.avatarUrl;
 		$userDetails = {
 			...userData,
 			badgePermission: $userDetails.badgePermission,
 		};
-		// I don't know if this causes race conditions
+		await setFromClient(Option.UserData, userData);
+
+		const newImage = $userDetails.avatarUrl;
+		if (oldImage !== newImage) {
+			window.location.reload();
+		}
+		// images involved in stores load weirdly in svelte, so hacking it by
+		// reloading if necessary
 	}
 
 	async function getUserBadge() {

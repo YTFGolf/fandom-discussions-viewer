@@ -9,5 +9,5 @@ export enum Option {
 }
 
 export async function setFromClient(option: Option, data: any) {
-	fetch('/api/config', { method: 'POST', body: JSON.stringify({ option, data }) });
+	return fetch('/api/config', { method: 'POST', body: JSON.stringify({ option, data }) });
 }

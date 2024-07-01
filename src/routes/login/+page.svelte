@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import HTTP from '$lib/HTTPCodes';
 
 	let username = '';
@@ -28,7 +29,9 @@
 
 		status = { color: 'green', message: `Successfully logged in as ${username}` };
 
-		// window.location.replace('/');
+		setTimeout(() => {
+			window.location.reload();
+		}, 1000);
 	}
 </script>
 
