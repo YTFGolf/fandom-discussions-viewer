@@ -35,3 +35,15 @@ export async function setFileData(fileName: string, data: any): Promise<boolean>
 		return false;
 	}
 }
+
+export async function getConfigData<T>(fileName: string, defaultData: T): Promise<T> {
+	const fileContent = await getFileData(fileName);
+	return fileContent || defaultData;
+}
+
+export async function setConfigData<T>(fileName: string, data: T): Promise<void> {
+	const success = setFileData(fileName, data);
+	if (!success) {
+		throw new Error(`File write failed for ${fileName}!`);
+	}
+}
