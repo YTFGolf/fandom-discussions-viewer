@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Header from './Header.svelte';
 	import { parseWiki } from '$lib/wiki';
-	import { userDetails, wiki } from './stores';
+	import { config, userDetails, wiki } from './stores';
 	import { onMount } from 'svelte';
 	import { FeedsAndPosts } from '$lib/controllers/wikia/FeedsAndPosts';
 	import { get } from '$lib/caller';
@@ -9,14 +9,15 @@
 	import { Option, setFromClient } from '$lib/client';
 
 	export let data;
-	const theme = data.config.theme;
 	$wiki = parseWiki(data.wiki);
 	$userDetails = { ...data.userData, badgePermission: '' };
+	$config = data.config;
 
 	let entrypoint = `https://${$wiki.name}.fandom.com`;
 	if ($wiki.lang && $wiki.lang !== 'en') {
 		entrypoint += '/' + $wiki.lang;
 	}
+	const theme = $config.theme;
 
 	async function getUserDetails() {
 		// https://wwr-test.fandom.com/api.php?action=query&format=json&meta=userinfo&uiprop=options
@@ -56,11 +57,6 @@
 		getUserDetails();
 		getUserBadge();
 	});
-
-	/**
-	 * Stores:
-	 * - theme preference
-	 */
 </script>
 
 <svelte:head>
