@@ -8,8 +8,10 @@
 	}
 
 	function setErrors(msg: string) {
+		console.error(msg);
 		return;
 	}
+	// TODO
 </script>
 
 <div class="reply-create">
