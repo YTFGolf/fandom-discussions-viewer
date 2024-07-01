@@ -11,7 +11,7 @@
 	export let data;
 	const theme = data.config.theme;
 	$wiki = parseWiki(data.wiki);
-	$userDetails = { ...data.userDetails, badgePermission: '' };
+	$userDetails = { ...data.userData, badgePermission: '' };
 
 	let entrypoint = `https://${$wiki.name}.fandom.com`;
 	if ($wiki.lang && $wiki.lang !== 'en') {

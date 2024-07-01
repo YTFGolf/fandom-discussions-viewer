@@ -1,5 +1,6 @@
-import { Option, setFromClient } from './client';
-import { get as getUserData, set as setUserData, type UserData } from './server/userData';
+import { Option } from './client';
+import { get as getUserData, set as setUserData } from './server/userData';
+import { get as getConfig, set as setConfig } from './server/config';
 
 /**
  * Each file has its own method. Then there is one general method that takes in
@@ -10,17 +11,22 @@ import { get as getUserData, set as setUserData, type UserData } from './server/
 
 /***/
 
-// export async function get(option: Option): Promise<any>;
-export async function get(option: Option.UserData): Promise<UserData> {
+export async function get(option: Option): Promise<any> {
 	switch (option) {
 		case Option.UserData:
 			return getUserData();
+
+		case Option.Config:
+			return getConfig();
 	}
 }
 
-export const set: typeof setFromClient = async function (option, data) {
+export async function set(option: Option, data: any) {
 	switch (option) {
 		case Option.UserData:
 			return setUserData(data);
+
+		case Option.Config:
+			return setConfig(data);
 	}
-};
+}
