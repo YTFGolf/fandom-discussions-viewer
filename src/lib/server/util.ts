@@ -38,6 +38,9 @@ export async function setFileData(fileName: string, data: any): Promise<boolean>
 
 export async function getConfigData<T>(fileName: string, defaultData: T): Promise<T> {
 	const fileContent = await getFileData(fileName);
+	if (!fileContent) {
+		setConfigData(fileName, defaultData);
+	}
 	return fileContent || defaultData;
 }
 
