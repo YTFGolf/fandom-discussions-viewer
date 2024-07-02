@@ -1,17 +1,12 @@
 <script lang="ts">
 	import { DiscussionThread } from '$lib/controllers/wikia/DiscussionThread';
 	import type { Thread } from '$lib/responses/Thread';
-	import type { Wiki } from '$lib/types';
-	import { examples } from './examples';
 	import { page } from '$app/stores';
 	import Post from '../../../../components/Post.svelte';
 	import type { ViewContent } from '../../../../components/Editor.svelte';
 	import { DiscussionPost } from '$lib/controllers/wikia/DiscussionPost';
 	import HTTP from '$lib/HTTPCodes';
 	import ReplyEditor from '../../../../components/ReplyEditor.svelte';
-	import { post } from '$lib/caller';
-	import { browser } from '$app/environment';
-	import { goto } from '$app/navigation';
 	import { config, wiki } from '../../../stores';
 
 	const rePostParams = /^(\d+)(?:\/r\/)?(\d*)$/;
@@ -41,7 +36,6 @@
 
 	let threadContent: Promise<Thread>;
 	$: threadContent = DiscussionThread.getThread($wiki, params).then((res) => res.json());
-	// $: threadContent = examples;
 	let editor: ReplyEditor;
 	let postList: HTMLElement;
 
