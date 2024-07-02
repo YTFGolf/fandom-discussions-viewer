@@ -41,7 +41,7 @@ export async function getConfigData<T>(fileName: string, defaultData: T): Promis
 	if (!fileContent) {
 		setConfigData(fileName, defaultData);
 	}
-	return fileContent || defaultData;
+	return { ...defaultData, ...fileContent };
 }
 
 export async function setConfigData<T>(fileName: string, data: T): Promise<void> {
