@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Avatar from '../components/Avatar.svelte';
+	import FandomIcon from '../components/FandomIcon.svelte';
 	import { userDetails, wiki } from './stores';
 
 	function setWiki() {
@@ -24,6 +25,9 @@
 
 		<button type="submit">Set</button>
 	</form>
+	<a class="settings-link" href="/settings">
+		<FandomIcon icon="gear" size="2em" />
+	</a>
 	<Avatar user={$userDetails} />
 	<button on:click={logout}>Logout</button>
 </nav>
@@ -32,8 +36,9 @@
 	.top-nav {
 		display: flex;
 		position: relative;
-		align-content: center;
+		align-items: center;
 		padding: 1em;
+		gap: 0.5em;
 	}
 
 	.top-nav .wiki-form {
@@ -41,5 +46,14 @@
 		align-items: center;
 		gap: 0.4em;
 		padding-right: 1em;
+	}
+
+	.settings-link :global(img) {
+		background-color: var(--theme-page-text-color);
+		transition: 0.2s;
+	}
+
+	.settings-link :global(img:hover) {
+		background-color: var(--theme-page-text-color--hover);
 	}
 </style>
