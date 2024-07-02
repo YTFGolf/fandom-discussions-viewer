@@ -8,6 +8,10 @@ export type Config = {
 	 * you're on.
 	 */
 	themeWiki: string | null;
+	/**
+	 * Max posts that can be viewed at a time.
+	 */
+	postLimit: number;
 };
 
 const fileName = 'config.json';
@@ -15,6 +19,7 @@ const defaultConfig: Config = {
 	theme: 'light',
 	hideDeleted: false,
 	themeWiki: null,
+	postLimit: 10,
 };
 
 export async function get(): Promise<Config> {

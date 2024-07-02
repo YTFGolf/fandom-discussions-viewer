@@ -12,7 +12,7 @@
 	import { post } from '$lib/caller';
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
-	import { wiki } from '../../../stores';
+	import { config, wiki } from '../../../stores';
 
 	const rePostParams = /^(\d+)(?:\/r\/)?(\d*)$/;
 	const [_, threadId, postId]: string[] = $page.params.postParams.match(rePostParams)!;
@@ -24,8 +24,8 @@
 		threadId: threadId,
 		responseGroup: 'full',
 		pivot: postId,
-		viewableOnly: false,
-		limit: 10,
+		viewableOnly: $config.hideDeleted,
+		limit: $config.postLimit,
 	};
 	if (params.pivot !== '') {
 		if (params.sortDirection && params.sortDirection === 'ascending') {
