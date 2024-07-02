@@ -37,19 +37,11 @@
 			avatarUrl: info.options.avatar || null,
 		};
 
-		const oldImage = $userDetails.avatarUrl;
+		setFromClient(Option.UserData, userData);
 		$userDetails = {
 			...userData,
 			badgePermission: $userDetails.badgePermission,
 		};
-		await setFromClient(Option.UserData, userData);
-
-		const newImage = $userDetails.avatarUrl;
-		if (oldImage !== newImage) {
-			window.location.reload();
-		}
-		// images involved in stores load weirdly in svelte, so hacking it by
-		// reloading if necessary
 	}
 
 	async function getUserBadge() {

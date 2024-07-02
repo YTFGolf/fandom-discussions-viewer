@@ -3,18 +3,25 @@
 	import Badge, { type BadgeName } from './Badge.svelte';
 
 	export let user: UserDetails;
+	let description, avatar, userBadge;
+	$: ({ description, avatar, userBadge } = getData(user));
 
-	let description = `${user.name}'s avatar`;
-	let avatar: string;
-	if (!user.avatarUrl) {
-		avatar = '';
-	} else if (user.avatarUrl.match(/^https:\/\/vignette/)) {
-		avatar = user.avatarUrl + '/revision/latest/scale-to-width/48';
-	} else {
-		avatar = user.avatarUrl + '/scale-to-width/48';
+	function getData(user: UserDetails) {
+		const description = `${user.name}'s avatar`;
+
+		let avatar: string;
+		if (!user.avatarUrl) {
+			avatar = '';
+		} else if (user.avatarUrl.match(/^https:\/\/vignette/)) {
+			avatar = user.avatarUrl + '/revision/latest/scale-to-width/48';
+		} else {
+			avatar = user.avatarUrl + '/scale-to-width/48';
+		}
+
+		const userBadge = user.badgePermission.replace('badge:', '') as BadgeName;
+
+		return { description, avatar, userBadge };
 	}
-
-	let userBadge = user.badgePermission.replace('badge:', '') as BadgeName;
 </script>
 
 <div class="avatar">
