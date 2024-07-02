@@ -8,6 +8,11 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Settings</title>
+	<meta name="description" content="Settings page" />
+</svelte:head>
+
 <form on:submit={handleSubmit}>
 	<div class="config-option">
 		<label for="theme">Theme:</label>
@@ -26,17 +31,16 @@
 
 	<div class="config-option">
 		<label for="hideDeleted">Hide Deleted:</label>
-		<!-- @ts-ignore -->
 		<input type="checkbox" bind:checked={$config.hideDeleted} />
 		<span class="slider"></span>
 	</div>
 	<hr />
 
-	<!-- <div class="config-option">
+	<div class="config-option">
 		<label for="themeWiki">Theme Wiki:</label>
 		<input type="text" id="themeWiki" bind:value={$config.themeWiki} />
 	</div>
-	<hr /> -->
+	<hr />
 
 	<button type="submit">Save</button>
 </form>

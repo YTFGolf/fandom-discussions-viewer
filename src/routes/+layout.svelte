@@ -13,9 +13,10 @@
 	$userDetails = { ...data.userData, badgePermission: '' };
 	$config = data.config;
 
-	let entrypoint = `https://${$wiki.name}.fandom.com`;
-	if ($wiki.lang && $wiki.lang !== 'en') {
-		entrypoint += '/' + $wiki.lang;
+	const themeWiki = parseWiki($config.themeWiki || data.wiki);
+	let themeEntrypoint = `https://${themeWiki.name}.fandom.com`;
+	if (themeWiki.lang && themeWiki.lang !== 'en') {
+		themeEntrypoint += '/' + themeWiki.lang;
 	}
 	const theme = $config.theme;
 
@@ -61,11 +62,11 @@
 <svelte:head>
 	<link
 		rel="stylesheet"
-		href="{entrypoint}/wikia.php?controller=ThemeApi&method=themeVariables&variant={theme}"
+		href="{themeEntrypoint}/wikia.php?controller=ThemeApi&method=themeVariables&variant={theme}"
 	/>
 	<link
 		rel="stylesheet"
-		href="{entrypoint}/resources-ucp/mw139/dist/styles/ext.fandom.GlobalComponents.GlobalComponentsTheme.{theme}.css"
+		href="{themeEntrypoint}/resources-ucp/mw139/dist/styles/ext.fandom.GlobalComponents.GlobalComponentsTheme.{theme}.css"
 	/>
 	<link rel="stylesheet" href="/styles.css" />
 </svelte:head>
