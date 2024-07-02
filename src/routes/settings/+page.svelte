@@ -25,7 +25,7 @@
 
 	<div class="config-option">
 		<label for="postLimit">Post Limit:</label>
-		<input type="text" id="postLimit" bind:value={$config.postLimit} required />
+		<input type="number" id="postLimit" min="1" max="100" bind:value={$config.postLimit} required />
 	</div>
 	<hr />
 
