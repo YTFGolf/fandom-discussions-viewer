@@ -115,7 +115,6 @@ Also talk about obtaining data if you have other data e.g. finding out whose mes
 // special:userprofileactivity relies on body/rawContent
 // jsonModel length must be between 0 and 65520
 // anything that can be null can also be undefined
-// action=query format=json meta=userinfo uiprop=groups|rights
 // something like global values e.g. username so I can set the user agent (client)
 `*<code>jsonModel</code>: see [[w:c:caburum:Nirvana#JSON post model]]. I can probably try to understand this format from GET requests so not too bothered. Optional for whatever reason, even if neither <code>rawContent</code> nor <code>body</code> are supplied (according to [[Special:SocialActivity]] it gets content suppressed if none of the 3 are present).`
 `*<code>rawContent</code>/<code>body</code>. If there is no <code>jsonModel</code> then the post becomes <code>rawContent</code> + first image in <code>contentImages</code> if it exists. If a request contains both <code>rawContent</code> and <code>body</code>, then whichever one comes later takes priority.`
@@ -200,9 +199,7 @@ This section will detail things you can do with this but not Fandom Discussions 
 
 Currently none, there really should be though lol
 
-Plan is an entire 3 sentences:
-
-make a new fandom account
+Plan is an entire 2 sentences:
 
 use dotenv or something
 

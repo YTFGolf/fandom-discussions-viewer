@@ -1,11 +1,4 @@
-- Finish all controllers
-  - Essential
-    - [x] Fandom\FeedsAndPosts\Discussion\DiscussionPost
-    - [x] Fandom\FeedsAndPosts\Discussion\DiscussionThread
-    - [x] Fandom\ArticleComments\Api\ArticleComments
-    - [x] Fandom\MessageWall\MessageWall
-    - [x] Fandom\FeedsAndPosts\FeedsAndPosts
-    - [x] Fandom\Includes\Api\UserApi
+- Controllers
   - Important
     - [ ] Fandom\DiscussionModeration\DiscussionImages
     - [ ] Fandom\FeedsAndPosts\Discussion\DiscussionContribution
@@ -21,10 +14,30 @@
     - [ ] Fandom\Activity\ActivityApi (probably unimportant)
 - Implement global stores
   - Requests. 3 options: normal (if fail then let fail), flood (retry all that failed), wait (if fail then try again until not fail)
-  - user details e.g. name, id, rights
-  - persistent config e.g. if I set hideDeleted false then that should remain until I clear local storage/log out
-- Login/logout on navbar
 - Proper testing
   - Mainly to avoid regression; vitest doesn't appear to like using the server's API, so either I reimplement in vitest or I do testing on the live server
   - `npm run dev -- --port 7357`
   - Can make test tab in new container so always works.
+- Fix editor
+  - Things that don't work: create modals and insert stuff
+  - Attempt erase formatting again (can probably do some command chaining and enumerating for different kinds of nodes, or do the textbetween thing and replace `\n` with `</p><br><p>` or split by `\n`)
+- Finish forumPost
+  - Liking posts
+  - Navigating through the post
+  - First post (probably a `FirstPost` container or something)
+  - Lock, delete, undelete etc.
+  - Better styling
+  - Polls
+- Add `/f/u/...`
+- Add `/f/p`
+- Doc
+  - Split up into own files
+  - notes can go in temp.md
+- Things that need to be accomplished
+  - [ ] Poll with text
+  - [ ] Fake pings (Sort of but editor does not support these yet)
+  - [ ] Real pings with different text
+  - [ ] Pinging dead users
+  - [ ] Astley pings
+  - [ ] MW pings
+  - [ ] HIFP
