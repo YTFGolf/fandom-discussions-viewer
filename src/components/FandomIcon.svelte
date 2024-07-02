@@ -17,18 +17,19 @@
 		link:           'https://fandomdesignsystem.com/ooui/dist/themes/fandomooui/images/wds-icons-link-small.svg',
 		image:          'https://fandomdesignsystem.com/ooui/dist/themes/fandomooui/images/wds-icons-image-small.svg',
 		mention:        'https://fandomdesignsystem.com/ooui/dist/themes/fandomooui/images/wds-icons-mention-small.svg',
+		gear:           'https://fandomdesignsystem.com/ooui/dist/themes/fandomooui/images/wds-icons-gear-small.svg',
 	};
 
 	export let icon: keyof typeof ICONS;
-	export let width: string;
-	export let color: string = '';
+	export let size: string;
+
+	// responsibility for setting colour is on the user
 </script>
 
 <!-- https://stackoverflow.com/a/43916743 -->
 <img
 	class="fandom-icon-svg"
-	style="background-color: {color}; mask-image: url({ICONS[icon]});"
-	{width}
+	style="mask-image: url({ICONS[icon]}); width: {size}; height: {size};"
 	alt={icon}
 />
 
@@ -36,5 +37,6 @@
 	img {
 		mask: none no-repeat center;
 		color: transparent;
+		display: inline-block;
 	}
 </style>

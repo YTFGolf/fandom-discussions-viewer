@@ -90,19 +90,19 @@
 		<div class="form-actions">
 			{#if permissions?.includes('canEdit')}
 				<button class="action" on:click={edit}>
-					<FandomIcon icon="edit" width="18" />
+					<FandomIcon icon="edit" size="18px" />
 					Edit
 				</button>
 			{/if}
 			{#if permissions?.includes('canDelete') && !post.isDeleted}
 				<button class="action" on:click={deletePost}>
-					<FandomIcon icon="delete" width="18" />
+					<FandomIcon icon="delete" size="18px" />
 					Delete
 				</button>
 			{/if}
 			{#if permissions?.includes('canUndelete') && post.isDeleted}
 				<button class="action" on:click={undeletePost}>
-					<FandomIcon icon="restore" width="18" />
+					<FandomIcon icon="restore" size="18px" />
 					Undelete
 				</button>
 			{/if}
@@ -193,29 +193,31 @@
 	}
 
 	.form-actions .action {
+		--text-color: var(--wds-dropdown-text-color);
 		background: none;
 		border: 1px solid var(--wds-dropdown-border-color);
 		border-radius: 3px;
-		color: var(--wds-dropdown-text-color);
+		color: var(--text-color);
 		cursor: pointer;
 		font-weight: 400;
 		padding-left: 9px;
 		padding-right: 9px;
 		text-decoration: none;
-		transition-duration: 0.3s;
-		transition-property: background-color, color;
+		transition: 0.3s;
 		text-transform: none;
 		font-size: 0.875rem;
 	}
 
 	.form-actions .action:hover {
+		--text-color: var(--wds-dropdown-linked-item-color);
 		background-color: var(--wds-dropdown-linked-item-background-color);
-		color: var(--wds-dropdown-linked-item-color);
 	}
 
 	.form-actions .action :global(img) {
 		margin-right: 4px;
 		vertical-align: middle;
+		background-color: var(--text-color);
+		transition: 0.3s;
 	}
 
 	.edited-by {
