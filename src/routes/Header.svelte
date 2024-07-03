@@ -29,7 +29,12 @@
 		<FandomIcon icon="gear" size="2em" />
 	</a>
 	<Avatar user={$userDetails} />
-	<button on:click={logout}>Logout</button>
+	{#if $userDetails.id !== 0}
+		<button on:click={logout}>Logout</button>
+	{:else}
+		<button><a href="/login">Login</a></button>
+		<!-- <form action="/login"><button type="submit">Login</button></form> -->
+	{/if}
 </nav>
 
 <style>
