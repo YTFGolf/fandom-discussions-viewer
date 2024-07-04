@@ -1,13 +1,13 @@
 <script lang="ts">
 	import type { Post } from '$lib/responses/Post';
-	import Editor, { type ViewContent } from './Editor.svelte';
+	import Editor, { type EditorContent } from './Editor.svelte';
 
 	export let post: Post;
 	export let status: {
 		color: string;
 		message: string;
 	};
-	export let onSubmit: (viewContent: ViewContent) => void;
+	export let onSubmit: (editorContent: EditorContent) => void;
 	export let onCancel: () => void;
 	function setErrors(msg: string) {
 		status = {
@@ -15,8 +15,8 @@
 			message: msg,
 		};
 	}
-	let viewContent: ViewContent;
-	$: viewContent = {
+	let editorContent: EditorContent;
+	$: editorContent = {
 		jsonModel: post.jsonModel,
 		attachments: { ...post._embedded.attachments[0], polls: undefined, quizzes: undefined },
 		rawContent: post.rawContent,
@@ -25,8 +25,8 @@
 
 <div class="edit-modal">
 	<div class="edit-modal-content">
-		<!-- <Editor {viewContent} {onSubmit} {onCancel} {setErrors} mode="JSON" /> -->
-		<Editor {viewContent} {onSubmit} {onCancel} {setErrors} />
+		<!-- <Editor {editorContent} {onSubmit} {onCancel} {setErrors} mode="JSON" /> -->
+		<Editor {editorContent} {onSubmit} {onCancel} {setErrors} />
 		{#if status?.message}
 			<div class="status">
 				<span style="color: {status.color}">{status.message}</span>

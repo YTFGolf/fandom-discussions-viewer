@@ -3,7 +3,7 @@
 	import type { Thread } from '$lib/responses/Thread';
 	import { page } from '$app/stores';
 	import Post from '../../../../components/Post.svelte';
-	import type { ViewContent } from '../../../../components/Editor.svelte';
+	import type { EditorContent } from '../../../../components/Editor.svelte';
 	import { DiscussionPost } from '$lib/controllers/wikia/DiscussionPost';
 	import HTTP from '$lib/HTTPCodes';
 	import ReplyEditor from '../../../../components/ReplyEditor.svelte';
@@ -47,7 +47,7 @@
 		});
 	}
 
-	async function submitReply(viewContent: ViewContent) {
+	async function submitReply(editorContent: EditorContent) {
 		await threadContent;
 		const res = await DiscussionPost.create(
 			$wiki,
@@ -55,7 +55,7 @@
 			{
 				threadId,
 				siteId: (await threadContent).siteId,
-				...viewContent,
+				...editorContent,
 			},
 		);
 		if (res.status == HTTP.CREATED) {

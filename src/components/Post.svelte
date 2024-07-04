@@ -5,7 +5,7 @@
 	import type { Wiki } from '$lib/types';
 	import { wiki } from '../routes/stores';
 	import EditModal from './EditModal.svelte';
-	import { type ViewContent } from './Editor.svelte';
+	import { type EditorContent } from './Editor.svelte';
 	import FandomIcon from './FandomIcon.svelte';
 	import Avatar from './Avatar.svelte';
 	import PostBody from './Post/PostBody.svelte';
@@ -41,7 +41,7 @@
 		}
 	}
 
-	async function onSubmit(data: ViewContent) {
+	async function onSubmit(data: EditorContent) {
 		modalStatus = {
 			color: '',
 			message: '...',

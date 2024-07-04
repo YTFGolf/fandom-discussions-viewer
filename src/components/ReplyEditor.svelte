@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Editor, { type ViewContent } from './Editor.svelte';
+	import Editor, { type EditorContent } from './Editor.svelte';
 
-	export let onSubmit: (viewContent: ViewContent) => void;
+	export let onSubmit: (editorContent: EditorContent) => void;
 
 	function onCancel() {
 		return;

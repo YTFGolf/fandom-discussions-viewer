@@ -2,11 +2,14 @@
 	/**
 	 * Information about the content of a post.
 	 */
-	export type ViewContent = {
+	export type EditorContent = {
 		jsonModel: JsonModel;
 		attachments: Attachments & { polls: undefined; quizzes: undefined };
+		// Technically should make sure that nothing else is in the attachments
+		// but TypeScript unironically does not have this capability.
 		rawContent: string;
 	};
+	export type EditorMode = 'RTE' | 'JSON';
 </script>
 
 <script lang="ts">
@@ -18,9 +21,7 @@
 	import type { JsonModel } from '$lib/controllers/types/jsonModel';
 	import { userDetails } from '../routes/stores';
 
-	type SwitchMode = 'RTE' | 'JSON';
-
-	export let viewContent: ViewContent = {
+	export let editorContent: EditorContent = {
 		jsonModel: {
 			type: 'doc',
 			content: [],
@@ -35,8 +36,8 @@
 		rawContent: '',
 	};
 
-	export let mode: SwitchMode = 'RTE';
-	export let onSubmit: (viewContent: ViewContent) => void;
+	export let mode: EditorMode = 'RTE';
+	export let onSubmit: (viewContent: EditorContent) => void;
 	export let onCancel: () => void;
 	// export let setError: (msg: string) => void = () => {};
 	export let setErrors: (msg: string) => void;
@@ -46,7 +47,7 @@
 	let isLoaded = false;
 	let switcher: HTMLElement;
 
-	function activateSwitcher(mode: SwitchMode) {
+	function activateSwitcher(mode: EditorMode) {
 		Object.values(switcher.children).forEach((child) => {
 			if ((child as HTMLElement).dataset.switchTo === mode) {
 				child.classList.add('current');
@@ -62,7 +63,7 @@
 			JSON: JSONView,
 		}[mode];
 
-		convertDoc(viewContent, mode).then((newDoc) => {
+		convertDoc(editorContent, mode).then((newDoc) => {
 			editorView = new view(editor, newDoc);
 			activateSwitcher(mode);
 			isLoaded = true;
@@ -75,7 +76,7 @@
 	 */
 	// async function convertDoc(content: ViewContent, mode: 'RTE'): Promise<HTMLDivElement>;
 	// async function convertDoc(content: ViewContent, mode: 'JSON'): Promise<string>;
-	async function convertDoc(content: ViewContent, mode: SwitchMode): Promise<any> {
+	async function convertDoc(content: EditorContent, mode: EditorMode): Promise<any> {
 		switch (mode) {
 			case 'RTE':
 				const html = await getHtmlWithFallback(
@@ -105,7 +106,7 @@
 		}
 	}
 
-	function switchEditor(mode: SwitchMode) {
+	function switchEditor(mode: EditorMode) {
 		let view: any = {
 			RTE: ProseMirrorView,
 			JSON: JSONView,
@@ -130,7 +131,7 @@
 
 	function handleSwitchEditor(event: MouseEvent) {
 		setErrors('');
-		const mode = (event.target as HTMLButtonElement).dataset.switchTo as SwitchMode;
+		const mode = (event.target as HTMLButtonElement).dataset.switchTo as EditorMode;
 		return switchEditor(mode);
 	}
 </script>
