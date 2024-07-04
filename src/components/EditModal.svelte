@@ -1,7 +1,5 @@
 <script lang="ts">
 	import type { Post } from '$lib/responses/Post';
-	import { onMount } from 'svelte';
-	import { getHtmlWithFallback } from './Post/JSONModel/Body';
 	import Editor, { type ViewContent } from './Editor.svelte';
 
 	export let post: Post;
@@ -17,35 +15,24 @@
 			message: msg,
 		};
 	}
-
-	let loaded = false;
-
 	let viewContent: ViewContent;
 	$: viewContent = {
 		jsonModel: post.jsonModel,
-		attachments: post._embedded.attachments[0],
+		attachments: { ...post._embedded.attachments[0], polls: undefined, quizzes: undefined },
 		rawContent: post.rawContent,
 	};
-
-	onMount(async () => {
-		loaded = true;
-	});
 </script>
 
 <div class="edit-modal">
-	{#if loaded}
-		<div class="edit-modal-content">
-			<!-- <Editor {viewContent} {onSubmit} {onCancel} {setErrors} mode="JSON" /> -->
-			<Editor {viewContent} {onSubmit} {onCancel} {setErrors} />
-			{#if status?.message}
-				<div class="status">
-					<span style="color: {status.color}">{status.message}</span>
-				</div>
-			{/if}
-		</div>
-	{:else}
-		Loading editor...
-	{/if}
+	<div class="edit-modal-content">
+		<!-- <Editor {viewContent} {onSubmit} {onCancel} {setErrors} mode="JSON" /> -->
+		<Editor {viewContent} {onSubmit} {onCancel} {setErrors} />
+		{#if status?.message}
+			<div class="status">
+				<span style="color: {status.color}">{status.message}</span>
+			</div>
+		{/if}
+	</div>
 </div>
 
 <style>

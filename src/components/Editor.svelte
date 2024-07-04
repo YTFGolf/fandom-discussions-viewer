@@ -4,7 +4,7 @@
 	 */
 	export type ViewContent = {
 		jsonModel: JsonModel;
-		attachments: Attachments;
+		attachments: Attachments & { polls: undefined; quizzes: undefined };
 		rawContent: string;
 	};
 </script>
@@ -23,16 +23,14 @@
 	export let viewContent: ViewContent = {
 		jsonModel: {
 			type: 'doc',
-			content: [
-				{
-					type: 'paragraph',
-				},
-			],
+			content: [],
 		},
 		attachments: {
 			atMentions: [],
 			contentImages: [],
 			openGraphs: [],
+			polls: undefined,
+			quizzes: undefined,
 		},
 		rawContent: '',
 	};

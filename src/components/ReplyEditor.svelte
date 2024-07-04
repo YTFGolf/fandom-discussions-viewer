@@ -8,7 +8,7 @@
 	}
 
 	function setErrors(msg: string) {
-		console.error(msg);
+		if (msg !== '') console.error(msg);
 		return;
 	}
 	// TODO
