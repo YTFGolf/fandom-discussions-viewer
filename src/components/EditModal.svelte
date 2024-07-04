@@ -19,24 +19,24 @@
 	}
 
 	let loaded = false;
-	let target: HTMLDivElement;
+
+	let viewContent: ViewContent;
+	$: viewContent = {
+		jsonModel: post.jsonModel,
+		attachments: post._embedded.attachments[0],
+		rawContent: post.rawContent,
+	};
 
 	onMount(async () => {
-		const postHtml = await getHtmlWithFallback(
-			post.jsonModel,
-			post._embedded.attachments[0],
-			post.rawContent,
-		);
-		target.innerHTML = postHtml;
 		loaded = true;
 	});
 </script>
 
-<div bind:this={target} style="display:none"></div>
 <div class="edit-modal">
 	{#if loaded}
 		<div class="edit-modal-content">
-			<Editor content={target} {onSubmit} {onCancel} {setErrors} />
+			<!-- <Editor {viewContent} {onSubmit} {onCancel} {setErrors} mode="JSON" /> -->
+			<Editor {viewContent} {onSubmit} {onCancel} {setErrors} />
 			{#if status?.message}
 				<div class="status">
 					<span style="color: {status.color}">{status.message}</span>

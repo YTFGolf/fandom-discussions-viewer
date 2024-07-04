@@ -3,7 +3,7 @@
 	 * Information about the content of a post.
 	 */
 	export type ViewContent = {
-		jsonModel: DocModel;
+		jsonModel: JsonModel;
 		attachments: Attachments;
 		rawContent: string;
 	};
@@ -15,10 +15,29 @@
 	import Avatar from './Avatar.svelte';
 	import { JSONView, ProseMirrorView, type View } from './Editor/Switcher';
 	import { getHtmlWithFallback } from './Post/JSONModel/Body';
-	import type { DocModel } from '$lib/controllers/types/jsonModel';
+	import type { JsonModel } from '$lib/controllers/types/jsonModel';
 	import { userDetails } from '../routes/stores';
 
-	export let content: HTMLElement | null;
+	type SwitchMode = 'RTE' | 'JSON';
+
+	export let viewContent: ViewContent = {
+		jsonModel: {
+			type: 'doc',
+			content: [
+				{
+					type: 'paragraph',
+				},
+			],
+		},
+		attachments: {
+			atMentions: [],
+			contentImages: [],
+			openGraphs: [],
+		},
+		rawContent: '',
+	};
+
+	export let mode: SwitchMode = 'RTE';
 	export let onSubmit: (viewContent: ViewContent) => void;
 	export let onCancel: () => void;
 	// export let setError: (msg: string) => void = () => {};
@@ -29,7 +48,6 @@
 	let isLoaded = false;
 	let switcher: HTMLElement;
 
-	type SwitchMode = 'RTE' | 'JSON';
 	function activateSwitcher(mode: SwitchMode) {
 		Object.values(switcher.children).forEach((child) => {
 			if ((child as HTMLElement).dataset.switchTo === mode) {
@@ -41,17 +59,16 @@
 	}
 
 	onMount(() => {
-		if (!content) {
-			editorView = new ProseMirrorView(editor, document.createElement('div'));
-		} else {
-			editorView = new ProseMirrorView(editor, content);
-		}
+		let view: any = {
+			RTE: ProseMirrorView,
+			JSON: JSONView,
+		}[mode];
 
-		if (content) {
-			content.remove();
-		}
-		isLoaded = true;
-		activateSwitcher('RTE');
+		convertDoc(viewContent, mode).then((newDoc) => {
+			editorView = new view(editor, newDoc);
+			activateSwitcher(mode);
+			isLoaded = true;
+		});
 	});
 
 	/**
@@ -73,6 +90,9 @@
 				return div;
 
 			case 'JSON':
+				if (typeof content.jsonModel === 'string') {
+					content.jsonModel = JSON.parse(content.jsonModel);
+				}
 				return JSON.stringify(content, undefined, '\t');
 		}
 	}

@@ -15,7 +15,7 @@
 </script>
 
 <div class="reply-create">
-	<Editor content={null} {onSubmit} {onCancel} {setErrors} />
+	<Editor {onSubmit} {onCancel} {setErrors} />
 </div>
 
 <style>
