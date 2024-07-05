@@ -1,5 +1,10 @@
+import type { EditorMode } from '$lib/types';
 import { getConfigData, setConfigData } from './util';
 
+/**
+ * Make sure to update the settings page if updating config values
+ */
+/***/
 export type Config = {
 	theme: 'light' | 'dark';
 	hideDeleted: boolean;
@@ -12,6 +17,7 @@ export type Config = {
 	 * Max posts that can be viewed at a time.
 	 */
 	postLimit: number;
+	defaultEditor: EditorMode;
 };
 
 const fileName = 'config.json';
@@ -20,6 +26,7 @@ const defaultConfig: Config = {
 	hideDeleted: false,
 	themeWiki: null,
 	postLimit: 10,
+	defaultEditor: 'RTE',
 };
 
 export async function get(): Promise<Config> {

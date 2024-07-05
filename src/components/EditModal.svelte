@@ -25,7 +25,6 @@
 
 <div class="edit-modal">
 	<div class="edit-modal-content">
-		<!-- <Editor {editorContent} {onSubmit} {onCancel} {setErrors} mode="JSON" /> -->
 		<Editor {editorContent} {onSubmit} {onCancel} {setErrors} />
 		{#if status?.message}
 			<div class="status">

@@ -11,3 +11,5 @@ export enum ContentType {
 	JSON,
 	HTML,
 }
+
+export type EditorMode = 'RTE' | 'JSON';

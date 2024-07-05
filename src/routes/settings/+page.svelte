@@ -42,6 +42,15 @@
 	</div>
 	<hr />
 
+	<div class="config-option">
+		<label for="defaultEditor">Default Editor:</label>
+		<select id="defaultEditor" bind:value={$config.defaultEditor} required>
+			<option value="RTE">Rich Text</option>
+			<option value="JSON">JSON</option>
+		</select>
+	</div>
+	<hr />
+
 	<button type="submit">Save</button>
 </form>
 

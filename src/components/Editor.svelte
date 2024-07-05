@@ -9,7 +9,6 @@
 		// but TypeScript unironically does not have this capability.
 		rawContent: string;
 	};
-	export type EditorMode = 'RTE' | 'JSON';
 </script>
 
 <script lang="ts">
@@ -19,7 +18,8 @@
 	import { JSONView, ProseMirrorView, type View } from './Editor/Switcher';
 	import { getHtmlWithFallback } from './Post/JSONModel/Body';
 	import type { JsonModel } from '$lib/controllers/types/jsonModel';
-	import { userDetails } from '../routes/stores';
+	import { config, userDetails } from '../routes/stores';
+	import type { EditorMode } from '$lib/types';
 
 	export let editorContent: EditorContent = {
 		jsonModel: {
@@ -36,7 +36,6 @@
 		rawContent: '',
 	};
 
-	export let mode: EditorMode = 'RTE';
 	export let onSubmit: (viewContent: EditorContent) => void;
 	export let onCancel: () => void;
 	// export let setError: (msg: string) => void = () => {};
@@ -46,6 +45,9 @@
 	let editor: HTMLElement;
 	let isLoaded = false;
 	let switcher: HTMLElement;
+
+	let mode: EditorMode;
+	$: mode = $config.defaultEditor;
 
 	function activateSwitcher(mode: EditorMode) {
 		Object.values(switcher.children).forEach((child) => {
