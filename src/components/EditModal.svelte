@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Post } from '$lib/responses/Post';
+	import { config } from '../routes/stores';
 	import Editor, { type EditorContent } from './Editor.svelte';
 
 	export let post: Post;
@@ -25,7 +26,7 @@
 
 <div class="edit-modal">
 	<div class="edit-modal-content">
-		<Editor {editorContent} {onSubmit} {onCancel} {setErrors} />
+		<Editor mode={$config.defaultEditor.update} {editorContent} {onSubmit} {onCancel} {setErrors} />
 		{#if status?.message}
 			<div class="status">
 				<span style="color: {status.color}">{status.message}</span>

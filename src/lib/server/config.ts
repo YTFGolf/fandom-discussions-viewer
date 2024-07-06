@@ -17,7 +17,10 @@ export type Config = {
 	 * Max posts that can be viewed at a time.
 	 */
 	postLimit: number;
-	defaultEditor: EditorMode;
+	defaultEditor: {
+		update: EditorMode;
+		create: EditorMode;
+	};
 };
 
 const fileName = 'config.json';
@@ -26,7 +29,10 @@ const defaultConfig: Config = {
 	hideDeleted: false,
 	themeWiki: null,
 	postLimit: 10,
-	defaultEditor: 'RTE',
+	defaultEditor: {
+		update: 'RTE',
+		create: 'RTE',
+	},
 };
 
 export async function get(): Promise<Config> {

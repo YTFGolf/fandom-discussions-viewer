@@ -44,7 +44,13 @@
 
 	<div class="config-option">
 		<label for="defaultEditor">Default Editor:</label>
-		<select id="defaultEditor" bind:value={$config.defaultEditor} required>
+		<label for="defaultEditor.update">Update Post:</label>
+		<select id="defaultEditor.update" bind:value={$config.defaultEditor.update} required>
+			<option value="RTE">Rich Text</option>
+			<option value="JSON">JSON</option>
+		</select>
+		<label for="defaultEditor.create">Create Post:</label>
+		<select id="defaultEditor.create" bind:value={$config.defaultEditor.create} required>
 			<option value="RTE">Rich Text</option>
 			<option value="JSON">JSON</option>
 		</select>

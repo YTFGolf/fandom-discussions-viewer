@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { config } from '../routes/stores';
 	import Editor, { type EditorContent } from './Editor.svelte';
 
 	export let onSubmit: (editorContent: EditorContent) => void;
@@ -15,7 +16,7 @@
 </script>
 
 <div class="reply-create">
-	<Editor {onSubmit} {onCancel} {setErrors} />
+	<Editor mode={$config.defaultEditor.create} {onSubmit} {onCancel} {setErrors} />
 </div>
 
 <style>

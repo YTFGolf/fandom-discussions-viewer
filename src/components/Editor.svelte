@@ -36,6 +36,7 @@
 		rawContent: '',
 	};
 
+	export let mode: EditorMode;
 	export let onSubmit: (viewContent: EditorContent) => void;
 	export let onCancel: () => void;
 	// export let setError: (msg: string) => void = () => {};
@@ -45,9 +46,6 @@
 	let editor: HTMLElement;
 	let isLoaded = false;
 	let switcher: HTMLElement;
-
-	let mode: EditorMode;
-	$: mode = $config.defaultEditor;
 
 	function activateSwitcher(mode: EditorMode) {
 		Object.values(switcher.children).forEach((child) => {
