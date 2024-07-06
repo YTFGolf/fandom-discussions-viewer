@@ -89,8 +89,15 @@
 				return div;
 
 			case 'JSON':
-				if (typeof content.jsonModel === 'string') {
-					content.jsonModel = JSON.parse(content.jsonModel);
+				if (!isLoaded) {
+					if (typeof content.jsonModel === 'string') {
+						content.jsonModel = JSON.parse(content.jsonModel);
+					}
+
+					for (const i in content.attachments.atMentions!) {
+						const mention = content.attachments.atMentions[i];
+						content.attachments.atMentions[i] = { id: mention.id };
+					}
 				}
 				return JSON.stringify(content, undefined, '\t');
 		}

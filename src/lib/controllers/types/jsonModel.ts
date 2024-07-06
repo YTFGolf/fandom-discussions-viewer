@@ -106,7 +106,8 @@ export type Link = {
 	type: 'link';
 	attrs: {
 		href: string;
-		title?: string | null;
+		/** Has no effect when viewing but does have an effect in the editor. */
+		title?: string;
 	};
 };
 
