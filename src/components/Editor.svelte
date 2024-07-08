@@ -221,6 +221,10 @@
 		margin-bottom: 12px;
 	}
 
+	#editor :global(.ProseMirror br.ProseMirror-trailingBreak) {
+		display: none;
+	}
+
 	#editor :global(.ProseMirror:focus) {
 		outline: none;
 	}
