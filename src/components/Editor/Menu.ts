@@ -109,6 +109,27 @@ function toggleList(listType: NodeType): Command {
 	};
 }
 
+function insertLink(href: string, text: string): Command {
+	href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+	text = 'link';
+	return function (state, dispatch) {
+		const {
+			$from: { pos: from },
+			$to: { pos: to },
+		} = state.selection.ranges[0];
+		if (from !== to) {
+			return false;
+		}
+		const currentMarks = state.selection.ranges[0].$from.marks();
+		const linkMark = schema.marks.link.create({ href });
+		let tr = state.tr.setStoredMarks([...currentMarks, linkMark]).insertText(text);
+		if (dispatch) {
+			dispatch(tr);
+		}
+		return true;
+	};
+}
+
 function Alert() {
 	alert('Not implemented!');
 	return false;
@@ -190,8 +211,8 @@ export function getMenu() {
 			isActive: isBlockActive(schema.nodes.code_block),
 		},
 		{
-			command: Alert,
-			dom: icon('<b>LINK</b>', 'Insert link', 'disabled'),
+			command: insertLink('', ''),
+			dom: icon('<b>LINK</b>', 'Insert link'),
 			isActive: never,
 		},
 		{

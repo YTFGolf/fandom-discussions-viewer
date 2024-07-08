@@ -165,7 +165,6 @@ export const marks = {
 	link: {
 		attrs: {
 			href: {},
-			title: { default: null },
 		},
 		inclusive: false,
 		parseDOM: [
