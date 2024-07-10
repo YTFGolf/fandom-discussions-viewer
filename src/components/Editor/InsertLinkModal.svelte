@@ -1,16 +1,11 @@
 <script lang="ts">
-	import { createEventDispatcher, onMount } from 'svelte';
+	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 
 	export let onSubmit: (href: string, text: string) => boolean;
 
 	let href: string;
 	let text: string;
-
-	onMount(() => {
-		// @ts-ignore
-		document.activeElement?.blur && document.activeElement.blur();
-	});
 
 	function destroySelf() {
 		dispatch('destroy');
@@ -35,9 +30,17 @@
 
 <div class="link-modal">
 	<form class="link-form" on:submit={handleSubmit}>
-		<input tabindex="0" id="href" placeholder="href" bind:value={href} required />
+		<!-- svelte-ignore a11y-autofocus -->
+		<input
+			id="href"
+			placeholder="href"
+			bind:value={href}
+			autofocus={true}
+			autocomplete="off"
+			required
+		/>
 
-		<input tabindex="0" id="text" placeholder="text (default: href)" bind:value={text} />
+		<input id="text" placeholder="text (default: href)" bind:value={text} autocomplete="off" />
 
 		<div class="modal-actions">
 			<button class="text" on:click={destroySelf}>Cancel</button>

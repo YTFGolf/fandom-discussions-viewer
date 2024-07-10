@@ -113,15 +113,13 @@ function toggleList(listType: NodeType): Command {
 }
 
 function insertLink(href: string, text: string): Command {
-	return function (state, dispatch) {
+	return function (state, dispatch, view) {
 		const {
 			$from: { pos: from },
 			$to: { pos: to },
 		} = state.selection.ranges[0];
 		if (from !== to) {
-			// TODO implement this
-			// probably just a togglemarks situation
-			return false;
+			return toggleMark(schema.marks.link, { href })(state, dispatch, view);
 		}
 		if (!text) {
 			return false;
