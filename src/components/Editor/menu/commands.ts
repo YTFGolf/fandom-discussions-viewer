@@ -6,6 +6,8 @@ import { liftListItem, wrapInList } from 'prosemirror-schema-list';
 import type { ComponentConstructorOptions, SvelteComponent } from 'svelte';
 // @ts-ignore
 import InsertLinkModal from './InsertLinkModal.svelte';
+// @ts-ignore
+import InsertImageModal from './InsertImageModal.svelte';
 
 // https://github.com/ProseMirror/prosemirror-commands/blob/904e3b39374cc147c36d79fccfe83a3f9fd4ee68/src/commands.ts#L536
 // IDK MIT license or something
@@ -102,6 +104,44 @@ export const createLink: Command = function (state, dispatch, view) {
 		},
 	};
 	const modal: SvelteComponent = new InsertLinkModal(options);
+	modal.$on('destroy', () => {
+		modal.$destroy();
+		view.focus();
+	});
+
+	return true;
+};
+
+function insertImage(src: string): Command {
+	return function (state, dispatch, view) {
+		if (!dispatch) {
+			return false;
+		}
+		let tr = state.tr;
+		tr = tr.replaceSelectionWith(schema.nodes.image.create({ src }));
+		tr = tr.insert(tr.selection.ranges[0].$to.pos, schema.nodes.paragraph.create());
+		tr = tr.scrollIntoView();
+		dispatch(tr);
+		return true;
+	};
+}
+
+export const createImage: Command = function (state, dispatch, view) {
+	if (!dispatch || !view) {
+		return false;
+	}
+
+	const options: ComponentConstructorOptions<{
+		onSubmit: (src: string) => boolean;
+	}> = {
+		target: document.body,
+		props: {
+			onSubmit: (src) => {
+				return insertImage(src)(state, dispatch, view);
+			},
+		},
+	};
+	const modal: SvelteComponent = new InsertImageModal(options);
 	modal.$on('destroy', () => {
 		modal.$destroy();
 		view.focus();
