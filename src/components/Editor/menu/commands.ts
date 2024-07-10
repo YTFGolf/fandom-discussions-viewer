@@ -119,7 +119,11 @@ function insertImage(src: string): Command {
 		}
 		let tr = state.tr;
 		tr = tr.replaceSelectionWith(schema.nodes.image.create({ src }));
-		tr = tr.insert(tr.selection.ranges[0].$to.pos, schema.nodes.paragraph.create());
+
+		const to = tr.selection.ranges[0].$to;
+		if (to.depth === 0) {
+			tr = tr.insert(to.pos, schema.nodes.paragraph.create());
+		}
 		tr = tr.scrollIntoView();
 		dispatch(tr);
 		return true;
