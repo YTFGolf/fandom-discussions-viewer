@@ -191,9 +191,7 @@ function never() {
 
 // Helper function to create menu icons
 function icon(html: string, title: string, className?: string) {
-	// let span = document.createElement('button');
-	let span = document.createElement('span');
-	// TODO assistive technology stuff
+	let span = document.createElement('button');
 	span.className = 'menuicon';
 	if (className) {
 		span.classList.add(className);
