@@ -8,7 +8,7 @@ import { baseKeymap, chainCommands, toggleMark } from 'prosemirror-commands';
 import { schema } from './schema';
 import type { DocModel } from '$lib/controllers/types/jsonModel';
 import type { Attachments } from '$lib/controllers/types/attachments';
-import { splitListItem } from './commands';
+import { splitListItem } from './shortcuts';
 
 export interface View {
 	content: any;
