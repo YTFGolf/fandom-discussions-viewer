@@ -20,10 +20,14 @@
 		return onSubmit(href, text);
 	}
 
+	let cancel: HTMLButtonElement;
+	let submit: HTMLButtonElement;
 	function onKeyDown(event: KeyboardEvent) {
-		event.stopPropagation();
 		if (event.code === 'Escape') {
-			destroySelf();
+			cancel.click();
+		} else if (event.code === 'Enter') {
+			event.preventDefault();
+			submit.click();
 		}
 	}
 </script>
@@ -43,8 +47,8 @@
 		<input id="text" placeholder="text (default: href)" bind:value={text} autocomplete="off" />
 
 		<div class="modal-actions">
-			<button class="text" on:click={destroySelf}>Cancel</button>
-			<button type="submit">Submit</button>
+			<button bind:this={cancel} class="text" on:click={destroySelf}>Cancel</button>
+			<button bind:this={submit} type="submit">Submit</button>
 		</div>
 	</form>
 </div>
@@ -64,7 +68,7 @@
 	}
 
 	.link-form {
-		width: fit-content;
+		width: 250px;
 		margin: 7.5% auto;
 		text-align: center;
 		padding: 0.5em;
@@ -76,11 +80,15 @@
 		color: var(--webeditor-text-color);
 		line-height: 1;
 		opacity: 1;
+
+		box-shadow: 0 0 12px 0 rgba(30, 12, 27, 0.25);
+		resize: both;
 	}
 
 	.link-form > * {
 		display: block;
 		margin: 0.25em;
+		width: -moz-available;
 	}
 
 	.text {
