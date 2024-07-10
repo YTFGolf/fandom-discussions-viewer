@@ -221,11 +221,10 @@
 		margin-bottom: 12px;
 	}
 
-	#editor :global(.ProseMirror br.ProseMirror-trailingBreak) {
-		display: none;
-	}
-
 	#editor :global(.ProseMirror:focus) {
+		/* outline-style: solid;
+		outline-width: 1px;
+		outline-color: invert; */
 		outline: none;
 	}
 

@@ -12,7 +12,7 @@ import { default as getText } from './Text';
 import fallback from '../../Fallback';
 
 export async function getParagraph(p: Paragraph) {
-	if (!p.content) {
+	if (!p.content || (p.content.length === 1 && p.content[0].text === '\n')) {
 		return '<p><br></p>';
 	}
 
