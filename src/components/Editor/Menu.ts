@@ -4,6 +4,9 @@ import { schema } from './schema';
 import { toggleMark } from 'prosemirror-commands';
 import { type Attrs, type Mark, type NodeType } from 'prosemirror-model';
 import { liftListItem, wrapInList } from 'prosemirror-schema-list';
+// @ts-ignore
+import InsertLinkModal from './InsertLinkModal.svelte';
+import type { ComponentConstructorOptions, SvelteComponent } from 'svelte';
 
 type ViewItem = {
 	command: Command;
@@ -110,14 +113,17 @@ function toggleList(listType: NodeType): Command {
 }
 
 function insertLink(href: string, text: string): Command {
-	href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
-	text = 'link';
 	return function (state, dispatch) {
 		const {
 			$from: { pos: from },
 			$to: { pos: to },
 		} = state.selection.ranges[0];
 		if (from !== to) {
+			// TODO implement this
+			// probably just a togglemarks situation
+			return false;
+		}
+		if (!text) {
 			return false;
 		}
 		const currentMarks = state.selection.ranges[0].$from.marks();
@@ -126,6 +132,33 @@ function insertLink(href: string, text: string): Command {
 		if (dispatch) {
 			dispatch(tr);
 		}
+		return true;
+	};
+}
+
+function createLink(): Command {
+	return function (state, dispatch, view) {
+		if (!dispatch || !view) {
+			return false;
+		}
+
+		const options: ComponentConstructorOptions<{
+			onSubmit: (href: string, text: string) => boolean;
+		}> = {
+			target: document.body,
+			props: {
+				onSubmit: (href: string, text: string) => {
+					return insertLink(href, text)(state, dispatch, view);
+				},
+			},
+		};
+		const modal: SvelteComponent = new InsertLinkModal(options);
+		modal.$on('destroy', () => {
+			modal.$destroy();
+			view.focus();
+		});
+		// TODO fix view focusing on submit
+
 		return true;
 	};
 }
@@ -161,7 +194,9 @@ function never() {
 
 // Helper function to create menu icons
 function icon(html: string, title: string, className?: string) {
+	// let span = document.createElement('button');
 	let span = document.createElement('span');
+	// TODO assistive technology stuff
 	span.className = 'menuicon';
 	if (className) {
 		span.classList.add(className);
@@ -169,7 +204,7 @@ function icon(html: string, title: string, className?: string) {
 	span.title = title;
 	span.innerHTML = html;
 	return span;
-	// TODO figure out how to use fandom icons (https://fandomdesignsystem.com/?path=/docs/assets-icons--docs)
+	// TODO use fandom icons
 }
 
 function menuPlugin(items: ViewItem[]) {
@@ -211,7 +246,8 @@ export function getMenu() {
 			isActive: isBlockActive(schema.nodes.code_block),
 		},
 		{
-			command: insertLink('', ''),
+			// command: insertLink('https://www.youtube.com/watch?v=dQw4w9WgXcQ', 'link'),
+			command: createLink(),
 			dom: icon('<b>LINK</b>', 'Insert link'),
 			isActive: never,
 		},
