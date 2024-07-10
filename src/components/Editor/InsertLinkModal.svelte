@@ -6,7 +6,6 @@
 
 	let href: string;
 	let text: string;
-	let container: HTMLDivElement;
 
 	onMount(() => {
 		// @ts-ignore
@@ -18,6 +17,7 @@
 	}
 
 	function handleSubmit(event: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }) {
+		event.preventDefault();
 		destroySelf();
 		if (!text) {
 			text = href;
@@ -33,25 +33,23 @@
 	}
 </script>
 
-<div class="edit-modal">
-	<div class="edit-modal-content">
-		<form on:submit={handleSubmit}>
-			<label for="href">href:</label>
-			<input tabindex="0" id="href" bind:value={href} required />
+<div class="link-modal">
+	<form class="link-form" on:submit={handleSubmit}>
+		<input tabindex="0" id="href" placeholder="href" bind:value={href} required />
 
-			<label for="text">text:</label>
-			<input tabindex="0" id="text" bind:value={text} />
+		<input tabindex="0" id="text" placeholder="text (default: href)" bind:value={text} />
 
+		<div class="modal-actions">
 			<button class="text" on:click={destroySelf}>Cancel</button>
 			<button type="submit">Submit</button>
-		</form>
-	</div>
+		</div>
+	</form>
 </div>
 
 <svelte:window on:keydown={onKeyDown} />
 
 <style>
-	.edit-modal {
+	.link-modal {
 		position: fixed;
 		z-index: 2;
 		left: 0;
@@ -59,12 +57,27 @@
 		width: 100%;
 		height: 100%;
 		overflow: auto;
-		background-color: rgba(0, 0, 0, 0.4);
+		/* background-color: rgba(0, 0, 0, 0.4); */
 	}
 
-	.edit-modal-content {
-		width: 60%;
+	.link-form {
+		width: fit-content;
 		margin: 7.5% auto;
+		text-align: center;
+		padding: 0.5em;
+
+		align-items: center;
+		background: var(--webeditor-background-color--secondary);
+		border: 1px solid rgba(var(--webeditor-text-color--rgb), 0.25);
+		border-radius: 3px;
+		color: var(--webeditor-text-color);
+		line-height: 1;
+		opacity: 1;
+	}
+
+	.link-form > * {
+		display: block;
+		margin: 0.25em;
 	}
 
 	.text {

@@ -157,7 +157,6 @@ function createLink(): Command {
 			modal.$destroy();
 			view.focus();
 		});
-		// TODO fix view focusing on submit
 
 		return true;
 	};
