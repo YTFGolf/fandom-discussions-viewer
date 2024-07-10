@@ -32,8 +32,8 @@
 	}
 </script>
 
-<div class="link-modal">
-	<form class="link-form" on:submit={handleSubmit}>
+<div class="insert-link-modal">
+	<form class="insert-link-form" on:submit={handleSubmit}>
 		<!-- svelte-ignore a11y-autofocus -->
 		<input
 			id="href"
@@ -56,7 +56,7 @@
 <svelte:window on:keydown={onKeyDown} />
 
 <style>
-	.link-modal {
+	.insert-link-modal {
 		position: fixed;
 		z-index: 2;
 		left: 0;
@@ -67,7 +67,7 @@
 		/* background-color: rgba(0, 0, 0, 0.4); */
 	}
 
-	.link-form {
+	.insert-link-form {
 		width: 250px;
 		margin: 7.5% auto;
 		text-align: center;
@@ -85,7 +85,7 @@
 		resize: both;
 	}
 
-	.link-form > * {
+	.insert-link-form > * {
 		display: block;
 		margin: 0.25em;
 		width: -moz-available;
