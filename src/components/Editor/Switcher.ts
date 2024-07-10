@@ -22,6 +22,11 @@ export class ProseMirrorView implements View {
 	internalView: string = '';
 
 	constructor(target: HTMLElement, content: HTMLElement) {
+		content.querySelectorAll('br').forEach((elem) => {
+			elem.parentElement!.innerHTML = '';
+		});
+		// Otherwise the brs will become newlines and it gets really confusing
+
 		this.view = new EditorView(target, {
 			state: EditorState.create({
 				doc: DOMParser.fromSchema(schema).parse(content, { preserveWhitespace: 'full' }),
