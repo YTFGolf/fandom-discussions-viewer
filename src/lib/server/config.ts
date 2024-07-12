@@ -2,7 +2,7 @@ import type { EditorMode } from '$lib/types';
 import { getConfigData, setConfigData } from './util';
 
 /**
- * Make sure to update the settings page if updating config values
+ * Make sure to update the settings page if updating config values.
  */
 /***/
 export type Config = {
@@ -21,6 +21,10 @@ export type Config = {
 		update: EditorMode;
 		create: EditorMode;
 	};
+	/**
+	 * Do you notify users by default when pinging them.
+	 */
+	defaultNotifyUser: boolean;
 };
 
 const fileName = 'config.json';
@@ -33,6 +37,7 @@ const defaultConfig: Config = {
 		update: 'RTE',
 		create: 'RTE',
 	},
+	defaultNotifyUser: true,
 };
 
 export async function get(): Promise<Config> {

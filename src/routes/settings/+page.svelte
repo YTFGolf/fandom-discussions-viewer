@@ -57,6 +57,13 @@
 	</div>
 	<hr />
 
+	<div class="config-option">
+		<label for="defaultNotifyUser">Notify users when mentioning:</label>
+		<input type="checkbox" bind:checked={$config.defaultNotifyUser} />
+		<span class="slider"></span>
+	</div>
+	<hr />
+
 	<button type="submit">Save</button>
 </form>
 

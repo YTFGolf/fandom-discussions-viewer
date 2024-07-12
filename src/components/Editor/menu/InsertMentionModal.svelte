@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { UserApi } from '$lib/controllers/wikia/UserApi';
 	import { createEventDispatcher } from 'svelte';
-	import { wiki } from '../../../routes/stores';
+	import { config, wiki } from '../../../routes/stores';
 	import HTTP from '$lib/HTTPCodes';
 	const dispatch = createEventDispatcher();
 
@@ -11,7 +11,7 @@
 	let exactName: string;
 
 	let text: string;
-	let notifyUser: boolean = true;
+	let notifyUser: boolean = $config.defaultNotifyUser;
 
 	function destroySelf() {
 		dispatch('destroy');
@@ -34,7 +34,8 @@
 			return [id, '@' + exactName, notifyUser];
 		}
 
-		let username = exactName;
+		let username = exactName || id;
+		// Fallback allows you to put the username in the id box lol
 		if (username) {
 			username = username.charAt(0).toUpperCase() + username.slice(1);
 			// getDetails requires the first letter be capitalised
@@ -59,6 +60,7 @@
 			destroySelf();
 			return onSubmit(userId, text, notifyUser);
 		});
+		// TODO catch
 	}
 
 	let cancel: HTMLButtonElement;
@@ -67,6 +69,12 @@
 		if (event.code === 'Escape') {
 			cancel.click();
 		} else if (event.code === 'Enter') {
+			if ((event.target as HTMLInputElement)?.type === 'checkbox') {
+				// @ts-ignore
+				event.target.checked = !event.target.checked;
+				event.preventDefault();
+				return;
+			}
 			event.preventDefault();
 			submit.click();
 		}
