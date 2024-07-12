@@ -8,6 +8,8 @@ import type { ComponentConstructorOptions, SvelteComponent } from 'svelte';
 import InsertLinkModal from './InsertLinkModal.svelte';
 // @ts-ignore
 import InsertImageModal from './InsertImageModal.svelte';
+// @ts-ignore
+import InsertMentionModal from './InsertMentionModal.svelte';
 
 // https://github.com/ProseMirror/prosemirror-commands/blob/904e3b39374cc147c36d79fccfe83a3f9fd4ee68/src/commands.ts#L536
 // IDK MIT license or something
@@ -154,7 +156,48 @@ export const createImage: Command = function (state, dispatch, view) {
 	return true;
 };
 
-export function Alert() {
-	alert('Not implemented!');
-	return false;
+function insertMention(userId: string, text: string, notifyUser: boolean): Command {
+	return function (state, dispatch, view) {
+		const {
+			$from: { pos: from },
+			$to: { pos: to },
+		} = state.selection.ranges[0];
+		if (from !== to) {
+			return toggleMark(schema.marks.mention, { userId, notifyUser })(state, dispatch, view);
+		}
+		if (!text) {
+			return false;
+		}
+		const currentMarks = state.selection.ranges[0].$from.marks();
+		const mentionMark = schema.marks.mention.create({ userId, notifyUser });
+		let tr = state.tr.setStoredMarks([...currentMarks, mentionMark]).insertText(text);
+		if (dispatch) {
+			dispatch(tr);
+		}
+		return true;
+	};
 }
+
+export const createMention: Command = function (state, dispatch, view) {
+	if (!dispatch || !view) {
+		return false;
+	}
+
+	const options: ComponentConstructorOptions<{
+		onSubmit: (userId: string, text: string, notifyUser: boolean) => boolean;
+	}> = {
+		target: document.body,
+		props: {
+			onSubmit: (userId: string, text: string, notifyUser: boolean) => {
+				return insertMention(userId, text, notifyUser)(state, dispatch, view);
+			},
+		},
+	};
+	const modal: SvelteComponent = new InsertMentionModal(options);
+	modal.$on('destroy', () => {
+		modal.$destroy();
+		view.focus();
+	});
+
+	return true;
+};

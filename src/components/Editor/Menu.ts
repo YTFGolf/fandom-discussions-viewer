@@ -3,7 +3,7 @@ import type { EditorView } from 'prosemirror-view';
 import { schema } from './schema';
 import { toggleMark } from 'prosemirror-commands';
 import { type Mark, type NodeType } from 'prosemirror-model';
-import { Alert, createImage, createLink, toggleBlock, toggleList } from './menu/commands';
+import { createImage, createLink, createMention, toggleBlock, toggleList } from './menu/commands';
 
 type ViewItem = {
 	command: Command;
@@ -138,7 +138,7 @@ export function getMenu() {
 			isActive: never,
 		},
 		{
-			command: Alert,
+			command: createMention,
 			dom: icon('<b>MENTION</b>', 'Mention user', 'disabled'),
 			isActive: never,
 		},
