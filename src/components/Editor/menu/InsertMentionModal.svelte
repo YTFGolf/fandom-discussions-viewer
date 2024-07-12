@@ -68,13 +68,14 @@
 	function onKeyDown(event: KeyboardEvent) {
 		if (event.code === 'Escape') {
 			cancel.click();
+			// TODO fix if element is active
 		} else if (event.code === 'Enter') {
 			if ((event.target as HTMLInputElement)?.type === 'checkbox') {
-				// @ts-ignore
-				event.target.checked = !event.target.checked;
+				(event.target as HTMLInputElement).click();
 				event.preventDefault();
 				return;
 			}
+			// Also make sure is not cancel button.
 			event.preventDefault();
 			submit.click();
 		}
