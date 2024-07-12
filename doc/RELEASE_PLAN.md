@@ -19,7 +19,6 @@
   - `npm run dev -- --port 7357`
   - Can make test tab in new container so always works.
 - Fix editor
-  - Things that don't work: create modals and insert stuff
   - Attempt erase formatting again (can probably do some command chaining and enumerating for different kinds of nodes, or do the textbetween thing and replace `\n` with `</p><br><p>` or split by `\n`)
 - Finish forumPost
   - Liking posts
@@ -35,9 +34,9 @@
   - notes can go in temp.md
 - Things that need to be accomplished
   - [ ] Poll with text
-  - [ ] Fake pings (Sort of but editor does not support these yet)
-  - [ ] Real pings with different text
-  - [ ] Pinging dead users
-  - [ ] Astley pings
+  - [x] Fake pings (Sort of but editor does not support these yet)
+  - [x] Real pings with different text
+  - [x] Pinging dead users
+  - [x] Astley pings (eh sort of)
   - [ ] MW pings
   - [ ] HIFP

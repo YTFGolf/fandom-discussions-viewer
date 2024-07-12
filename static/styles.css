@@ -1,3 +1,4 @@
+/** DEFAULTS **/
 body {
 	background-color: var(--theme-page-background-color);
 	color: var(--theme-page-text-color);
@@ -88,6 +89,7 @@ h1 {
 	margin: 0;
 }
 
+/** ROOT **/
 :root {
 	/* https://wwr-test.fandom.com/feeds-and-posts/public/896cca73b/assets/client.css */
 	--webeditor-background-color: var(--theme-page-background-color);

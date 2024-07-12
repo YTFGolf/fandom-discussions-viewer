@@ -139,9 +139,8 @@ export function getMenu() {
 		},
 		{
 			command: createMention,
-			dom: icon('<b>MENTION</b>', 'Mention user', 'disabled'),
+			dom: icon('<b>MENTION</b>', 'Mention user'),
 			isActive: never,
 		},
-		// TODO fix these
 	]);
 }
