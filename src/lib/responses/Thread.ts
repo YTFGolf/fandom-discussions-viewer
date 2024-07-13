@@ -1,3 +1,8 @@
+/**
+ * @file Contains information about thread objects as returned from server
+ * requests.
+ */
+
 import type { Post } from './Post';
 
 export type Thread = {

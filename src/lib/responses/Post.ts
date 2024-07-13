@@ -1,3 +1,8 @@
+/**
+ * @file Contains information about post objects as returned from server
+ * requests.
+ */
+
 export type Attachments = {
 	atMentions: {
 		id: string;
