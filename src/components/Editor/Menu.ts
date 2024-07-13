@@ -79,7 +79,7 @@ function never() {
 // Helper function to create menu icons
 function icon(html: string, title: string, className?: string) {
 	let span = document.createElement('button');
-	span.className = 'menuicon';
+	span.className = 'menuicon ignore-button-styles';
 	if (className) {
 		span.classList.add(className);
 	}

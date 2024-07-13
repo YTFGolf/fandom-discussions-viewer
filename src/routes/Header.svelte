@@ -53,12 +53,12 @@
 		padding-right: 1em;
 	}
 
-	.settings-link :global(img) {
+	.settings-link :global(.fandom-icon-svg) {
 		background-color: var(--theme-page-text-color);
 		transition: 0.2s;
 	}
 
-	.settings-link :global(img:hover) {
+	.settings-link :global(.fandom-icon-svg:hover) {
 		background-color: var(--theme-page-text-color--hover);
 	}
 </style>

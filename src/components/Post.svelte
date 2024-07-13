@@ -265,7 +265,7 @@
 		background-color: var(--wds-dropdown-linked-item-background-color);
 	}
 
-	.form-actions .action :global(img) {
+	.form-actions .action :global(.fandom-icon-svg) {
 		margin-right: 4px;
 		vertical-align: middle;
 		background-color: var(--text-color);

@@ -263,13 +263,6 @@
 		margin-left: var(--icon-gap);
 		transition: background-color 0.3s;
 
-		font-family: inherit;
-		font-size: inherit;
-		font-weight: normal;
-		letter-spacing: inherit;
-		line-height: inherit;
-		text-transform: none;
-
 		border: none;
 		background: none;
 		color: var(--theme-page-text-color);

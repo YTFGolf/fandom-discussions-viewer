@@ -7,13 +7,13 @@
     - [ ] Fandom\DiscussionModeration\DiscussionModeration
     - [ ] Fandom\FeedsAndPosts\Discussion\DiscussionPoll
     - [ ] Fandom\FeedsAndPosts\Discussion\DiscussionPermalink
-    - [ ] Fandom\FeedsAndPosts\Discussion\DiscussionVote
+    - [x] Fandom\FeedsAndPosts\Discussion\DiscussionVote
   - Probably not
     - [ ] Fandom\DiscussionModeration\DiscussionLeaderboard (probably can be shelved for now)
     - [ ] Fandom\UserProfileActivity\UserProfileActivity (looks interesting)
     - [ ] Fandom\Activity\ActivityApi (probably unimportant)
 - Implement global stores
-  - Requests. 3 options: normal (if fail then let fail), flood (retry all that failed), wait (if fail then try again until not fail)
+  - Requests. 3 options: normal (if fail then let fail), flood (retry all that failed), wait (if fail then try again until not fail).
 - Proper testing
   - Mainly to avoid regression; vitest doesn't appear to like using the server's API, so either I reimplement in vitest or I do testing on the live server
   - `npm run dev -- --port 7357`
@@ -21,7 +21,6 @@
 - Fix editor
   - Attempt erase formatting again (can probably do some command chaining and enumerating for different kinds of nodes, or do the textbetween thing and replace `\n` with `</p><br><p>` or split by `\n`)
 - Finish forumPost
-  - Liking posts
   - Navigating through the post
   - First post (probably a `FirstPost` container or something)
   - Lock, delete, undelete etc.
