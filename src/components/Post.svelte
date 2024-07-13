@@ -19,6 +19,9 @@
 	let openEditor: boolean;
 	let modalStatus: { color: string; message: string };
 
+	let hasUpvoted: boolean;
+	$: hasUpvoted = post._embedded.userData?.[0].hasUpvoted || false;
+
 	function edit() {
 		openEditor = true;
 	}
@@ -86,28 +89,34 @@
 			<Time time={post.creationDate} />
 		</a>
 	</div>
-	{#if permissions}
-		<div class="form-actions">
-			{#if permissions?.includes('canEdit')}
-				<button class="action" on:click={edit}>
-					<FandomIcon icon="edit" size="18px" />
-					Edit
-				</button>
-			{/if}
-			{#if permissions?.includes('canDelete') && !post.isDeleted}
-				<button class="action" on:click={deletePost}>
-					<FandomIcon icon="delete" size="18px" />
-					Delete
-				</button>
-			{/if}
-			{#if permissions?.includes('canUndelete') && post.isDeleted}
-				<button class="action" on:click={undeletePost}>
-					<FandomIcon icon="restore" size="18px" />
-					Undelete
-				</button>
-			{/if}
+	<div class="post-actions">
+		<div class="like-post {hasUpvoted ? 'is-liked' : ''}">
+			<FandomIcon icon={hasUpvoted ? 'heart-filled' : 'heart'} size="18px" />
+			<span class="like-count">{post.upvoteCount}</span>
 		</div>
-	{/if}
+		{#if permissions}
+			<div class="form-actions">
+				{#if permissions?.includes('canEdit')}
+					<button class="action" on:click={edit}>
+						<FandomIcon icon="edit" size="18px" />
+						Edit
+					</button>
+				{/if}
+				{#if permissions?.includes('canDelete') && !post.isDeleted}
+					<button class="action" on:click={deletePost}>
+						<FandomIcon icon="delete" size="18px" />
+						Delete
+					</button>
+				{/if}
+				{#if permissions?.includes('canUndelete') && post.isDeleted}
+					<button class="action" on:click={undeletePost}>
+						<FandomIcon icon="restore" size="18px" />
+						Undelete
+					</button>
+				{/if}
+			</div>
+		{/if}
+	</div>
 	<PostBody
 		jsonModel={post.jsonModel}
 		attachments={post._embedded.attachments[0]}
@@ -176,6 +185,30 @@
 		align-content: center;
 		white-space: nowrap;
 		color: rgba(var(--theme-page-text-color--rgb), var(--theme-page-text-opacity-factor));
+	}
+
+	.post-actions {
+		display: flex;
+		align-items: center;
+		gap: 0.5em;
+	}
+
+	.like-post {
+		padding: 0.5em;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.like-post :global(.fandom-icon-svg) {
+		background-color: var(--wds-dropdown-text-color);
+	}
+
+	.like-post.is-liked :global(.fandom-icon-svg) {
+		background-color: var(--wds-dropdown-linked-item-color);
+	}
+	.like-post.is-liked .like-count {
+		color: var(--wds-dropdown-linked-item-color);
 	}
 
 	.form-actions {
