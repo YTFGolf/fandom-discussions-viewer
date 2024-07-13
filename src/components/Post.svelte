@@ -10,6 +10,7 @@
 	import Avatar from './Avatar.svelte';
 	import PostBody from './Post/PostBody.svelte';
 	import Time from './Post/Time.svelte';
+	import { DiscussionVote } from '$lib/controllers/wikia/DIscussionVote';
 
 	export let post: Post;
 	const permissions = post._embedded.userData?.[0].permissions;
@@ -73,6 +74,17 @@
 		modalStatus = null as any;
 		openEditor = false;
 	}
+
+	async function toggleUpvote() {
+		const f = hasUpvoted ? DiscussionVote.downVotePost : DiscussionVote.upVotePost;
+		const res = await f($wiki, { postId: post.id });
+		if (res.status !== HTTP.OK) {
+			throw new Error('Action failed.');
+		}
+		const data = await res.json();
+		post.upvoteCount = data.upvoteCount;
+		post._embedded.userData![0].hasUpvoted = !hasUpvoted;
+	}
 </script>
 
 <div bind:this={container} class={'post-container' + ((post.isDeleted && ' is-deleted') || '')}>
@@ -90,10 +102,13 @@
 		</a>
 	</div>
 	<div class="post-actions">
-		<div class="like-post {hasUpvoted ? 'is-liked' : ''}">
+		<button
+			class="ignore-button-styles upvote-post {hasUpvoted ? 'is-upvoted' : ''}"
+			on:click={toggleUpvote}
+		>
 			<FandomIcon icon={hasUpvoted ? 'heart-filled' : 'heart'} size="18px" />
-			<span class="like-count">{post.upvoteCount}</span>
-		</div>
+			<span class="upvote-count">{post.upvoteCount}</span>
+		</button>
 		{#if permissions}
 			<div class="form-actions">
 				{#if permissions?.includes('canEdit')}
@@ -193,21 +208,25 @@
 		gap: 0.5em;
 	}
 
-	.like-post {
+	.upvote-post {
 		padding: 0.5em;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+
+		background-color: inherit;
+		border: none;
+		cursor: pointer;
 	}
 
-	.like-post :global(.fandom-icon-svg) {
+	.upvote-post :global(.fandom-icon-svg) {
 		background-color: var(--wds-dropdown-text-color);
 	}
 
-	.like-post.is-liked :global(.fandom-icon-svg) {
+	.upvote-post.is-upvoted :global(.fandom-icon-svg) {
 		background-color: var(--wds-dropdown-linked-item-color);
 	}
-	.like-post.is-liked .like-count {
+	.upvote-post.is-upvoted .upvote-count {
 		color: var(--wds-dropdown-linked-item-color);
 	}
 

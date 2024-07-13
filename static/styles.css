@@ -42,7 +42,7 @@ textarea {
 	font-size: inherit;
 }
 
-button {
+button:not(.ignore-button-styles) {
 	align-items: center;
 	-webkit-appearance: none;
 	appearance: none;
@@ -70,9 +70,9 @@ button {
 	vertical-align: top;
 }
 
-button:active,
-button:focus,
-button:hover {
+button:not(.ignore-button-styles):active,
+button:not(.ignore-button-styles):focus,
+button:not(.ignore-button-styles):hover {
 	background-color: var(--wds-primary-button-background-color--hover);
 	border: 1px solid var(--wds-primary-button-background-color--hover);
 	color: var(--wds-primary-button-label-color);
@@ -80,7 +80,7 @@ button:hover {
 
 }
 
-button:hover {
+button:not(.ignore-button-styles):hover {
 	cursor: pointer;
 }
 
