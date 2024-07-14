@@ -4,6 +4,9 @@ import type { sAttachments } from '../types/attachments';
 import type { JsonModel } from '../types/jsonModel';
 import { getParams } from '../util';
 
+// TODO check if you delete all comments on a page does this still work
+// TODO check if you disable comments on a page does it make it have a stable page id
+
 /**
  * Identifies a page.
  *

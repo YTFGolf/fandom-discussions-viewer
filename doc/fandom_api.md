@@ -18,42 +18,49 @@ There are 2 main API routes you can use on each wiki. `/wikia.php` leads to the 
 
 ## Finding data
 
-- Finding `siteId`: <https://battle-cats.fandom.com/wikia.php?controller=FeedsAndPosts&method=getWikiVariables>`.wikiId`
-- Finding message wall post
-  - I don't actually know how to do this. However you can do this if you found this message through:
+Each API call may rely on specific data to make the call work, or you may be able to use the API to find specific data.
+
+- Finding `siteId`: <https://battle-cats.fandom.com/wikia.php?controller=FeedsAndPosts&method=getWikiVariables>`.wikiId`. Most API responses also contain the site ID.
+- Finding message wall post from ID
+  - Don't actually know how to do this. However you can do this if you found this message through:
     1. scrolling down a user's Message Wall (then you have `wallOwnerId`)
     2. scrolling down a user's Social Activity/<https://battle-cats.fandom.com/wikia.php?controller=DiscussionPost&method=getPosts&containerType=WALL> (then see how [Discussions Restore All](https://dev.fandom.com/wiki/MediaWiki:Discussions_Restore_All.js) does it)
-  - These should be the only way you found a message
-- Finding forum ids: <https://wwr-test.fandom.com/wikia.php?controller=DiscussionForum&method=getForums>`._embedded["doc:forum"][i].id` where `i` is a number
+  - These should be the only way you found a message in the first place.
+- Finding forum ids: <https://wwr-test.fandom.com/wikia.php?controller=DiscussionForum&method=getForums>`._embedded["doc:forum"][i].id` where `i` is a number.
 - Finding comment/page
-  - really easy, you don't even need the correct page name or namespace. You just need **_a_** page on the wiki, and that page's namespace, and the `commentId`. Appears that the page needs actual comments though.
-  - will return `res` something where `res.thread.containerId` is `stablePageId`.
+  - You don't even need the correct page name or namespace. You just need **_a_** page on the wiki (it must have comments though), that page's namespace, and the `commentId`. Making a call to the ArticleComments controller will return a response `res` where `res.thread.containerId` is `stablePageId`.
   - `stablePageId` -> page name
     - <https://battle-cats.fandom.com/es/wikia.php?controller=FeedsAndPosts&method=getArticleNamesAndUsernames&stablePageIds=210,216&userIds=27706221,37518302>`.articleNames[stablePageId].title`.
-      - need <https://battle-cats.fandom.com/es/api.php?action=query&meta=siteinfo&siprop=namespaces&format=json> to determine namespace
-    - <https://battle-cats.fandom.com/es/wikia.php?controller=ArticleComments&method=getArticleTitle&stablePageId=210>`.title` (doesn't include namespace so not recommended)
+      - need <https://battle-cats.fandom.com/es/api.php?action=query&meta=siteinfo&siprop=namespaces&format=json> to determine namespace.
+    - <https://battle-cats.fandom.com/es/wikia.php?controller=ArticleComments&method=getArticleTitle&stablePageId=210>`.title` (doesn't include namespace so not recommended).
   - page name -> `stablePageId`
-    - Page must have comments on it, otherwise it will not have a `stablePageId`
+    - Page must have comments on it, otherwise it will not have a `stablePageId`.
     - <https://battle-cats.fandom.com/wikia.php?controller=ArticleComments&method=getComments&title=Space+is+the+Place+%28Insane%29&namespace=0&hideDeleted=false>`.threads[0].containerId` with proper title and namespace
 - `userId`/username
+  - In summary, use the UserApi controller, since it accepts both user IDs and usernames (albeit usernames must begin with capital letters).
   - From `userId`:
     - A lot of the time you don't need to do this as it's given
     - <https://battle-cats.fandom.com/es/wikia.php?controller=UserApi&method=getDetails&ids=27706221,37518302>
     - <https://battle-cats.fandom.com/es/wikia.php?controller=FeedsAndPosts&method=getArticleNamesAndUsernames&stablePageIds=210,216&userIds=27706221,37518302>
   - From username
-    - Exact: <https://wwr-test.fandom.com/api.php?action=query&format=json&list=users&ususers=TheWWRNerdGuy|Brute_Bendy>, <https://community.fandom.com/wikia.php?controller=UserApi&method=getDetails&ids=KockaAdmiralac,27345308,Brute%20Bendy>
+    - Exact: <https://battle-cats.fandom.com/api.php?action=query&format=json&list=users&ususers=TheWWRNerdGuy|Brute_Bendy>, <https://battle-cats.fandom.com/wikia.php?controller=UserApi&method=getDetails&ids=KockaAdmiralac,27345308,Brute%20Bendy>
     - Inexact: <https://battle-cats.fandom.com/wikia.php?controller=UserApi&method=getUsersByName&query=AnonymousCrouton>
+- User avatar
+  - This one's actually a little trickier. `UserApi.getDetails` will work for most users, but won't for those with old profile pictures. The correct avatar is always available when using the API to check people's posts.
+  - Your avatar only: <https://battle-cats.fandom.com/api.php?action=query&format=json&meta=userinfo&uiprop=options>
+  - Other people: <https://battle-cats.fandom.com/wikia.php?controller=UserApi&method=getUsersByName&query=AnonymousCrouton>
 - Votes on a poll
-  - Search for `\"answers\"` in the html response from the poll. The JS object contained in there will have the amount of votes.
+  - e.g. for <https://battle-cats.fandom.com/f/p/4400000000000891975>
+  - Search for `\"answers\"` in the html response from the poll. The JS object contained in there will have the amount of votes. (i.e. find operation in <view-source:https://battle-cats.fandom.com/f/p/4400000000000891975>)
   - Can also do them individually
     - <https://battle-cats.fandom.com/wikia.php?controller=DiscussionThread&method=getThread&format=json&threadId=4400000000000891975>
     - <https://battle-cats.fandom.com/wikia.php?controller=DiscussionPoll&method=getVoters&pollId=4627184&answerId=17881788>
 
 ### Specialised
 
-- First post on wiki: https://community.fandom.com/f/p/4400000000003133958/r/4400000000010157535 (should add `viewableOnly=false` imo)
-- User's first post: https://battle-cats.fandom.com/wiki/User:TheWWRNerdGuy/Messing_around_with_Discussions_API#First_post_on_wiki
-- First reply to post: https://community.fandom.com/f/p/4400000000003569082/r/4400000000014032699
+- First post on wiki: <https://community.fandom.com/f/p/4400000000003133958/r/4400000000010157535> (should add `viewableOnly=false` imo)
+- User's first post: <https://battle-cats.fandom.com/wiki/User:TheWWRNerdGuy/Messing_around_with_Discussions_API#First_post_on_wiki>
+- First reply to post: <https://community.fandom.com/f/p/4400000000003569082/r/4400000000014032699>
 
 ## Data models
 

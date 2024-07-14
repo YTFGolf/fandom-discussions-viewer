@@ -5,7 +5,8 @@ import { getParams } from '../util';
 export namespace UserApi {
 	/**
 	 * Get details about specific users. `ids` is a comma-separated list of
-	 * usernames or user IDs. Size is used for profile picture dimensions.
+	 * usernames or user IDs. Usernames must begin with a capital letter. Size
+	 * is used for profile picture dimensions.
 	 */
 	export async function getDetails(wiki: Wiki, params: { ids: string; size?: string }) {
 		params = getParams('UserApi', 'getDetails', params);
