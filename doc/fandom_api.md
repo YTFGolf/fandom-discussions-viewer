@@ -5,7 +5,6 @@ The endpoints have been implemented in [controllers](../src/lib/controllers/) an
 - [Overview](#overview)
 - [Finding data](#finding-data)
   - [Specialised](#specialised)
-- [Data models](#data-models)
 - [Call arguments](#call-arguments)
 - [External links](#external-links)
 - [Ignore this bit](#ignore-this-bit)
@@ -62,27 +61,32 @@ Each API call may rely on specific data to make the call work, or you may be abl
 - User's first post: <https://battle-cats.fandom.com/wiki/User:TheWWRNerdGuy/Messing_around_with_Discussions_API#First_post_on_wiki>
 - First reply to post: <https://community.fandom.com/f/p/4400000000003569082/r/4400000000014032699>
 
-## Data models
-
 ## Call arguments
 
-I've tried to document these inline as much as possible but there are just too many and these don't all get their nice abstractions in [string-types](../src/lib/controllers/types/string-types.ts).
+Most of these have been inline as much as possible but there are just too many and these don't all get their nice abstractions in [string-types](../src/lib/controllers/types/string-types.ts).
 
-<!-- prettier-ignore -->
 - `viewableOnly`: basically `hideDeleted` but Fandom doesn't know how to name variables and they're stuck with it.
 - `page`: also takes `pivot` into account.
 - `includeCounters`: if false, every request's `postCount` will be 0.
 - `sortDirection`
-	- On `getThreads`
-		- `descending` is standard method. If `sortKey` is `creation_date` then sorts by new. If `trending` then sorts by hot
-		- `ascending` goes from the wiki's first post. If `sortKey` is `trending` then gives an error.
-	- On `getThread`
-		- `descending` is "view older replies". E.g. on [4400000000000090053](https://wwr-test.fandom.com/f/p/4400000000000037009/r/4400000000000090053) the post below that box is [4400000000000090044](https://wwr-test.fandom.com/f/p/4400000000000037009/r/4400000000000090044). Therefore [getThread](https://wwr-test.fandom.com/wikia.php?controller=DiscussionThread&method=getThread&threadId=4400000000000037009&sortDirection=descending&pivot=4400000000000090044&responseGroup=full) with `4400000000000090044` as the pivot will have the first element of `_embedded["doc:posts"]` be `4400000000000090043`.
-		- `ascending` is "view newer replies". The same [getThread](https://wwr-test.fandom.com/wikia.php?controller=DiscussionThread&method=getThread&threadId=4400000000000037009&sortDirection=descending&pivot=4400000000000090053&responseGroup=full) with `4400000000000090053` will have `4400000000000090054` be the ***last*** element of `doc:posts`.
+  - On `getThreads`
+    - `descending` is standard method. If `sortKey` is `creation_date` then sorts by new. If `trending` then sorts by hot
+    - `ascending` goes from the wiki's first post. If `sortKey` is `trending` then gives an error.
+  - On `getThread`
+    - `descending` is "view older replies". E.g. on [4400000000000090053](https://wwr-test.fandom.com/f/p/4400000000000037009/r/4400000000000090053) the post below that box is [4400000000000090044](https://wwr-test.fandom.com/f/p/4400000000000037009/r/4400000000000090044). Therefore [getThread](https://wwr-test.fandom.com/wikia.php?controller=DiscussionThread&method=getThread&threadId=4400000000000037009&sortDirection=descending&pivot=4400000000000090044&responseGroup=full) with `4400000000000090044` as the pivot will have the first element of `_embedded["doc:posts"]` be `4400000000000090043`.
+    - `ascending` is "view newer replies". The same [getThread](https://wwr-test.fandom.com/wikia.php?controller=DiscussionThread&method=getThread&threadId=4400000000000037009&sortDirection=descending&pivot=4400000000000090053&responseGroup=full) with `4400000000000090053` will have `4400000000000090054` be the **_last_** element of `doc:posts`.
 - `articleIds`: list of page ids.
-- `stablePageId`: appears to actualy be different from `articleIds`. Is set after a comment has been made on the page.
-- `title`/`namespace`: they have to be correct internally (i.e. the page with that title in that namespace must exist and have comments), but for requests like `getThread` there is no requirement that they actually correspond to the page where the `threadId` is from. On stuff like `postNewCommentReply` and `editComment` even if you provide the wrong page `Special:SocialActivity` and `Special:UserProfileActivity` will display the right page.
-- `pivot`: I'm not entirely sure, but it seems like if I set pivot then it only shows posts that are `< pivot` (tested on `mw.getThread` and seems to be simliar on the `dt.getThread` calls above, only it's `> pivot` when `sortDirection=ascending`). Possibly different for each method, more testing is needed.
+- `stablePageId`: entirely different from `articleIds`. Is set after a comment has been made on the page.
+- ArticleComments's `title`/`namespace`: they have to be correct internally (i.e. the page with that title in that namespace must exist and have comments), but for requests like `getThread` there is no requirement that they actually correspond to the page where the `threadId` is from. On stuff like `postNewCommentReply` and `editComment` even if you provide the wrong page `Special:SocialActivity` and `Special:UserProfileActivity` will display the right page.
+- `pivot`: If you set pivot then it only shows posts that are `< pivot` (or `> pivot` when `sortDirection=ascending`).
+- `jsonModel`/`rawContent`/`body`
+  - These are not required in `DiscussionThread` calls. They cannot be blank in posts that require content (e.g. anything to do with `DiscussionPost`); at least one of them needs to have content.
+  - `rawContent` and `body` are aliases for each other; `body` is renamed to `rawContent` when submitting to the server. Whichever one comes later in the request has priority, as with any other JS object.
+  - If `jsonModel` is given then this is used in the display. Otherwise, the website displays `rawContent`, as well as `attachments.contentImages[0]` if it exists.
+  - If editing a post, then you can't make `jsonModel` null, but you can if sending a reply (as long as `rawContent` contains content).
+  - If `jsonModel` is invalid JSON or doesn't follow the schema, wacky stuff happens with the website editor.
+  - Reply history relies on the post's `jsonModel`. Special:UserProfileActivity relies on `rawContent`.
+  - `jsonModel`'s length must be between 0 and 65520.
 
 ## External links
 
@@ -90,19 +94,7 @@ _See <https://battle-cats.fandom.com/wiki/User:TheWWRNerdGuy/Messing_around_with
 
 ## Ignore this bit
 
-// Thread creation
-// body isn't needed technically, need to investigate further
-// body is alias for rawContent
-// jsonModel isn't needed either
-// jsonModel > body
-// if jsonModel is not proper json just fails lmao
-// reply history relies on jsonModel
-// special:userprofileactivity relies on body/rawContent
-// jsonModel length must be between 0 and 65520
-// anything that can be null can also be undefined
 // something like global values e.g. username so I can set the user agent (client)
-`*<code>jsonModel</code>: see [[w:c:caburum:Nirvana#JSON post model]]. I can probably try to understand this format from GET requests so not too bothered. Optional for whatever reason, even if neither <code>rawContent</code> nor <code>body</code> are supplied (according to [[Special:SocialActivity]] it gets content suppressed if none of the 3 are present).`
-`*<code>rawContent</code>/<code>body</code>. If there is no <code>jsonModel</code> then the post becomes <code>rawContent</code> + first image in <code>contentImages</code> if it exists. If a request contains both <code>rawContent</code> and <code>body</code>, then whichever one comes later takes priority.`
 `Fandom's message walls unironically try to load the entire thread into memory.`
 
 - Rickping. Note: this doesn't work on fdv because fandom's using some wacky rendering engine that allows them to nest `<a>` tags.
