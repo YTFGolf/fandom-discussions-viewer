@@ -4,6 +4,7 @@
 	import { page } from '$app/stores';
 	import { config, wiki } from '../../../stores';
 	import ThreadComponent from '../../../../components/Thread.svelte';
+	import { offsetPivot } from '$lib/forum';
 
 	const rePostParams = /^(\d+)(?:\/r\/)?(\d*)$/;
 	const [_, threadId, postId]: string[] = $page.params.postParams.match(rePostParams)!;
@@ -18,17 +19,9 @@
 		viewableOnly: $config.hideDeleted,
 		limit: $config.postLimit,
 	};
-	if (params.pivot !== '') {
-		if (params.sortDirection && params.sortDirection === 'ascending') {
-			params.pivot = (BigInt(params.pivot!) - BigInt(1)).toString();
-		} else {
-			params.pivot = (BigInt(params.pivot!) + BigInt(1)).toString();
-		}
+	if (params.pivot && params.pivot !== '') {
+		params.pivot = offsetPivot(params.pivot, params.sortDirection);
 	}
-	// Pivot uses strict inequality so this hack is needed so that e.g. the call
-	// below begins with the same post that the equivalent discussions link does
-	// http://localhost:5173/f/p/4400000000000822918/r/4400000000003058552
-	// https://battle-cats.fandom.com/f/p/4400000000000822918/r/4400000000003058552
 
 	let threadContent: Promise<Thread>;
 	$: threadContent = DiscussionThread.getThread($wiki, params).then((res) => res.json());
