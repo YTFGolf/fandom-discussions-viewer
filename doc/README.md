@@ -22,7 +22,7 @@ The project uses Svelte/SvelteKit's ability to write the client and server in th
 
 When the user sends a request on the client, this is sent to the server. This server acts as a proxy server: it reads the user's request, then transforms that into another request sent directly to Fandom. The proxy server reads Fandom's response and returns the data to the client. The proxy server is necessary because of the same-origin policy: the browser would reject a request directly returned from Fandom.
 
-As long as the your localhost is secure this will probably be fine from a security point of view.
+As long as your localhost is secure this will probably be fine from a security point of view.
 
 ## Login
 
@@ -82,14 +82,16 @@ Planned:
 
 This section will detail things you can do with this but not Fandom Discussions (hooray). It will also talk about things like everything I've so far done with just scripts.
 
+Okay this is more the stuff that should be possible with this but not discussions.
+
 - Poll with text
 - More control over marks
   - Fake pings
   - Real pings with different text
   - Pinging dead users (requires knowing their id)
   - Astley pings
-  - Formatting in code blocks (`<strong>` doesn't work though)
-- Pings in message walls (don't notify though, users don't get notified even if you use the attachments)
+  - Formatting in code blocks
+- Pings in message walls (don't notify though)
 - Read and reply to [Hello Internet Funni People](https://battle-cats.fandom.com/wiki/Message_Wall:LiterallyJustN?threadId=4400000000000763415) without using 10 TB of RAM
 
 ## Testing

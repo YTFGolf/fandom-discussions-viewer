@@ -1,4 +1,4 @@
-This isn't properly completed, as there are a bunch of API endpoints that haven't been implemented fully yet. Some notes exist at [API stuff](https://wwr-test.fandom.com/wiki/API_stuff)for unimplemented features.
+This isn't properly completed, as there are a bunch of API endpoints that haven't been implemented fully yet. Some notes exist at [API stuff](https://wwr-test.fandom.com/wiki/API_stuff) for unimplemented features.
 
 The endpoints have been implemented in [controllers](../src/lib/controllers/) and large server responses can be found in [responses](../src/lib/responses/).
 
