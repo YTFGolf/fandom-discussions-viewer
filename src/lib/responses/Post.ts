@@ -41,17 +41,17 @@ export type PostTime = {
 	nano: number;
 };
 
+export type UserData = {
+	hasReported: boolean;
+	hasUpvoted: boolean;
+	permissions?: ('canDelete' | 'canUndelete' | 'canModerate' | 'canEdit')[];
+};
+
 export type Post = {
 	jsonModel: string;
 	_embedded: {
 		attachments: Attachments[];
-		userData?: [
-			{
-				hasReported: boolean;
-				hasUpvoted: boolean;
-				permissions?: ('canDelete' | 'canUndelete' | 'canModerate' | 'canEdit')[];
-			},
-		];
+		userData?: [UserData];
 	};
 	rawContent: string;
 

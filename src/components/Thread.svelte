@@ -5,8 +5,11 @@
 	import { DiscussionPost } from '$lib/controllers/wikia/DiscussionPost';
 	import HTTP from '$lib/HTTPCodes';
 	import { wiki } from '../routes/stores';
+	import type { Thread } from '$lib/responses/Thread';
 
 	export let threadContent: Thread;
+	$: threadContent._embedded['doc:posts'] = threadContent._embedded['doc:posts'] || [];
+	// console.log(threadContent);
 
 	let editor: ReplyEditor;
 	let postList: HTMLElement;
@@ -47,19 +50,15 @@
 	}
 </script>
 
-{#if threadContent._embedded && threadContent._embedded['doc:posts']}
-	<div bind:this={postList} class="post-list">
-		{#each threadContent._embedded['doc:posts'].toReversed() as post, i}
-			<!-- {#if i > 0}<hr />{/if} -->
-			<hr />
-			<Post {post} />
-		{/each}
+<div bind:this={postList} class="post-list">
+	{#each threadContent._embedded['doc:posts'].toReversed() as post, i}
+		<!-- {#if i > 0}<hr />{/if} -->
 		<hr />
-		<ReplyEditor bind:this={editor} onSubmit={submitReply} />
-	</div>
-{:else}
-	<p style="color: red">Error: posts not found</p>
-{/if}
+		<Post {post} />
+	{/each}
+	<hr />
+	<ReplyEditor bind:this={editor} onSubmit={submitReply} />
+</div>
 
 <style>
 	.post-list {
