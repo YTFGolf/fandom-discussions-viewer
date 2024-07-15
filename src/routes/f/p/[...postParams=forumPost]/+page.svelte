@@ -2,12 +2,8 @@
 	import { DiscussionThread } from '$lib/controllers/wikia/DiscussionThread';
 	import type { Thread } from '$lib/responses/Thread';
 	import { page } from '$app/stores';
-	import Post from '../../../../components/Post.svelte';
-	import type { EditorContent } from '../../../../components/Editor.svelte';
-	import { DiscussionPost } from '$lib/controllers/wikia/DiscussionPost';
-	import HTTP from '$lib/HTTPCodes';
-	import ReplyEditor from '../../../../components/ReplyEditor.svelte';
 	import { config, wiki } from '../../../stores';
+	import ThreadComponent from '../../../../components/Thread.svelte';
 
 	const rePostParams = /^(\d+)(?:\/r\/)?(\d*)$/;
 	const [_, threadId, postId]: string[] = $page.params.postParams.match(rePostParams)!;
@@ -36,51 +32,6 @@
 
 	let threadContent: Promise<Thread>;
 	$: threadContent = DiscussionThread.getThread($wiki, params).then((res) => res.json());
-	let editor: ReplyEditor;
-	let postList: HTMLElement;
-
-	function rebuildEditor() {
-		editor.$destroy();
-		editor = new ReplyEditor({
-			target: postList,
-			props: { onSubmit: submitReply },
-		});
-	}
-
-	async function submitReply(editorContent: EditorContent) {
-		await threadContent;
-		const res = await DiscussionPost.create(
-			$wiki,
-			{},
-			{
-				threadId,
-				siteId: (await threadContent).siteId,
-				...editorContent,
-			},
-		);
-		if (res.status == HTTP.CREATED) {
-			// onCancel();
-			// post = await res.json();
-			(await threadContent)._embedded['doc:posts'].splice(0, 0, await res.json());
-			// @ts-ignore
-			threadContent = await threadContent;
-			rebuildEditor();
-		} else {
-			const json = await res.json();
-			console.error('Failed', json);
-			// modalStatus = {
-			// 	color: 'red',
-			// 	message: json.title || json.errorText || JSON.stringify(json),
-			// };
-		}
-	}
-
-	// function movePage() {
-	// 	const url = `/f/p/${params.threadId}` + (params.pivot ? `/r/${params.pivot}` : '');
-	// 	if (browser) {
-	// 		goto(url);
-	// 	}
-	// }
 </script>
 
 <svelte:head>
@@ -100,27 +51,9 @@
 <container>
 	{#await threadContent}
 		<p>...waiting</p>
-	{:then postData}
-		{#if postData._embedded && postData._embedded['doc:posts']}
-			<div bind:this={postList} class="post-list">
-				{#each postData._embedded['doc:posts'].toReversed() as post, i}
-					<!-- {#if i > 0}<hr />{/if} -->
-					<hr />
-					<Post {post} />
-				{/each}
-				<hr />
-				<ReplyEditor bind:this={editor} onSubmit={submitReply} />
-			</div>
-		{:else}
-			<p style="color: red">Error: posts not found</p>
-		{/if}
+	{:then threadContent}
+		<ThreadComponent {threadContent} />
 	{:catch error}
 		<p style="color: red">{error.message}</p>
 	{/await}
 </container>
-
-<style>
-	.post-list {
-		padding: 36px;
-	}
-</style>

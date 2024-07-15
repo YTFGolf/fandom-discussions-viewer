@@ -8,7 +8,7 @@ import type {
 	OpenGraph,
 	Paragraph,
 } from '$lib/controllers/types/jsonModel';
-import { default as getText } from './Text';
+import getText from './Text';
 import fallback from '../../Fallback';
 
 export async function getParagraph(p: Paragraph) {
