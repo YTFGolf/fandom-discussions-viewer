@@ -19,6 +19,7 @@
 	let modalContainer: HTMLElement;
 	let openEditor: boolean;
 	let modalStatus: { color: string; message: string };
+	// TODO replace with an actual global error message thing
 
 	let hasUpvoted: boolean;
 	$: hasUpvoted = post._embedded.userData?.[0].hasUpvoted || false;
@@ -94,6 +95,13 @@
 		</div>
 	{/if}
 	<div class="user-info">
+		<button
+			class="ignore-button-styles upvote-post {hasUpvoted ? 'is-upvoted' : ''}"
+			on:click={toggleUpvote}
+		>
+			<FandomIcon icon={hasUpvoted ? 'heart-filled' : 'heart'} size="18px" />
+			<span class="upvote-count">{post.upvoteCount}</span>
+		</button>
 		<Avatar user={post.createdBy} />
 		<a class="user-link" href={'/f/u/' + post.createdBy.id}>{post.createdBy.name}</a>
 		<span class="reply-time">·</span>
@@ -102,13 +110,6 @@
 		</a>
 	</div>
 	<div class="post-actions">
-		<button
-			class="ignore-button-styles upvote-post {hasUpvoted ? 'is-upvoted' : ''}"
-			on:click={toggleUpvote}
-		>
-			<FandomIcon icon={hasUpvoted ? 'heart-filled' : 'heart'} size="18px" />
-			<span class="upvote-count">{post.upvoteCount}</span>
-		</button>
 		{#if permissions}
 			<div class="form-actions">
 				{#if permissions?.includes('canEdit')}
@@ -160,11 +161,12 @@
 
 	.user-info {
 		display: flex;
+		align-items: center;
 		padding: 5px;
 	}
 
 	.user-info :global(.avatar) {
-		width: 60px;
+		margin: 0 0.5em 0 0.25em;
 	}
 
 	.user-link:hover {
