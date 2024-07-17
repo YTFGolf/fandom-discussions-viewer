@@ -18,10 +18,9 @@
   - Mainly to avoid regression; vitest doesn't appear to like using the server's API, so either I reimplement in vitest or I do testing on the live server
   - `npm run dev -- --port 7357`
   - Can make test tab in new container so always works.
-- Fix editor
+- Add stuff to editor
   - Attempt erase formatting again (can probably do some command chaining and enumerating for different kinds of nodes, or do the textbetween thing and replace `\n` with `</p><br><p>` or split by `\n`)
 - Finish forumPost
-  - Navigating through the post
   - First post (probably a `FirstPost` container or something)
   - Lock, delete, undelete etc.
   - Better styling
