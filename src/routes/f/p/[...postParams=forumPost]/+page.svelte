@@ -23,7 +23,7 @@
 		params.pivot = offsetPivot(params.pivot, params.sortDirection);
 	}
 
-	let threadContent: Promise<Thread>;
+	let threadContent: Promise<Thread | any>;
 	$: threadContent = DiscussionThread.getThread($wiki, params).then((res) => res.json());
 </script>
 
@@ -45,7 +45,7 @@
 	{#await threadContent}
 		<p>...waiting</p>
 	{:then threadContent}
-		<ThreadComponent {threadContent} />
+		<ThreadComponent thread={threadContent} />
 	{:catch error}
 		<p style="color: red">{error.message}</p>
 	{/await}

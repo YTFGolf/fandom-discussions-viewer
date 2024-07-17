@@ -2,7 +2,6 @@
 	import HTTP from '$lib/HTTPCodes';
 	import { DiscussionPost } from '$lib/controllers/wikia/DiscussionPost';
 	import type { Post } from '$lib/responses/Post';
-	import type { Wiki } from '$lib/types';
 	import { wiki } from '../routes/stores';
 	import EditModal from './EditModal.svelte';
 	import { type EditorContent } from './Editor.svelte';
@@ -166,7 +165,7 @@
 	}
 
 	.user-info :global(.avatar) {
-		margin: 0 0.5em 0 0.25em;
+		margin: 0 0.75em;
 	}
 
 	.user-link:hover {
@@ -211,7 +210,7 @@
 	}
 
 	.upvote-post {
-		padding: 0.5em;
+		padding: 0.5em 0;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
