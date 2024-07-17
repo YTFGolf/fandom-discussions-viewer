@@ -63,7 +63,24 @@
 			...thread._embedded['doc:posts'],
 			...(data._embedded['doc:posts'] || []),
 		];
-		console.log(thread._embedded['doc:posts']);
+		target.disabled = false;
+	}
+
+	async function viewNewerReplies(event: MouseEvent) {
+		const target = event.target as HTMLButtonElement;
+		target.disabled = true;
+
+		const newerRepliesHref = thread._links.previous![0].href;
+		const params = Object.fromEntries(new URLSearchParams(newerRepliesHref)) as any;
+
+		const res = await DiscussionThread.getThread($wiki, params);
+		const data = (await res.json()) as Thread;
+		thread._links.previous = data._links.previous;
+
+		thread._embedded['doc:posts'] = [
+			...(data._embedded['doc:posts'] || []),
+			...thread._embedded['doc:posts'],
+		];
 		target.disabled = false;
 	}
 </script>
@@ -80,6 +97,15 @@
 		<PostComponent {post} />
 	{/each}
 	<hr />
+	{#if thread._links.previous}
+		<button
+			style="margin-bottom: 0.5em"
+			class="view-more ignore-button-styles"
+			on:click={viewNewerReplies}
+		>
+			View newer replies
+		</button>
+	{/if}
 	<ReplyEditor bind:this={editor} onSubmit={submitReply} />
 </div>
 
