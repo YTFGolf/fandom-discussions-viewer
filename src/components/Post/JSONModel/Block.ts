@@ -7,11 +7,18 @@ import type {
 	ListItem,
 	OpenGraph,
 	Paragraph,
+	TextItem,
 } from '$lib/controllers/types/jsonModel';
 import getText from './Text';
 import fallback from '../../Fallback';
 
 export async function getParagraph(p: Paragraph) {
+	// @ts-ignore
+	if (p.content && !p.content[0]) {
+		return getParagraph({ ...p, content: [p.content as any] });
+	}
+	p.content = p.content as TextItem[];
+
 	if (!p.content || (p.content.length === 1 && p.content[0].text === '\n')) {
 		return '<p><br></p>';
 	}
@@ -81,7 +88,7 @@ export async function getCodeBlock(block: CodeBlock) {
 	const codeBlock = document.createElement('code');
 
 	const elements: Promise<string>[] = [];
-	for (const textItem of block.content) {
+	for (const textItem of block.content as TextItem[]) {
 		elements.push(getText(textItem));
 	}
 	codeBlock.innerHTML = (await Promise.all(elements)).join('');
@@ -150,7 +157,7 @@ export default async function getHtmlWithFallback(block: Block, attachments: Att
 	try {
 		return await getHtml(block, attachments);
 	} catch (e) {
-		console.error(e);
+		// console.error(e);
 		return fallback(JSON.stringify(block));
 	}
 }

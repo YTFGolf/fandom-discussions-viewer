@@ -40,7 +40,7 @@ export type Block = Paragraph | Image | OpenGraph | HtmlList | CodeBlock;
 export type Paragraph = {
 	type: 'paragraph';
 	/** Technically optional, if only the type then just creates a blank line. */
-	content?: TextItem[];
+	content?: TextItem[] | TextItem;
 };
 
 export type Image = {
@@ -71,7 +71,7 @@ export type CodeBlock = {
 	 * Yes this does mean you can apply marks to stuff inside a code block. If
 	 * you want text to be bold you need to wrap it in multiple strong tags.
 	 */
-	content: TextItem[];
+	content: TextItem[] | TextItem;
 };
 
 export type OpenGraph = {
