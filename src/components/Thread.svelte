@@ -86,29 +86,31 @@
 	}
 </script>
 
-<FirstPost {thread} />
-<div bind:this={postList} class="post-list">
-	{#if thread._links.next}
-		<button class="view-more ignore-button-styles" on:click={viewOlderReplies}>
-			View older replies
-		</button>
-	{/if}
-	{#each thread._embedded['doc:posts'].toReversed() as post (post.id)}
-		<!-- {#if i > 0}<hr />{/if} -->
+<div class="thread-container {(thread.isDeleted && ' is-deleted') || ''}">
+	<FirstPost {thread} />
+	<div bind:this={postList} class="post-list">
+		{#if thread._links.next}
+			<button class="view-more ignore-button-styles" on:click={viewOlderReplies}>
+				View older replies
+			</button>
+		{/if}
+		{#each thread._embedded['doc:posts'].toReversed() as post (post.id)}
+			<!-- {#if i > 0}<hr />{/if} -->
+			<hr />
+			<ForumPost {post} />
+		{/each}
 		<hr />
-		<ForumPost {post} />
-	{/each}
-	<hr />
-	{#if thread._links.previous}
-		<button
-			style="margin-bottom: 0.5em"
-			class="view-more ignore-button-styles"
-			on:click={viewNewerReplies}
-		>
-			View newer replies
-		</button>
-	{/if}
-	<ReplyEditor bind:this={editor} onSubmit={submitReply} />
+		{#if thread._links.previous}
+			<button
+				style="margin-bottom: 0.5em"
+				class="view-more ignore-button-styles"
+				on:click={viewNewerReplies}
+			>
+				View newer replies
+			</button>
+		{/if}
+		<ReplyEditor bind:this={editor} onSubmit={submitReply} />
+	</div>
 </div>
 
 <style>
@@ -133,6 +135,6 @@
 	}
 
 	.post-list {
-		padding: 36px;
+		padding: 9px 36px;
 	}
 </style>
