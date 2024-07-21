@@ -14,7 +14,7 @@ async function getHtml(jsonModel: DocModel, attachments: Attachments) {
 }
 
 export async function getHtmlWithFallback(
-	jsonModel: JsonModel,
+	jsonModel: JsonModel | null | undefined,
 	attachments: Attachments,
 	rawContent: string,
 ) {

@@ -5,7 +5,7 @@
 
 import type { JsonModel } from '$lib/controllers/types/jsonModel';
 import type { Funnel } from '$lib/controllers/types/string-types';
-import type { Post, PostTime, UserDetails } from './Post';
+import type { Attachments, Post, PostTime, UserData, UserDetails } from './Post';
 
 export type PollAnswerImage = {
 	url: string;
@@ -17,7 +17,7 @@ export type PollAnswerImage = {
 
 export type PollAnswer = {
 	id: number;
-	image: PollAnswerImage | null;
+	image?: PollAnswerImage | null;
 	position: number;
 	text: string;
 	votes: number;
@@ -54,6 +54,8 @@ export type Thread = {
 		 * post.
 		 */
 		'doc:posts'?: Post[];
+		userData?: [UserData];
+		attachments: Attachments[];
 	};
 
 	title: string;
@@ -61,7 +63,8 @@ export type Thread = {
 	creationDate: PostTime;
 	postCount: number;
 	upvoteCount: number;
-	lastEditedBy: UserDetails;
+	lastEditedBy?: UserDetails;
+	lastDeletedBy?: UserDetails;
 
 	id: string;
 	siteId: string;

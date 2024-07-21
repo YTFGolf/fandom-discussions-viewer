@@ -1,9 +1,10 @@
 <script lang="ts">
 	import type { Post } from '$lib/responses/Post';
+	import type { Thread } from '$lib/responses/Thread';
 	import { config } from '../routes/stores';
 	import Editor, { type EditorContent } from './Editor.svelte';
 
-	export let post: Post;
+	export let post: Thread | Post;
 	export let status: {
 		color: string;
 		message: string;
@@ -18,7 +19,7 @@
 	}
 	let editorContent: EditorContent;
 	$: editorContent = {
-		jsonModel: post.jsonModel,
+		jsonModel: post.jsonModel!,
 		attachments: { ...post._embedded.attachments[0], polls: undefined, quizzes: undefined },
 		rawContent: post.rawContent,
 	};

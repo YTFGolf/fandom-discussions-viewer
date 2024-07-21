@@ -1,7 +1,8 @@
 <script lang="ts">
+	import type { JsonModel } from '$lib/controllers/types/jsonModel';
 	import type { Attachments } from '$lib/responses/Post';
 	import { getHtmlWithFallback } from './JSONModel/Body';
-	export let jsonModel: string;
+	export let jsonModel: JsonModel | null;
 	export let attachments: Attachments;
 	export let rawContent: string;
 </script>

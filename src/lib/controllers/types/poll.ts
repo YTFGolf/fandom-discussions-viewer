@@ -6,7 +6,7 @@ export type Poll = {
 /** If one answer is an ImageAnswer all must be. */
 export type Answer = {
 	text: string;
-	image?: ImageAnswer;
+	image?: ImageAnswer | null;
 
 	/** Does nothing */
 	position: number;

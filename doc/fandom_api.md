@@ -8,6 +8,7 @@ The endpoints have been implemented in [controllers](../src/lib/controllers/) an
 - [Call arguments](#call-arguments)
 - [External links](#external-links)
 - [Ignore this bit](#ignore-this-bit)
+  - [Poll](#poll)
 
 ## Overview
 
@@ -112,3 +113,7 @@ If want to find a comment, you need:
 - a page with a comment <https://wwr-test.fandom.com/wiki/CORS?commentId=4400000000000037058>
 
 I tried to use this link and it failed. Then I put a comment on the CORS page. Then this worked. Then suddenly stablePageId 2 corresponded to CORS.
+
+### Poll
+
+If you set id then poll becomes poll with that id (e.g. see <https://the-battle-doges.fandom.com/f/p/4400000000000033827> and then see <https://battle-cats.fandom.com/f/p/4400000000000892782>). If you don't set id then you create a new poll.
