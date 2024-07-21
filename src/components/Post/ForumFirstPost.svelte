@@ -12,4 +12,4 @@
 	// the functions
 </script>
 
-<Post post={thread} />
+<!-- <Post post={thread} /> -->

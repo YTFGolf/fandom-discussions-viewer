@@ -10,9 +10,12 @@
 	import PostBody from './PostBody.svelte';
 	import Time from './Time.svelte';
 	import { DiscussionVote } from '$lib/controllers/wikia/DiscussionVote';
+	import type { Wiki } from '$lib/types';
 
 	export let post: Post;
 	const permissions = post._embedded.userData?.[0].permissions;
+
+	export let deleteFunction: (wiki: Wiki, post: any) => Promise<any>;
 
 	let container: HTMLElement;
 	let modalContainer: HTMLElement;
@@ -21,13 +24,14 @@
 	// TODO replace with an actual global error message thing
 
 	let hasUpvoted: boolean;
-	$: hasUpvoted = post._embedded.userData?.[0].hasUpvoted || false;
+	$: hasUpvoted = post._embedded.userData?.[0]?.hasUpvoted || false;
 
 	function edit() {
 		openEditor = true;
 	}
 	async function deletePost() {
-		const res = await DiscussionPost.deletePost($wiki, { postId: post.id });
+		// const res = await DiscussionPost.deletePost($wiki, { postId: post.id });
+		const res = await deleteFunction($wiki, post);
 		if (res.status == HTTP.OK) {
 			post = await res.json();
 		} else {
