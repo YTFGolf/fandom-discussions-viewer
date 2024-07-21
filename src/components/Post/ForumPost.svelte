@@ -2,14 +2,14 @@
 	import HTTP from '$lib/HTTPCodes';
 	import { DiscussionPost } from '$lib/controllers/wikia/DiscussionPost';
 	import type { Post } from '$lib/responses/Post';
-	import { wiki } from '../routes/stores';
-	import EditModal from './EditModal.svelte';
-	import { type EditorContent } from './Editor.svelte';
-	import FandomIcon from './FandomIcon.svelte';
-	import Avatar from './Avatar.svelte';
-	import PostBody from './Post/PostBody.svelte';
-	import Time from './Post/Time.svelte';
-	import { DiscussionVote } from '$lib/controllers/wikia/DIscussionVote';
+	import { wiki } from '../../routes/stores';
+	import EditModal from '../EditModal.svelte';
+	import { type EditorContent } from '../Editor.svelte';
+	import FandomIcon from '../FandomIcon.svelte';
+	import Avatar from '../Avatar.svelte';
+	import PostBody from './PostBody.svelte';
+	import Time from './Time.svelte';
+	import { DiscussionVote } from '$lib/controllers/wikia/DiscussionVote';
 
 	export let post: Post;
 	const permissions = post._embedded.userData?.[0].permissions;

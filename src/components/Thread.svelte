@@ -1,5 +1,5 @@
 <script lang="ts">
-	import PostComponent from './Post.svelte';
+	import ForumPost from './Post/ForumPost.svelte';
 	import ReplyEditor from './ReplyEditor.svelte';
 	import type { EditorContent } from './Editor.svelte';
 	import { DiscussionPost } from '$lib/controllers/wikia/DiscussionPost';
@@ -8,6 +8,7 @@
 	import type { Thread } from '$lib/responses/Thread';
 	import { DiscussionThread } from '$lib/controllers/wikia/DiscussionThread';
 	import type { Post } from '$lib/responses/Post';
+	import FirstPost from './Post/ForumFirstPost.svelte';
 
 	export let thread: Thread & { _embedded: Thread['_embedded'] & { 'doc:posts': Post[] } };
 	$: thread._embedded['doc:posts'] = thread._embedded['doc:posts'] || [];
@@ -85,6 +86,7 @@
 	}
 </script>
 
+<FirstPost {thread} />
 <div bind:this={postList} class="post-list">
 	{#if thread._links.next}
 		<button class="view-more ignore-button-styles" on:click={viewOlderReplies}>
@@ -94,7 +96,7 @@
 	{#each thread._embedded['doc:posts'].toReversed() as post (post.id)}
 		<!-- {#if i > 0}<hr />{/if} -->
 		<hr />
-		<PostComponent {post} />
+		<ForumPost {post} />
 	{/each}
 	<hr />
 	{#if thread._links.previous}
