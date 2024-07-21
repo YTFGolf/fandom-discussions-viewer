@@ -1,6 +1,5 @@
 <script lang="ts">
 	import HTTP from '$lib/HTTPCodes';
-	import { DiscussionPost } from '$lib/controllers/wikia/DiscussionPost';
 	import type { Post } from '$lib/responses/Post';
 	import { wiki } from '../../routes/stores';
 	import EditModal from '../EditModal.svelte';
@@ -11,11 +10,14 @@
 	import Time from './Time.svelte';
 	import { DiscussionVote } from '$lib/controllers/wikia/DiscussionVote';
 	import type { Wiki } from '$lib/types';
+	import type { Thread } from '$lib/responses/Thread';
 
-	export let post: Post;
+	export let post: Post | Thread;
 	const permissions = post._embedded.userData?.[0].permissions;
 
-	export let deleteFunction: (wiki: Wiki, post: any) => Promise<any>;
+	export let deleteFunction: (wiki: Wiki, post: any) => Promise<Response>;
+	export let undeleteFunction: (wiki: Wiki, post: any) => Promise<Response>;
+	export let updateFunction: (wiki: Wiki, post: any, data: EditorContent) => Promise<Response>;
 
 	let container: HTMLElement;
 	let modalContainer: HTMLElement;
@@ -30,7 +32,6 @@
 		openEditor = true;
 	}
 	async function deletePost() {
-		// const res = await DiscussionPost.deletePost($wiki, { postId: post.id });
 		const res = await deleteFunction($wiki, post);
 		if (res.status == HTTP.OK) {
 			post = await res.json();
@@ -40,7 +41,7 @@
 		}
 	}
 	async function undeletePost() {
-		const res = await DiscussionPost.undelete($wiki, { postId: post.id });
+		const res = await undeleteFunction($wiki, post);
 		if (res.status == HTTP.OK) {
 			post = await res.json();
 		} else {
@@ -54,14 +55,7 @@
 			color: '',
 			message: '...',
 		};
-		const res = await DiscussionPost.update(
-			$wiki,
-			{ postId: post.id },
-			{
-				...post,
-				...data,
-			},
-		);
+		const res = await updateFunction($wiki, post, data);
 		if (res.status == HTTP.OK) {
 			onCancel();
 			post = await res.json();
@@ -109,6 +103,7 @@
 		<a class="user-link" href={'/f/u/' + post.createdBy.id}>{post.createdBy.name}</a>
 		<span class="reply-time">·</span>
 		<a class="reply-time" href={`/f/p/${post.threadId}/r/${post.id}`}>
+			<!-- TODO fix for thread -->
 			<Time time={post.creationDate} />
 		</a>
 	</div>
