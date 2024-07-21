@@ -116,4 +116,6 @@ I tried to use this link and it failed. Then I put a comment on the CORS page. T
 
 ### Poll
 
-If you set id then poll becomes poll with that id (e.g. see <https://the-battle-doges.fandom.com/f/p/4400000000000033827> and then see <https://battle-cats.fandom.com/f/p/4400000000000892782>). If you don't set id then you create a new poll.
+If you don't set id then you create a new poll. If you set id then you get the existing poll with that id.
+
+If you redefine the poll then the existing poll gets deleted, irregardless of where it has been used. (e.g. see <https://the-battle-doges.fandom.com/f/p/4400000000000033827> and then see <https://battle-cats.fandom.com/f/p/4400000000000892782>). The first one had the poll removed and the second one was left alone, but because the poll was removed from the first one the second one's poll got deleted.
