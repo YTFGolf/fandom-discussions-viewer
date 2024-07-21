@@ -25,7 +25,7 @@ export namespace DiscussionThread {
 	export type updateData = {
 		title: string;
 
-		jsonModel: JsonModel;
+		jsonModel?: JsonModel;
 		rawContent?: string;
 		body?: string;
 
