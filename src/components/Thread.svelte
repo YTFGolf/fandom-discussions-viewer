@@ -146,7 +146,8 @@
 		opacity: 0.5;
 	}
 
-	.thread-container :global(.post-container.is-deleted + .post-list .post-container.is-deleted) {
+	.thread-container
+		:global(.post-container.is-deleted + .post-list .post-container.is-deleted > *) {
 		opacity: 1;
 	}
 </style>
