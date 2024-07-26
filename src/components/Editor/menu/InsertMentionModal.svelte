@@ -70,14 +70,13 @@
 			cancel.click();
 			// TODO fix if element is active
 		} else if (event.code === 'Enter') {
-			if ((event.target as HTMLInputElement)?.type === 'checkbox') {
-				(event.target as HTMLInputElement).click();
-				event.preventDefault();
+			event.preventDefault();
+			if ((event.target as HTMLInputElement)?.type === 'text') {
+				submit.click();
 				return;
 			}
-			// Also make sure is not cancel button.
-			event.preventDefault();
-			submit.click();
+
+			(event.target as HTMLInputElement).click();
 		}
 	}
 </script>
@@ -158,5 +157,10 @@
 		background: none;
 		border: 0;
 		color: var(--wds-text-button-label-color);
+	}
+
+	.text:hover,
+	.text:focus {
+		color: var(--wds-text-button-label-color--hover);
 	}
 </style>
