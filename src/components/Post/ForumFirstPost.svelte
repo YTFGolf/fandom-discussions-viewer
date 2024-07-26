@@ -8,7 +8,7 @@
 	import type { Answer, Poll as SendPoll } from '$lib/controllers/types/poll';
 	import type { Post } from '$lib/responses/Post';
 
-	export let thread: Thread;
+	export let thread: Post | Thread;
 
 	// gonna need to let it redefine what it means to be a post
 	// gonna neeed another component for this, gonna need to make components
@@ -22,8 +22,8 @@
 	}
 
 	async function deleteFunction(wiki: Wiki, thread: Thread) {
-		// return DiscussionThread.deleteThread(wiki, { threadId: thread.id });
-		return DiscussionPost.deletePost(wiki, { postId: thread.firstPostId });
+		return DiscussionThread.deleteThread(wiki, { threadId: thread.id });
+		// return DiscussionPost.deletePost(wiki, { postId: thread.firstPostId });
 		// For whatever reason DiscussionThread.deleteThread doesn't mark the
 		// post as deleted
 	}
@@ -55,6 +55,19 @@
 			},
 		);
 	}
+	async function lockFunction(wiki: Wiki, thread: Thread) {
+		return DiscussionThread.lock(wiki, { threadId: thread.id });
+	}
+	async function unlockFunction(wiki: Wiki, thread: Thread) {
+		return DiscussionThread.unlock(wiki, { threadId: thread.id });
+	}
 </script>
 
-<PostComponent post={thread} {deleteFunction} {undeleteFunction} {updateFunction} />
+<PostComponent
+	post={thread}
+	{deleteFunction}
+	{undeleteFunction}
+	{updateFunction}
+	{lockFunction}
+	{unlockFunction}
+/>

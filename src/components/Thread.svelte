@@ -138,6 +138,10 @@
 		padding: 9px 36px;
 	}
 
+	.thread-container {
+		margin-top: 1em;
+	}
+
 	.thread-container :global(.post-container.is-deleted + .post-list) {
 		opacity: 0.5;
 	}

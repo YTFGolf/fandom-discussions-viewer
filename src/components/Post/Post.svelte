@@ -18,6 +18,8 @@
 	export let deleteFunction: (wiki: Wiki, post: any) => Promise<Response>;
 	export let undeleteFunction: (wiki: Wiki, post: any) => Promise<Response>;
 	export let updateFunction: (wiki: Wiki, post: any, data: EditorContent) => Promise<Response>;
+	export let lockFunction: ((wiki: Wiki, thread: any) => Promise<Response>) | null = null;
+	export let unlockFunction: ((wiki: Wiki, thread: any) => Promise<Response>) | null = null;
 
 	let container: HTMLElement;
 	let modalContainer: HTMLElement;
@@ -35,6 +37,7 @@
 		const res = await deleteFunction($wiki, post);
 		if (res.status == HTTP.OK) {
 			post = await res.json();
+			post.isDeleted = true;
 		} else {
 			const json = await res.json();
 			alert(json.title || json.errorText || JSON.stringify(json));
@@ -44,6 +47,30 @@
 		const res = await undeleteFunction($wiki, post);
 		if (res.status == HTTP.OK) {
 			post = await res.json();
+		} else {
+			const json = await res.json();
+			alert(json.title || json.errorText || JSON.stringify(json));
+		}
+	}
+	async function lockPost() {
+		if (!lockFunction) {
+			return;
+		}
+		const res = await lockFunction($wiki, post);
+		if (res.status == HTTP.ACCEPTED) {
+			post.isLocked = true;
+		} else {
+			const json = await res.json();
+			alert(json.title || json.errorText || JSON.stringify(json));
+		}
+	}
+	async function unlockPost() {
+		if (!unlockFunction) {
+			return;
+		}
+		const res = await unlockFunction($wiki, post);
+		if (res.status == HTTP.NO_CONTENT) {
+			post.isLocked = false;
 		} else {
 			const json = await res.json();
 			alert(json.title || json.errorText || JSON.stringify(json));
@@ -91,6 +118,9 @@
 			Deleted by {post.lastDeletedBy?.name}.
 		</div>
 	{/if}
+	{#if post.isLocked}
+		<div class="is-locked">This post is locked.</div>
+	{/if}
 	<div class="user-info">
 		<button
 			class="ignore-button-styles upvote-post {hasUpvoted ? 'is-upvoted' : ''}"
@@ -128,6 +158,18 @@
 						Undelete
 					</button>
 				{/if}
+				{#if permissions?.includes('canLock') && !post.isLocked}
+					<button class="action" on:click={lockPost}>
+						<FandomIcon icon="lock" size="18px" />
+						Lock
+					</button>
+				{/if}
+				{#if permissions?.includes('canUnlock') && post.isLocked}
+					<button class="action" on:click={unlockPost}>
+						<FandomIcon icon="unlock" size="18px" />
+						Unlock
+					</button>
+				{/if}
 			</div>
 		{/if}
 	</div>
@@ -152,10 +194,14 @@
 		text-decoration: none;
 	}
 
-	.is-deleted {
+	.is-deleted :global(> :not(.modal-container)) {
 		opacity: 0.5;
 	}
-	/* this also makes the edit modal have 50% opacity but tbh that looks cool */
+
+	.deleted-by,
+	.is-locked {
+		border-bottom: 1px solid var(--theme-border-color);
+	}
 
 	.user-info {
 		display: flex;

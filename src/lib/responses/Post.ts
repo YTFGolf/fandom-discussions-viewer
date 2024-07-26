@@ -44,7 +44,15 @@ export type PostTime = {
 export type UserData = {
 	hasReported: boolean;
 	hasUpvoted: boolean;
-	permissions?: ('canDelete' | 'canUndelete' | 'canModerate' | 'canEdit')[];
+	permissions?: (
+		| 'canDelete'
+		| 'canUndelete'
+		| 'canModerate'
+		| 'canLock'
+		| 'canUnlock'
+		| 'canMove'
+		| 'canEdit'
+	)[];
 };
 
 export type Post = {

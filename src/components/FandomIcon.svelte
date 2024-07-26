@@ -18,6 +18,8 @@
 		image:          'https://fandomdesignsystem.com/ooui/dist/themes/fandomooui/images/wds-icons-image-small.svg',
 		mention:        'https://fandomdesignsystem.com/ooui/dist/themes/fandomooui/images/wds-icons-mention-small.svg',
 		gear:           'https://fandomdesignsystem.com/ooui/dist/themes/fandomooui/images/wds-icons-gear-small.svg',
+		lock:           'https://fandomdesignsystem.com/ooui/dist/themes/fandomooui/images/wds-icons-lock-small.svg',
+		unlock:         'https://fandomdesignsystem.com/ooui/dist/themes/fandomooui/images/wds-icons-unlock-small.svg',
 	};
 
 	export let icon: keyof typeof ICONS;
