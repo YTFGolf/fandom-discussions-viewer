@@ -109,7 +109,9 @@
 				View newer replies
 			</button>
 		{/if}
-		<ReplyEditor bind:this={editor} onSubmit={submitReply} />
+		{#if !(thread.isLocked && !thread._embedded.userData?.[0].permissions?.includes('canModerate'))}
+			<ReplyEditor bind:this={editor} onSubmit={submitReply} />
+		{/if}
 	</div>
 </div>
 
