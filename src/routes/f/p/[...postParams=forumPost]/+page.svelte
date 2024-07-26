@@ -28,8 +28,8 @@
 </script>
 
 <svelte:head>
-	<title>Post</title>
-	<meta name="description" content="wait a minute" />
+	{#await threadContent}<title>Post</title>{:then content}<title>{content.title}</title>{/await}
+	<meta name="description" content="Forum post" />
 </svelte:head>
 
 {#await threadContent}<h1>Loading post...</h1>{:then content}<h1>{content.title}</h1>{/await}
