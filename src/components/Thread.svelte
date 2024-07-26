@@ -86,7 +86,7 @@
 	}
 </script>
 
-<div class="thread-container {(thread.isDeleted && ' is-deleted') || ''}">
+<div class="thread-container">
 	<FirstPost {thread} />
 	<div bind:this={postList} class="post-list">
 		{#if thread._links.next}
@@ -136,5 +136,13 @@
 
 	.post-list {
 		padding: 9px 36px;
+	}
+
+	.thread-container :global(.post-container.is-deleted + .post-list) {
+		opacity: 0.5;
+	}
+
+	.thread-container :global(.post-container.is-deleted + .post-list .post-container.is-deleted) {
+		opacity: 1;
 	}
 </style>
