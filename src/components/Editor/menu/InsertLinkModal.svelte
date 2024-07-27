@@ -41,6 +41,7 @@
 			bind:value={href}
 			autofocus={true}
 			autocomplete="off"
+			type="url"
 			required
 		/>
 
