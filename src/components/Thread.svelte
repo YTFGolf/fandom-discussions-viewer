@@ -90,9 +90,7 @@
 	<FirstPost {thread} />
 	<div bind:this={postList} class="post-list">
 		{#if thread._links.next}
-			<button class="view-more ignore-button-styles" on:click={viewOlderReplies}>
-				View older replies
-			</button>
+			<button class="view-more" on:click={viewOlderReplies}>View older replies</button>
 		{/if}
 		{#each thread._embedded['doc:posts'].toReversed() as post (post.id)}
 			<!-- {#if i > 0}<hr />{/if} -->
@@ -101,11 +99,7 @@
 		{/each}
 		<hr />
 		{#if thread._links.previous}
-			<button
-				style="margin-bottom: 0.5em"
-				class="view-more ignore-button-styles"
-				on:click={viewNewerReplies}
-			>
+			<button style="margin-bottom: 0.5em" class="view-more" on:click={viewNewerReplies}>
 				View newer replies
 			</button>
 		{/if}

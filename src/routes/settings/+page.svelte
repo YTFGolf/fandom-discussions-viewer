@@ -64,7 +64,7 @@
 	</div>
 	<hr />
 
-	<button type="submit">Save</button>
+	<button class="wds-button" type="submit">Save</button>
 </form>
 
 <style>

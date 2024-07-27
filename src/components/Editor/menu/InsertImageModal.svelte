@@ -42,8 +42,8 @@
 		/>
 
 		<div class="modal-actions">
-			<button bind:this={cancel} class="text" on:click={destroySelf}>Cancel</button>
-			<button bind:this={submit} type="submit">Submit</button>
+			<button bind:this={cancel} class="wds-button text" on:click={destroySelf}>Cancel</button>
+			<button bind:this={submit} class="wds-button" type="submit">Submit</button>
 		</div>
 	</form>
 </div>

@@ -42,7 +42,7 @@ textarea {
 	font-size: inherit;
 }
 
-button:not(.ignore-button-styles) {
+button.wds-button {
 	align-items: center;
 	-webkit-appearance: none;
 	appearance: none;
@@ -70,18 +70,29 @@ button:not(.ignore-button-styles) {
 	vertical-align: top;
 }
 
-button:not(.ignore-button-styles):active,
-button:not(.ignore-button-styles):focus,
-button:not(.ignore-button-styles):hover {
+button.wds-button:active,
+button.wds-button:focus,
+button.wds-button:hover {
 	background-color: var(--wds-primary-button-background-color--hover);
 	border: 1px solid var(--wds-primary-button-background-color--hover);
 	color: var(--wds-primary-button-label-color);
 	text-decoration: none;
-
 }
 
-button:not(.ignore-button-styles):hover {
+button.wds-button:hover {
 	cursor: pointer;
+}
+
+button.wds-button.text {
+	background: none;
+	border: 0;
+	color: var(--wds-text-button-label-color);
+}
+
+button.wds-button.text:active,
+button.wds-button.text:focus,
+button.wds-button.text:hover {
+	color: var(--wds-text-button-label-color--hover);
 }
 
 h1 {

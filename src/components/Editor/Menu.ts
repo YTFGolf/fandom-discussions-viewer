@@ -78,14 +78,14 @@ function never() {
 
 // Helper function to create menu icons
 function icon(html: string, title: string, className?: string) {
-	let span = document.createElement('button');
-	span.className = 'menuicon ignore-button-styles';
+	let button = document.createElement('button');
+	button.className = 'menuicon';
 	if (className) {
-		span.classList.add(className);
+		button.classList.add(className);
 	}
-	span.title = title;
-	span.innerHTML = html;
-	return span;
+	button.title = title;
+	button.innerHTML = html;
+	return button;
 	// TODO use fandom icons
 }
 

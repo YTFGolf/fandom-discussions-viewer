@@ -110,4 +110,4 @@
 	<meta name="description" content="Test the API" />
 </svelte:head>
 
-<button on:click={test}> Run tests </button>
+<button class="wds-button" on:click={test}>Run tests</button>

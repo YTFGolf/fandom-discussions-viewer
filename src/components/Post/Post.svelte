@@ -122,17 +122,15 @@
 		<div class="is-locked">This post is locked.</div>
 	{/if}
 	<div class="user-info">
-		<button
-			class="ignore-button-styles upvote-post {hasUpvoted ? 'is-upvoted' : ''}"
-			on:click={toggleUpvote}
-		>
+		<button class="upvote-post {hasUpvoted ? 'is-upvoted' : ''}" on:click={toggleUpvote}>
 			<FandomIcon icon={hasUpvoted ? 'heart-filled' : 'heart'} size="18px" />
 			<span class="upvote-count">{post.upvoteCount}</span>
 		</button>
 		<Avatar user={post.createdBy} />
 		<a class="user-link" href={'/f/u/' + post.createdBy.id}>{post.createdBy.name}</a>
 		<span class="reply-time">·</span>
-		<a class="reply-time" href={`/f/p/${post.threadId}/r/${post.id}`}>
+		<!-- <a class="reply-time" href={`/f/p/${post.threadId}/r/${post.id}`}> -->
+		<a class="reply-time" href={`/f/p/${undefined}/r/${post.id}`}>
 			<!-- TODO fix for thread -->
 			<Time time={post.creationDate} />
 		</a>
@@ -141,31 +139,31 @@
 		{#if permissions}
 			<div class="form-actions">
 				{#if permissions?.includes('canEdit')}
-					<button class="action" on:click={edit}>
+					<button class="wds-button action" on:click={edit}>
 						<FandomIcon icon="edit" size="18px" />
 						Edit
 					</button>
 				{/if}
 				{#if permissions?.includes('canDelete') && !post.isDeleted}
-					<button class="action" on:click={deletePost}>
+					<button class="wds-button action" on:click={deletePost}>
 						<FandomIcon icon="delete" size="18px" />
 						Delete
 					</button>
 				{/if}
 				{#if permissions?.includes('canUndelete') && post.isDeleted}
-					<button class="action" on:click={undeletePost}>
+					<button class="wds-button action" on:click={undeletePost}>
 						<FandomIcon icon="restore" size="18px" />
 						Undelete
 					</button>
 				{/if}
 				{#if permissions?.includes('canLock') && !post.isLocked}
-					<button class="action" on:click={lockPost}>
+					<button class="wds-button action" on:click={lockPost}>
 						<FandomIcon icon="lock" size="18px" />
 						Lock
 					</button>
 				{/if}
 				{#if permissions?.includes('canUnlock') && post.isLocked}
-					<button class="action" on:click={unlockPost}>
+					<button class="wds-button action" on:click={unlockPost}>
 						<FandomIcon icon="unlock" size="18px" />
 						Unlock
 					</button>

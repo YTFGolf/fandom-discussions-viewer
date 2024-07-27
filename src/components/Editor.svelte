@@ -145,18 +145,20 @@
 
 <div class="editor-container" style={isLoaded ? '' : 'display: none'}>
 	<div class="switcher" bind:this={switcher}>
-		<button class="current" on:click={handleSwitchEditor} data-switch-to="RTE">
+		<button class="wds-button current" on:click={handleSwitchEditor} data-switch-to="RTE">
 			Switch to RTE
 		</button>
-		<button class="" on:click={handleSwitchEditor} data-switch-to="JSON">Switch to JSON</button>
+		<button class="wds-button" on:click={handleSwitchEditor} data-switch-to="JSON">
+			Switch to JSON
+		</button>
 	</div>
 	<div class="form-content">
 		<Avatar user={$userDetails} />
 		<div id="editor" data-placeholder="Share your thoughts…" bind:this={editor}></div>
 	</div>
 	<div class="form-actions">
-		<button class="text" on:click={onCancel}>Cancel</button>
-		<button on:click={submitPost}>Submit</button>
+		<button class="wds-button text" on:click={onCancel}>Cancel</button>
+		<button class="wds-button" on:click={submitPost}>Submit</button>
 	</div>
 </div>
 {#if !isLoaded}
@@ -174,18 +176,6 @@
 		min-height: 200px;
 		background-color: var(--theme-page-background-color--secondary);
 		border: 1px solid var(--theme-border-color);
-	}
-
-	.form-actions .text {
-		background: none;
-		border: 0;
-		color: var(--wds-text-button-label-color);
-	}
-
-	.form-actions .text:active,
-	.form-actions .text:focus,
-	.form-actions .text:hover {
-		color: var(--wds-text-button-label-color--hover);
 	}
 
 	.switcher button.current {

@@ -23,17 +23,16 @@
 		<label for="lang">Lang:</label>
 		<input type="lang" bind:value={$wiki.lang} />
 
-		<button type="submit">Set</button>
+		<button class="wds-button" type="submit">Set</button>
 	</form>
 	<a class="settings-link" href="/settings">
 		<FandomIcon icon="gear" size="2em" />
 	</a>
 	<Avatar user={$userDetails} />
 	{#if $userDetails.id !== 0}
-		<button on:click={logout}>Logout</button>
+		<button class="wds-button" on:click={logout}>Logout</button>
 	{:else}
-		<button><a href="/login">Login</a></button>
-		<!-- <form action="/login"><button type="submit">Login</button></form> -->
+		<button class="wds-button"><a href="/login">Login</a></button>
 	{/if}
 </nav>
 

@@ -47,7 +47,7 @@
 	<label for="password">Password:</label>
 	<input type="password" id="password" bind:value={password} required />
 
-	<button type="submit">Login</button>
+	<button class="wds-button" type="submit">Login</button>
 </form>
 
 <p style="color: {status.color}">{status.message}</p>
