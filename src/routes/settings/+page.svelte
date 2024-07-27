@@ -91,7 +91,7 @@
 		margin: 0 1em;
 	}
 
-	button {
+	button.wds-button {
 		margin: auto;
 	}
 </style>
