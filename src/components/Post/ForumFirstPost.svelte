@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Thread, PollAnswer as ThreadPollAnswer } from '$lib/responses/Thread';
+	import type { Poll, Thread, PollAnswer as ThreadPollAnswer } from '$lib/responses/Thread';
 	import PostComponent from './Post.svelte';
 	import { type EditorContent } from '../Editor.svelte';
 	import type { Wiki } from '$lib/types';
@@ -8,7 +8,9 @@
 	import type { Answer, Poll as SendPoll } from '$lib/controllers/types/poll';
 	import type { Post } from '$lib/responses/Post';
 
-	export let thread: Post | Thread;
+	export let thread: Thread;
+	let poll: Poll | undefined;
+	$: poll = thread._embedded.attachments[0].polls?.[0];
 
 	// gonna need to let it redefine what it means to be a post
 	// gonna neeed another component for this, gonna need to make components
@@ -71,3 +73,11 @@
 	{lockFunction}
 	{unlockFunction}
 />
+{#if poll}
+	<h4 class="poll-question">{poll.question}</h4>
+	{#each poll.answers as answer}
+		{JSON.stringify(answer)}
+	{/each}
+{/if}
+
+<style></style>
