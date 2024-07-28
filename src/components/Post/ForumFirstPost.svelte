@@ -69,6 +69,21 @@
 	 *
 	 * Can cast a vote.
 	 */
+
+	let currentAnswer: HTMLButtonElement;
+	function selectAnswer(event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }) {
+		if (event.target == currentAnswer) {
+			return;
+		}
+		if (currentAnswer) {
+			currentAnswer.classList.remove('is-selected');
+		}
+		console.log('a');
+
+		const target = event.target as HTMLButtonElement;
+		target.classList.add('is-selected');
+		currentAnswer = target;
+	}
 </script>
 
 <PostComponent
@@ -83,7 +98,42 @@
 	<h4 class="poll-question">{poll.question}</h4>
 	{#each poll.answers as answer}
 		{JSON.stringify(answer)}
+		<button class="poll-answer" on:click={selectAnswer}>{answer.text}</button>
 	{/each}
+	{#if false}
+		<button class="poll-answer is-selected" style="display:none"></button>
+	{/if}
 {/if}
 
-<style></style>
+<style>
+	.poll-answer {
+		width: -moz-available;
+		background-color: inherit;
+
+		align-items: center;
+		background-repeat: no-repeat;
+		background-size: 0 100%;
+		border: 1px solid var(--theme-border-color);
+		border-radius: 3px;
+		cursor: pointer;
+		display: flex;
+		line-height: 1.25em;
+		margin-bottom: 12px;
+		padding: 12px 12px 10px;
+		position: relative;
+		transition:
+			background-size 0.3s ease,
+			border-color 0.3s;
+	}
+
+	.poll-answer:hover,
+	.poll-answer.is-selected {
+		border-color: var(--theme-link-color);
+	}
+
+	.poll-answer.is-selected {
+		border-width: 3px;
+		font-weight: 600;
+		padding: 10px 10px 8px;
+	}
+</style>
