@@ -26,6 +26,9 @@
 	function destroy() {
 		dispatch('destroy');
 	}
+	function destroyAll() {
+		document.querySelector('.notification-container')!.innerHTML = '';
+	}
 
 	const notificationColors: Record<NotificationType, string> = {
 		alert: '#b46318',
@@ -38,7 +41,12 @@
 		<FandomIcon icon={type} size="18px" />
 	</div>
 	<div class="notification-text">{type}</div>
-	<button on:click={destroy} class="close-icon"><FandomIcon icon="close" size="12px" /></button>
+	<button on:click={destroy} class="close-icon" title="Close notification">
+		<FandomIcon icon="close" size="12px" />
+	</button>
+	<button on:click={destroyAll} class="close-icon" title="Close all notification">
+		<FandomIcon icon="delete" size="12px" />
+	</button>
 </div>
 
 <style>

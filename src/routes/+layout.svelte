@@ -80,7 +80,6 @@
 
 	<!-- <footer>Footer</footer> -->
 	<div class="notification-placeholder"><div class="notification-container"></div></div>
-	<!-- TODO clear all -->
 </div>
 
 {@html `<style>body{color-scheme:${theme};}</style>`}
