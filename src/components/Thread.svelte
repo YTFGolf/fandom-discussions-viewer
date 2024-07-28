@@ -9,6 +9,7 @@
 	import { DiscussionThread } from '$lib/controllers/wikia/DiscussionThread';
 	import type { Post } from '$lib/responses/Post';
 	import FirstPost from './Post/ForumFirstPost.svelte';
+	import { dispatchNotification } from './Notification.svelte';
 
 	export let thread: Thread & { _embedded: Thread['_embedded'] & { 'doc:posts': Post[] } };
 	$: thread._embedded['doc:posts'] = thread._embedded['doc:posts'] || [];
@@ -35,17 +36,12 @@
 			},
 		);
 		if (res.status == HTTP.CREATED) {
-			// onCancel();
 			thread._embedded['doc:posts'].splice(0, 0, await res.json());
 			thread = thread;
 			rebuildEditor();
 		} else {
 			const json = await res.json();
-			console.error('Failed', json);
-			// modalStatus = {
-			// 	color: 'red',
-			// 	message: json.title || json.errorText || JSON.stringify(json),
-			// };
+			dispatchNotification('error', json.title || json.errorText || JSON.stringify(json));
 		}
 	}
 

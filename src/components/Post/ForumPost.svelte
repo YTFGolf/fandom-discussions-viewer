@@ -12,17 +12,6 @@
 	let hasUpvoted: boolean;
 	$: hasUpvoted = post._embedded.userData?.[0].hasUpvoted || false;
 
-	// async function toggleUpvote() {
-	// 	const f = hasUpvoted ? DiscussionVote.downVotePost : DiscussionVote.upVotePost;
-	// 	const res = await f($wiki, { postId: post.id });
-	// 	if (res.status !== HTTP.OK) {
-	// 		throw new Error('Action failed.');
-	// 	}
-	// 	const data = await res.json();
-	// 	post.upvoteCount = data.upvoteCount;
-	// 	post._embedded.userData![0].hasUpvoted = !hasUpvoted;
-	// }
-
 	async function deleteFunction(wiki: Wiki, post: Post) {
 		return DiscussionPost.deletePost(wiki, { postId: post.id });
 	}

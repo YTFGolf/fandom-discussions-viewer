@@ -5,10 +5,6 @@
 	import Editor, { type EditorContent } from './Editor.svelte';
 
 	export let post: Thread | Post;
-	export let status: {
-		color: string;
-		message: string;
-	};
 	export let onSubmit: (editorContent: EditorContent) => void;
 	export let onCancel: () => void;
 	let editorContent: EditorContent;
@@ -22,11 +18,6 @@
 <div class="edit-modal">
 	<div class="edit-modal-content">
 		<Editor mode={$config.defaultEditor.update} {editorContent} {onSubmit} {onCancel} />
-		{#if status?.message}
-			<div class="status">
-				<span style="color: {status.color}">{status.message}</span>
-			</div>
-		{/if}
 	</div>
 </div>
 

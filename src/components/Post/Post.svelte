@@ -11,6 +11,7 @@
 	import { DiscussionVote } from '$lib/controllers/wikia/DiscussionVote';
 	import type { Wiki } from '$lib/types';
 	import type { Thread } from '$lib/responses/Thread';
+	import { dispatchNotification } from '../Notification.svelte';
 
 	export let post: Post | Thread;
 	const permissions = post._embedded.userData?.[0].permissions;
@@ -24,8 +25,6 @@
 	let container: HTMLElement;
 	let modalContainer: HTMLElement;
 	let openEditor: boolean;
-	let modalStatus: { color: string; message: string };
-	// TODO replace with an actual global error message thing
 
 	let hasUpvoted: boolean;
 	$: hasUpvoted = post._embedded.userData?.[0]?.hasUpvoted || false;
@@ -40,7 +39,7 @@
 			post.isDeleted = true;
 		} else {
 			const json = await res.json();
-			alert(json.title || json.errorText || JSON.stringify(json));
+			dispatchNotification('error', json.title || json.errorText || JSON.stringify(json));
 		}
 	}
 	async function undeletePost() {
@@ -49,7 +48,7 @@
 			post = await res.json();
 		} else {
 			const json = await res.json();
-			alert(json.title || json.errorText || JSON.stringify(json));
+			dispatchNotification('error', json.title || json.errorText || JSON.stringify(json));
 		}
 	}
 	async function lockPost() {
@@ -61,7 +60,7 @@
 			post.isLocked = true;
 		} else {
 			const json = await res.json();
-			alert(json.title || json.errorText || JSON.stringify(json));
+			dispatchNotification('error', json.title || json.errorText || JSON.stringify(json));
 		}
 	}
 	async function unlockPost() {
@@ -73,30 +72,22 @@
 			post.isLocked = false;
 		} else {
 			const json = await res.json();
-			alert(json.title || json.errorText || JSON.stringify(json));
+			dispatchNotification('error', json.title || json.errorText || JSON.stringify(json));
 		}
 	}
 
 	async function onSubmit(data: EditorContent) {
-		modalStatus = {
-			color: '',
-			message: '...',
-		};
 		const res = await updateFunction($wiki, post, data);
 		if (res.status == HTTP.OK) {
 			onCancel();
 			post = await res.json();
 		} else {
 			const json = await res.json();
-			modalStatus = {
-				color: 'red',
-				message: json.title || json.errorText || JSON.stringify(json),
-			};
+			dispatchNotification('error', json.title || json.errorText || JSON.stringify(json));
 		}
 	}
 	function onCancel() {
 		modalContainer.remove();
-		modalStatus = null as any;
 		openEditor = false;
 	}
 
@@ -182,7 +173,7 @@
 	{#if openEditor}
 		<!-- <Editor content={container.querySelector('.post-content')} /> -->
 		<div bind:this={modalContainer} class="modal-container">
-			<EditModal {post} {onSubmit} {onCancel} status={modalStatus} />
+			<EditModal {post} {onSubmit} {onCancel} />
 		</div>
 	{/if}
 </div>
