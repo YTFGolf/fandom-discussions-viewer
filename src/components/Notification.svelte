@@ -3,10 +3,10 @@
 
 	type NotificationType = 'alert' | 'error';
 
-	export function dispatchNotification(type: NotificationType) {
+	export function dispatchNotification(type: NotificationType, message: string) {
 		const notif = new Notification({
 			target: document.querySelector('.notification-container')!,
-			props: { type },
+			props: { type, message },
 		});
 
 		notif.$on('destroy', () => {
@@ -23,6 +23,7 @@
 	const dispatch = createEventDispatcher();
 
 	export let type: NotificationType;
+	export let message: string;
 	function destroy() {
 		dispatch('destroy');
 	}
@@ -40,7 +41,7 @@
 	<div class="notification-icon" style="background-color:{notificationColors[type]}">
 		<FandomIcon icon={type} size="18px" />
 	</div>
-	<div class="notification-text">{type}</div>
+	<div class="notification-text">{message}</div>
 	<button on:click={destroy} class="close-icon" title="Close notification">
 		<FandomIcon icon="close" size="12px" />
 	</button>

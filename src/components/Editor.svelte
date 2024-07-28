@@ -20,6 +20,7 @@
 	import type { JsonModel } from '$lib/controllers/types/jsonModel';
 	import { config, userDetails } from '../routes/stores';
 	import type { EditorMode } from '$lib/types';
+	import { dispatchNotification } from './Notification.svelte';
 
 	export let editorContent: EditorContent = {
 		jsonModel: {
@@ -39,7 +40,6 @@
 	export let mode: EditorMode;
 	export let onSubmit: (viewContent: EditorContent) => void;
 	export let onCancel: () => void;
-	export let setErrors: (msg: string) => void;
 
 	let editorView: View;
 	let editor: HTMLElement;
@@ -107,7 +107,7 @@
 			const content = editorView.content;
 			return onSubmit(content);
 		} catch (e: any) {
-			setErrors(e);
+			dispatchNotification('error', e);
 			return;
 		}
 	}
@@ -125,7 +125,7 @@
 		try {
 			content = editorView.content;
 		} catch (e: any) {
-			setErrors(e);
+			dispatchNotification('error', e);
 			return;
 		}
 		convertDoc(content, mode).then((newDoc) => {
@@ -136,7 +136,6 @@
 	}
 
 	function handleSwitchEditor(event: MouseEvent) {
-		setErrors('');
 		const mode = (event.target as HTMLButtonElement).dataset.switchTo as EditorMode;
 		return switchEditor(mode);
 	}
