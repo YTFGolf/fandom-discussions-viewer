@@ -85,6 +85,7 @@ This section will detail things you can do with this but not Fandom Discussions 
 Okay this is more the stuff that should be possible with this but not discussions.
 
 - Poll with text
+- Vote for multiple answers in poll, vote for answers more than once
 - More control over marks
   - Fake pings
   - Real pings with different text
