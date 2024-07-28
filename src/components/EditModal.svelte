@@ -11,12 +11,6 @@
 	};
 	export let onSubmit: (editorContent: EditorContent) => void;
 	export let onCancel: () => void;
-	function setErrors(msg: string) {
-		status = {
-			color: 'red',
-			message: msg,
-		};
-	}
 	let editorContent: EditorContent;
 	$: editorContent = {
 		jsonModel: post.jsonModel!,
@@ -27,7 +21,7 @@
 
 <div class="edit-modal">
 	<div class="edit-modal-content">
-		<Editor mode={$config.defaultEditor.update} {editorContent} {onSubmit} {onCancel} {setErrors} />
+		<Editor mode={$config.defaultEditor.update} {editorContent} {onSubmit} {onCancel} />
 		{#if status?.message}
 			<div class="status">
 				<span style="color: {status.color}">{status.message}</span>
@@ -55,25 +49,5 @@
 
 	.edit-modal .edit-modal-content :global(#editor :is(.ProseMirror, textarea)) {
 		max-height: 500px;
-	}
-
-	.status {
-		background-color: var(--wds-banner-notification-background-color);
-		border-radius: 3px;
-		border-right: 1px solid var(--wds-banner-notification-border-color);
-		color: var(--wds-banner-notification-text-color);
-		display: flex;
-		margin-bottom: 3px;
-		overflow: hidden;
-		transition: opacity 0.4s;
-		width: inherit;
-		border-bottom: 1px solid var(--wds-banner-notification-border-color);
-		border-top: 1px solid var(--wds-banner-notification-border-color);
-		flex: 1;
-		font-size: 14px;
-		line-height: 1.5;
-		padding: 11px 12px;
-		width: 100%;
-		box-sizing: border-box;
 	}
 </style>

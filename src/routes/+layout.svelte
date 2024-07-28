@@ -79,6 +79,24 @@
 	</main>
 
 	<!-- <footer>Footer</footer> -->
+	<div class="notification-placeholder"><div class="notification-container"></div></div>
+	<!-- TODO clear all -->
 </div>
 
 {@html `<style>body{color-scheme:${theme};}</style>`}
+
+<style>
+	.notification-placeholder {
+		bottom: 18px;
+		left: calc(var(--desktop-global-navigation-width, 0) + 18px);
+		position: fixed;
+		z-index: 200;
+	}
+
+	.notification-container {
+		bottom: 0;
+		margin: 0 auto;
+		position: absolute;
+		width: 420px;
+	}
+</style>

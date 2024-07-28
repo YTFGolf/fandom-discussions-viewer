@@ -4,7 +4,6 @@
 	import { type EditorContent } from '../Editor.svelte';
 	import type { Wiki } from '$lib/types';
 	import { DiscussionThread } from '$lib/controllers/wikia/DiscussionThread';
-	import { DiscussionPost } from '$lib/controllers/wikia/DiscussionPost';
 	import type { Answer, Poll as SendPoll } from '$lib/controllers/types/poll';
 	import type { Post } from '$lib/responses/Post';
 
@@ -63,6 +62,14 @@
 	async function unlockFunction(wiki: Wiki, thread: Thread) {
 		return DiscussionThread.unlock(wiki, { threadId: thread.id });
 	}
+
+	/**
+	 * Poll:
+	 *
+	 * Can edit it, but cannot edit text and poll at same time.
+	 *
+	 * Can cast a vote.
+	 */
 </script>
 
 <PostComponent

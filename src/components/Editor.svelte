@@ -39,7 +39,6 @@
 	export let mode: EditorMode;
 	export let onSubmit: (viewContent: EditorContent) => void;
 	export let onCancel: () => void;
-	// export let setError: (msg: string) => void = () => {};
 	export let setErrors: (msg: string) => void;
 
 	let editorView: View;
