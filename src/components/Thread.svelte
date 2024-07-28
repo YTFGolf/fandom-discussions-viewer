@@ -45,9 +45,10 @@
 		}
 	}
 
-	async function viewOlderReplies(event: MouseEvent) {
-		const target = event.target as HTMLButtonElement;
-		target.disabled = true;
+	async function viewOlderReplies(
+		event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement },
+	) {
+		event.currentTarget.disabled = true;
 
 		const olderRepliesHref = thread._links.next![0].href;
 		const params = Object.fromEntries(new URLSearchParams(olderRepliesHref)) as any;
@@ -60,12 +61,13 @@
 			...thread._embedded['doc:posts'],
 			...(data._embedded['doc:posts'] || []),
 		];
-		target.disabled = false;
+		event.currentTarget.disabled = false;
 	}
 
-	async function viewNewerReplies(event: MouseEvent) {
-		const target = event.target as HTMLButtonElement;
-		target.disabled = true;
+	async function viewNewerReplies(
+		event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement },
+	) {
+		event.currentTarget.disabled = true;
 
 		const newerRepliesHref = thread._links.previous![0].href;
 		const params = Object.fromEntries(new URLSearchParams(newerRepliesHref)) as any;
@@ -78,7 +80,7 @@
 			...(data._embedded['doc:posts'] || []),
 			...thread._embedded['doc:posts'],
 		];
-		target.disabled = false;
+		event.currentTarget.disabled = false;
 	}
 </script>
 

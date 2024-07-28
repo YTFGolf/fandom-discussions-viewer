@@ -135,8 +135,10 @@
 		});
 	}
 
-	function handleSwitchEditor(event: MouseEvent) {
-		const mode = (event.target as HTMLButtonElement).dataset.switchTo as EditorMode;
+	function handleSwitchEditor(
+		event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement },
+	) {
+		const mode = event.currentTarget.dataset.switchTo as EditorMode;
 		return switchEditor(mode);
 	}
 </script>
