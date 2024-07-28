@@ -15,6 +15,7 @@ export type Attachments = {
 		imageUrl: string;
 		imageHeight: number;
 		imageWidth: number;
+		// http://localhost:5173/f/p/4400000000000022255?wiki=en.dev
 	}[];
 	contentImages: {
 		id?: number;
