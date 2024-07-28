@@ -7,6 +7,8 @@
 	import { MessageWall } from '$lib/controllers/wikia/MessageWall';
 	import { FeedsAndPosts } from '$lib/controllers/wikia/FeedsAndPosts';
 	import Editor from '../../components/Editor.svelte';
+	import { DiscussionPoll } from '$lib/controllers/wikia/DiscussionPoll';
+	import { wiki } from '../stores';
 
 	const bcWiki: Wiki = {
 		name: 'battle-cats',
@@ -45,6 +47,6 @@
 {/await} -->
 
 <!-- prettier-ignore -->
-<!-- <button on:click={async () => DiscussionPost.create(wwrWiki, postParams, postData)}>
+<button on:click={async () => DiscussionPoll.castVote($wiki, {}, { answerIds: '17629481', pollId: '4562722' })}>
 	Click to post
-</button> -->
+</button>

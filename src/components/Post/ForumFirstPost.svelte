@@ -67,14 +67,6 @@
 		return thread.firstPostId;
 	}
 
-	/**
-	 * Poll:
-	 *
-	 * Can edit it, but cannot edit text and poll at same time.
-	 *
-	 * Can cast a vote.
-	 */
-
 	let currentAnswer: HTMLButtonElement;
 	function selectAnswer(event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }) {
 		if (event.currentTarget == currentAnswer) {
