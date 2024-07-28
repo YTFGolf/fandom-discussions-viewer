@@ -21,6 +21,7 @@
 	export let updateFunction: (wiki: Wiki, post: any, data: EditorContent) => Promise<Response>;
 	export let lockFunction: ((wiki: Wiki, thread: any) => Promise<Response>) | null = null;
 	export let unlockFunction: ((wiki: Wiki, thread: any) => Promise<Response>) | null = null;
+	export let getUpvoteId: (post: any) => string = (post) => post.id;
 
 	let container: HTMLElement;
 	let modalContainer: HTMLElement;
@@ -93,7 +94,7 @@
 
 	async function toggleUpvote() {
 		const f = hasUpvoted ? DiscussionVote.downVotePost : DiscussionVote.upVotePost;
-		const res = await f($wiki, { postId: post.id });
+		const res = await f($wiki, { postId: getUpvoteId(post) });
 		if (res.status !== HTTP.OK) {
 			throw new Error('Action failed.');
 		}

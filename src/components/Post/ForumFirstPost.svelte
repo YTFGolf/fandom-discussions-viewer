@@ -63,6 +63,9 @@
 	async function unlockFunction(wiki: Wiki, thread: Thread) {
 		return DiscussionThread.unlock(wiki, { threadId: thread.id });
 	}
+	function getUpvoteId(thread: Thread) {
+		return thread.firstPostId;
+	}
 
 	/**
 	 * Poll:
@@ -93,6 +96,7 @@
 	{updateFunction}
 	{lockFunction}
 	{unlockFunction}
+	{getUpvoteId}
 />
 {#if poll}
 	<h4 class="poll-question">{poll.question}</h4>
