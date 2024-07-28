@@ -47,6 +47,6 @@
 {/await} -->
 
 <!-- prettier-ignore -->
-<button on:click={async () => DiscussionPoll.castVote($wiki, {}, { answerIds: '17629481', pollId: '4562722' })}>
+<button on:click={async () => DiscussionPoll.castVote($wiki, {}, { answerIds: '17997043,17997044,17997045,17997046,17997047,17997048', pollId: '4656617' })}>
 	Click to post
 </button>

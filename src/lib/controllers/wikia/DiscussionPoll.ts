@@ -3,6 +3,11 @@ import { ContentType, type Wiki } from '$lib/types';
 import { getParams } from '../util';
 
 export namespace DiscussionPoll {
+	/**
+	 * `answerIds` is a comma-separated list of answer IDs. You can vote for as
+	 * many options as you want to. If answerIds is blank then all votes are
+	 * left uncast, but the website will think you have voted.
+	 */
 	export async function castVote(wiki: Wiki, {}: {}, data: { answerIds: string; pollId: string }) {
 		const params = getParams('DiscussionPoll', 'castVote');
 
