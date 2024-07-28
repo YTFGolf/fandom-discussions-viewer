@@ -40,7 +40,6 @@ export namespace DiscussionThread {
 	}
 
 	export async function deleteThread(wiki: Wiki, { threadId }: { threadId: string }) {
-		// TODO investigate is this same as DiscussionPost
 		const params = getParams('DiscussionThread', 'delete', { threadId });
 
 		return post(wiki, params);

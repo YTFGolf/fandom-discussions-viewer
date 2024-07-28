@@ -7,16 +7,10 @@
 	function onCancel() {
 		return;
 	}
-
-	function setErrors(msg: string) {
-		if (msg !== '') console.error(msg);
-		return;
-	}
-	// TODO
 </script>
 
 <div class="reply-create">
-	<Editor mode={$config.defaultEditor.create} {onSubmit} {onCancel} {setErrors} />
+	<Editor mode={$config.defaultEditor.create} {onSubmit} {onCancel} />
 </div>
 
 <style>

@@ -44,7 +44,6 @@
 			} as SendPoll;
 			data.attachments.polls = [poll as SendPoll] as any;
 		}
-		// TODO sort out this mess
 
 		return DiscussionThread.update(
 			wiki,
