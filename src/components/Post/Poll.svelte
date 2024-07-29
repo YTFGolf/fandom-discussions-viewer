@@ -1,12 +1,10 @@
 <script lang="ts">
-	import type { PollAnswer } from '$lib/responses/Thread';
+	import type { Poll, PollAnswer } from '$lib/responses/Thread';
 
-	export let poll;
-
-	let isImages: boolean;
-	$: isImages = poll?.answers[0].image ? true : false;
+	export let poll: Poll;
 
 	let answers: HTMLDivElement;
+	let isImages = Boolean(poll?.answers[0].image);
 	let showResults = Boolean(poll?.userVotes);
 	function selectAnswer(event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }) {
 		if (showResults) {
@@ -23,7 +21,11 @@
 	}
 
 	function getPollPercentage(answer: PollAnswer) {
-		return Math.round((answer.votes / poll!.totalVotes) * 100);
+		if (poll.totalVotes === 0) {
+			return 0;
+		}
+
+		return Math.round((answer.votes / poll.totalVotes) * 100);
 	}
 
 	function toggleResults() {
@@ -36,7 +38,6 @@
 	/**
 	 * Poll edit
 	 * Poll vote (single + multi)
-	 * See all votes (disables your voting option/toggle button between the two)
 	 * Text input for votes (max len 1,048,293)
 	 */
 </script>
@@ -89,8 +90,20 @@
 <button class="wds-button">Edit</button>
 <button class="wds-button">Vote</button>
 <button class="wds-button" on:click={toggleResults}>Toggle results</button>
+<p class="total-poll-votes">{poll.totalVotes} votes in poll</p>
 
 <style>
+	.total-poll-votes {
+		color: rgba(var(--theme-page-text-color--rgb), var(--theme-page-text-opacity-factor));
+		cursor: pointer;
+		font-size: 10px;
+		letter-spacing: 0.5px;
+		line-height: 34px;
+		margin-top: 0;
+		text-transform: uppercase;
+	}
+
+	/** Actual poll area **/
 	.poll-answers {
 		max-width: 750px;
 	}
