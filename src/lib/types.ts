@@ -10,6 +10,7 @@ export type WikiScript = 'api.php' | 'wikia.php';
 export enum ContentType {
 	JSON,
 	HTML,
+	FormData
 }
 
 export type EditorMode = 'RTE' | 'JSON';

@@ -70,15 +70,19 @@ export async function post(wiki: Wiki, params: any, data?: any, options?: CallOp
 	const url = buildUrl(wiki, params, options?.script);
 
 	if (data && typeof data !== 'string') {
-		data.jsonModel = stringify(data.jsonModel);
-
 		data = (function () {
 			switch (options?.contentType || ContentType.JSON) {
 				case ContentType.JSON:
+					data.jsonModel = stringify(data.jsonModel);
 					return JSON.stringify(data);
 				case ContentType.HTML:
+					data.jsonModel = stringify(data.jsonModel);
 					data.attachments = stringify(data.attachments);
 					return new URLSearchParams(data);
+				case ContentType.FormData:
+					const form = new FormData();
+					Object.entries(data).forEach(([key, value]) => form.append(key, value as string));
+					return form;
 			}
 		})();
 	}

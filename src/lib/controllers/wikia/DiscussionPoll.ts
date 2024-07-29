@@ -14,6 +14,8 @@ export namespace DiscussionPoll {
 		const params = getParams('DiscussionPoll', 'castVote');
 
 		return post(wiki, params, data, { contentType: ContentType.HTML });
+		// If mass upvoting then better to use FormData but for any legitimate
+		// use case HTML is better
 	}
 
 	/**
