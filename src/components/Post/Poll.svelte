@@ -27,6 +27,9 @@
 	}
 
 	function toggleResults() {
+		answers
+			.querySelectorAll('.is-selected')
+			.forEach((target) => target.classList.remove('is-selected'));
 		showResults = !showResults;
 	}
 
