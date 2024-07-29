@@ -1,5 +1,10 @@
 <script lang="ts">
-	import type { Poll, Thread, PollAnswer as ThreadPollAnswer } from '$lib/responses/Thread';
+	import type {
+		Poll,
+		PollAnswer,
+		Thread,
+		PollAnswer as ThreadPollAnswer,
+	} from '$lib/responses/Thread';
 	import PostComponent from './Post.svelte';
 	import { type EditorContent } from '../Editor.svelte';
 	import type { Wiki } from '$lib/types';
@@ -67,18 +72,37 @@
 		return thread.firstPostId;
 	}
 
-	let currentAnswer: HTMLButtonElement;
+	let answers: HTMLDivElement;
+	let showResults: boolean;
+	$: showResults = Boolean(poll?.userVotes);
 	function selectAnswer(event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }) {
-		if (event.currentTarget == currentAnswer) {
+		if (showResults) {
 			return;
 		}
-		if (currentAnswer) {
-			currentAnswer.classList.remove('is-selected');
+
+		for (const answer of answers.querySelectorAll('.is-selected')) {
+			if (answer !== event.currentTarget) {
+				answer.classList.remove('is-selected');
+			}
 		}
 
 		event.currentTarget.classList.add('is-selected');
-		currentAnswer = event.currentTarget;
 	}
+
+	function getPollPercentage(answer: PollAnswer) {
+		return Math.round((answer.votes / poll!.totalVotes) * 100);
+	}
+
+	function toggleResults() {
+		showResults = !showResults;
+	}
+
+	/**
+	 * Poll edit
+	 * Poll vote (single + multi)
+	 * See all votes (disables your voting option/toggle button between the two)
+	 * Text input for votes (max len 1,048,293)
+	 */
 </script>
 
 <PostComponent
@@ -93,10 +117,19 @@
 {#if poll}
 	<h4 class="poll-question">{poll.question}</h4>
 	{JSON.stringify(poll.answers)}
-	<div class="poll-answers {isImages ? 'image-poll' : 'text-poll'} items-{poll.answers.length}">
+	<div
+		bind:this={answers}
+		class={`poll-answers ${isImages ? 'image-poll' : 'text-poll'} ` +
+			`items-${poll.answers.length} ${showResults ? 'show-results' : ''}`}
+	>
 		{#each poll.answers as answer}
 			{#if answer.image}
-				<button class="poll-answer" on:click={selectAnswer}>
+				<button
+					class="poll-answer {showResults && poll.userVotes?.includes(answer.id)
+						? 'is-selected'
+						: ''}"
+					on:click={selectAnswer}
+				>
 					<div class="answer-image-wrapper">
 						<img
 							src={answer.image.url}
@@ -105,26 +138,48 @@
 							sizes="(max-width: 420px) 180px, 370px"
 						/>
 					</div>
-					<span class="answer-text">{answer.text}</span>
+					<div
+						class="answer-image-gradient"
+						style="--percentage:{getPollPercentage(answer)}%"
+					></div>
+					<span class="answer-image-text">{answer.text}</span>
+					{#if showResults}
+						<span class="answer-image-percentage">{getPollPercentage(answer)}%</span>
+					{/if}
 				</button>
 			{:else}
-				<button class="poll-answer" on:click={selectAnswer}>{answer.text}</button>
+				<button
+					style="{getPollPercentage(answer)}%"
+					class="poll-answer {showResults && poll.userVotes?.includes(answer.id)
+						? 'is-selected'
+						: ''}"
+					on:click={selectAnswer}
+				>
+					<span class="answer-text">{answer.text}</span>
+					{#if showResults}
+						<span class="answer-text-votes">{getPollPercentage(answer)}%</span>
+					{/if}
+				</button>
 			{/if}
 		{/each}
-		{#if false}
-			<button class="poll-answer is-selected" style="display:none"></button>
-		{/if}
 	</div>
+	<button class="wds-button">Edit</button>
+	<button class="wds-button">Vote</button>
+	<button class="wds-button" on:click={toggleResults}>Toggle results</button>
 {/if}
 
 <style>
+	.poll-answers {
+		max-width: 750px;
+	}
+
 	.poll-answers.image-poll {
 		grid-column-gap: 13px;
 		grid-row-gap: 13px;
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		margin-bottom: 14px;
-		max-width: 750px;
+		font-family: rubik, helvetica, arial, sans-serif;
 	}
 
 	.poll-answers.image-poll.items-6 {
@@ -160,6 +215,31 @@
 		border-width: 3px;
 		font-weight: 600;
 		padding: 10px 10px 8px;
+	}
+
+	.text-poll .answer-text {
+		margin-right: 3em;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.text-poll .answer-text-votes {
+		position: absolute;
+		right: 12px;
+	}
+
+	.text-poll.show-results .poll-answer {
+		background-image: linear-gradient(
+			to right,
+			rgba(var(--theme-link-color--rgb), 0.15) var(--percentage),
+			var(--theme-page-background-color) var(--percentage)
+		);
+		background-size: 100% 100%;
+	}
+
+	.text-poll.show-results .poll-answer.is-selected {
+		background-color: rgba(var(--theme-link-color--rgb), 0.3);
+		font-weight: 500;
 	}
 
 	.image-poll .poll-answer {
@@ -209,7 +289,25 @@
 		content: '';
 	}
 
-	.image-poll .answer-text {
+	.image-poll .answer-image-gradient {
+		background-color: rgba(var(--theme-border-color--rgb), 0.5);
+		bottom: 0;
+		height: 100%;
+		left: 0;
+		position: absolute;
+		transform: translateY(100%);
+		transition: transform 0.3s ease;
+		width: 100%;
+	}
+
+	.image-poll.show-results .answer-image-gradient {
+		transform: translateY(calc(100% - var(--percentage)));
+	}
+	.image-poll.show-results .is-selected .answer-image-gradient {
+		background-color: rgba(var(--theme-link-color--rgb), 0.5);
+	}
+
+	.image-poll .answer-image-text {
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 3;
 		bottom: 20px;
@@ -224,5 +322,14 @@
 		width: 100%;
 		word-break: break-word;
 		font-weight: bold;
+	}
+
+	.image-poll .answer-image-percentage {
+		bottom: 50%;
+		font-size: 52px;
+		left: 0;
+		position: absolute;
+		transform: translateY(50%);
+		width: 100%;
 	}
 </style>
