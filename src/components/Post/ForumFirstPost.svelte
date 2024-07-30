@@ -11,6 +11,8 @@
 	import { DiscussionThread } from '$lib/controllers/wikia/DiscussionThread';
 	import type { Answer as SendPollAnswer, Poll as SendPoll } from '$lib/controllers/types/poll';
 	import type { Post } from '$lib/responses/Post';
+	import PollEditor from './PollEditor.svelte';
+	import { wiki } from '../../routes/stores';
 
 	export let thread: Thread;
 	let poll: ThreadPoll | undefined;
@@ -69,6 +71,31 @@
 	function getUpvoteId(thread: Thread) {
 		return thread.firstPostId;
 	}
+
+	let editorContainer: HTMLDivElement;
+	let editorComponent: PollEditor;
+	let isEditorOpen = false;
+	function openPollEditor() {
+		isEditorOpen = true;
+	}
+	function closePollEditor() {
+		editorComponent.$destroy();
+		// editorComponent = new PollEditor({
+		// 	target: editorContainer,
+		// 	// props,
+		// });
+		isEditorOpen = false;
+	}
+	async function submitPoll(newPollData: SendPoll) {
+		console.log(newPollData);
+		return;
+		const res = await DiscussionThread.update(
+			$wiki,
+			{ threadId: thread.id },
+			{ ...thread, poll: newPollData },
+		);
+		closePollEditor();
+	}
 </script>
 
 <PostComponent
@@ -81,5 +108,10 @@
 	{getUpvoteId}
 />
 {#if poll}
-	<PollComponent {poll} />
+	<PollComponent {poll} on:openEditor={openPollEditor} />
+{/if}
+{#if isEditorOpen}
+	<div bind:this={editorContainer}>
+		<PollEditor bind:this={editorComponent} {poll} {closePollEditor} {submitPoll} />
+	</div>
 {/if}

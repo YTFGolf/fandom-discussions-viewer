@@ -2,6 +2,7 @@
 	import { DiscussionPoll } from '$lib/controllers/wikia/DiscussionPoll';
 	import HTTP from '$lib/HTTPCodes';
 	import type { Poll, PollAnswer } from '$lib/responses/Thread';
+	import { createEventDispatcher } from 'svelte';
 	import { wiki } from '../../routes/stores';
 	import { dispatchNotification } from '../Notification.svelte';
 
@@ -12,6 +13,8 @@
 	let showResults = Boolean(poll.userVotes);
 	let userVotes: string;
 	// Text input for votes (max len 1,048,293)
+
+	const dispatch = createEventDispatcher();
 
 	function selectAnswer(
 		event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement },
@@ -59,7 +62,7 @@
 	}
 
 	/**
-	 * Poll edit
+	 * Poll edit (separate component so can add to FirstPost)
 	 */
 
 	function resetVotes() {
@@ -138,7 +141,7 @@
 		{/if}
 	{/each}
 </div>
-<button class="wds-button">Edit</button>
+<button class="wds-button" on:click={(e) => dispatch('openEditor')}>Edit Poll</button>
 <button class="wds-button" on:click={toggleResults}>Toggle results</button>
 <p class="total-poll-votes">{poll.totalVotes} votes in poll</p>
 {#if !showResults}

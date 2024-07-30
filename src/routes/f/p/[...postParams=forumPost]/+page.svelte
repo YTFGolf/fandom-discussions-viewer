@@ -32,7 +32,6 @@
 	<meta name="description" content="Forum post" />
 </svelte:head>
 
-{#await threadContent}<h1>Loading post...</h1>{:then content}<h1>{content.title}</h1>{/await}
 <label for="threadId">ThreadId:</label>
 <input type="text" id="threadId" bind:value={params.threadId} />
 <label for="pivot">pivot:</label>

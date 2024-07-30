@@ -82,7 +82,7 @@ export type Thread = {
 	isReported: boolean;
 
 	tags: Article[];
-	poll: Poll;
+	poll?: Poll;
 	funnel: Funnel;
 
 	rawContent: string;

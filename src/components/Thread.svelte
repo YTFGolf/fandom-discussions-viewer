@@ -85,6 +85,8 @@
 </script>
 
 <div class="thread-container">
+	<h1>{thread.title}</h1>
+	<!-- TODO edit button for title -->
 	<FirstPost {thread} />
 	<div bind:this={postList} class="post-list">
 		{#if thread._links.next}
