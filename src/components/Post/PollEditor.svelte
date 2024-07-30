@@ -98,7 +98,31 @@
 		// at least 2 options
 		// if has image then all must have image and must have even amount
 		// image h/w > 0
-		return 'the';
+		if (newPoll.question === '') {
+			return 'Question is blank!';
+		}
+		let isImages = Boolean(newPoll.answers[0].image);
+		for (const [i, answer] of newPoll.answers.entries()) {
+			if (!(Number(answer.position) > -1)) {
+				return `Position in answer ${i} is not a number!`;
+			}
+			if (answer.text === '') {
+				return `Text in answer ${i} is blank!`;
+			}
+			if ((!isImages && answer.image) || (isImages && !answer.image)) {
+				return `Mismatch in poll images at answer ${i}.`;
+			}
+			if (answer.image && (answer.image.height <= 0 || answer.image.width <= 0)) {
+				return `Invalid image dimensions in answer ${i}.`;
+			}
+		}
+		if (newPoll.answers.length < 2 || newPoll.answers.length > 6) {
+			return 'Poll must have between 2 and 6 answers!';
+		}
+		if (isImages && newPoll.answers.length % 2 !== 0) {
+			return 'Image polls must have an even number of answers!';
+		}
+		return '';
 	}
 </script>
 
