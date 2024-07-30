@@ -185,11 +185,6 @@
 		border-color: var(--wds-primary-button-background-color);
 	}
 
-	.switcher button.current {
-		color: grey;
-		background-color: transparent;
-	}
-
 	.editor-container :global(a) {
 		color: var(--theme-link-color);
 	}

@@ -1,13 +1,21 @@
 <script lang="ts">
+	/**
+	 * @file This whole thing could do with a refactor
+	 */
 	import type { Poll as ThreadPoll } from '$lib/responses/Thread';
 	import type { Answer as SendPollAnswer, Poll as SendPoll } from '$lib/controllers/types/poll';
 	import { dispatchNotification } from '../Notification.svelte';
+
+	type EditorType = 'HTML' | 'JSON';
 
 	export let poll: ThreadPoll | undefined;
 	export let closePollEditor: () => void;
 	export let submitPoll: (newPollData: SendPoll) => Promise<void>;
 
 	let newPoll: SendPoll = getNewPoll(poll);
+	let HtmlEditor: HTMLDivElement;
+	let JsonEditor: HTMLDivElement;
+	let currentEditorType: EditorType = 'HTML';
 	function getNewPoll(poll: ThreadPoll | undefined) {
 		let newPoll: SendPoll;
 		if (!poll) {
@@ -34,14 +42,50 @@
 		return newPoll;
 	}
 
+	function convertPoll(from: EditorType): SendPoll {
+		if (from === 'JSON') {
+			const text = JsonEditor.querySelector('textarea')!.value;
+			return JSON.parse(text);
+		}
+		return newPoll as SendPoll;
+	}
+	function switchEditor(to: EditorType, poll: SendPoll) {
+		let switches: Record<EditorType, (poll: SendPoll) => void> = {
+			HTML: (poll) => (newPoll = poll),
+			JSON: (poll) =>
+				(JsonEditor.querySelector('textarea')!.value = JSON.stringify(poll, undefined, '\t')),
+		};
+		switches[to](poll);
+	}
+
+	let switcher: HTMLDivElement;
+	function handleSwitchEditor(
+		event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement },
+	) {
+		if (event.currentTarget.dataset.switchTo! === currentEditorType) {
+			return;
+		}
+		if (event.currentTarget.dataset.switchTo! === 'HTML') {
+			JsonEditor.style.display = 'none';
+			HtmlEditor.style.display = 'block';
+		} else {
+			JsonEditor.style.display = 'block';
+			HtmlEditor.style.display = 'none';
+		}
+		const poll = convertPoll(currentEditorType);
+		switchEditor(event.currentTarget.dataset.switchTo! as EditorType, poll);
+		currentEditorType = event.currentTarget.dataset.switchTo! as EditorType;
+	}
+
 	// options for each thing
 	// can add more options
 	// will validate before being sent
 
 	function handleSubmit() {
-		const errors = getPollErrors(newPoll);
+		let poll = convertPoll(currentEditorType);
+		const errors = getPollErrors(poll);
 		if (errors === '') {
-			submitPoll(newPoll);
+			submitPoll(poll);
 			return;
 		}
 
@@ -54,35 +98,56 @@
 		// at least 2 options
 		// if has image then all must have image and must have even amount
 		// image h/w > 0
-		return '';
+		return 'the';
 	}
 </script>
 
 <div class="edit-modal">
 	<div class="edit-modal-content">
 		<div class="editor-container">
-			{JSON.stringify(newPoll)}
-			<!-- TODO JSON editor -->
 			<form on:submit={handleSubmit}>
-				<div class="poll-input">
-					<label for="question">Question:</label>
-					<input type="text" id="question" bind:value={newPoll.question} />
+				<div class="switcher" bind:this={switcher}>
+					<button
+						class="wds-button"
+						on:click={handleSwitchEditor}
+						type="button"
+						data-switch-to="HTML"
+					>
+						Switch to HTML
+					</button>
+					<button
+						class="wds-button"
+						on:click={handleSwitchEditor}
+						type="button"
+						data-switch-to="JSON"
+					>
+						Switch to JSON
+					</button>
 				</div>
-				<div style="padding-left: 1em">
-					{#each newPoll.answers as answer, i}
-						<span>{i}:</span>
-						<div style="padding-left: 1em">
-							<div class="poll-input">
-								<label for="text">Text:</label>
-								<input type="text" id="text" bind:value={answer.text} />
+				<div bind:this={HtmlEditor}>
+					<div class="poll-input">
+						<label for="question">Question:</label>
+						<input type="text" id="question" bind:value={newPoll.question} />
+					</div>
+					<div style="padding-left: 1em">
+						{#each newPoll.answers as answer, i}
+							<span>{i}:</span>
+							<div style="padding-left: 1em">
+								<div class="poll-input">
+									<label for="text">Text:</label>
+									<input type="text" id="text" bind:value={answer.text} />
+								</div>
+								<div class="poll-input">
+									<label for="position">Position:</label>
+									<input type="text" id="position" bind:value={answer.position} />
+								</div>
+								<!-- {JSON.stringify(answer)} -->
 							</div>
-							<div class="poll-input">
-								<label for="position">Position:</label>
-								<input type="text" id="position" bind:value={answer.position} />
-							</div>
-							<!-- {JSON.stringify(answer)} -->
-						</div>
-					{/each}
+						{/each}
+					</div>
+				</div>
+				<div style="display:none" bind:this={JsonEditor}>
+					<textarea>{JSON.stringify(newPoll)}</textarea>
 				</div>
 				<div class="form-actions">
 					<button class="wds-button text" on:click={closePollEditor}>Cancel</button>
