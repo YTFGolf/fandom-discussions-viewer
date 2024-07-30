@@ -1,5 +1,9 @@
 <script lang="ts">
+	import { DiscussionPoll } from '$lib/controllers/wikia/DiscussionPoll';
+	import HTTP from '$lib/HTTPCodes';
 	import type { Poll, PollAnswer } from '$lib/responses/Thread';
+	import { wiki } from '../../routes/stores';
+	import { dispatchNotification } from '../Notification.svelte';
 
 	export let poll: Poll;
 
@@ -64,7 +68,12 @@
 	}
 
 	async function submitVote() {
-		// ... submit, if success then
+		const res = await DiscussionPoll.castVote($wiki, {}, { pollId: poll.id, answerIds: userVotes });
+		if (res.status !== HTTP.NO_CONTENT) {
+			dispatchNotification('error', `Error casting vote: ${res.statusText}`);
+			return;
+		}
+
 		const newUserVotes =
 			(userVotes && userVotes.split(',').map((n) => Number(n))) || ([null] as [null]);
 		// TODO check if it's actually [null] or if doing '' does the same thing
@@ -86,7 +95,6 @@
 </script>
 
 <h4 class="poll-question">{poll.question}</h4>
-{JSON.stringify(poll.answers)}
 <div
 	bind:this={answers}
 	class={`poll-answers ${isImages ? 'image-poll' : 'text-poll'} ` +

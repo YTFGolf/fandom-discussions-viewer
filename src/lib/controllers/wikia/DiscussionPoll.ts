@@ -10,7 +10,11 @@ export namespace DiscussionPoll {
 	 *
 	 * You can vote for any individual option as many times as you want.
 	 */
-	export async function castVote(wiki: Wiki, {}: {}, data: { answerIds: string; pollId: string }) {
+	export async function castVote(
+		wiki: Wiki,
+		{}: {},
+		data: { answerIds: string; pollId: string | number },
+	) {
 		const params = getParams('DiscussionPoll', 'castVote');
 
 		return post(wiki, params, data, { contentType: ContentType.HTML });
@@ -22,7 +26,10 @@ export namespace DiscussionPoll {
 	 * If answerId is not given then will display all users who have voted on
 	 * the poll. If given then only displays users for that answer.
 	 */
-	export async function getVoters(wiki: Wiki, params: { pollId: string; answerId?: string }) {
+	export async function getVoters(
+		wiki: Wiki,
+		params: { pollId: string | number; answerId?: string | number },
+	) {
 		params = getParams('DiscussionPoll', 'getVoters', params);
 
 		return get(wiki, params);
