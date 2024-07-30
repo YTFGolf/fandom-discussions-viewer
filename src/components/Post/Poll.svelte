@@ -71,7 +71,11 @@
 	}
 
 	async function submitVote() {
-		const res = await DiscussionPoll.castVote($wiki, {}, { pollId: poll.id, answerIds: userVotes });
+		const res = await DiscussionPoll.castVote(
+			$wiki,
+			{},
+			{ pollId: poll.id, answerIds: userVotes || '' },
+		);
 		if (res.status !== HTTP.NO_CONTENT) {
 			dispatchNotification('error', `Error casting vote: ${res.statusText}`);
 			return;
