@@ -4,10 +4,27 @@
 	export let poll: Poll;
 
 	let answers: HTMLDivElement;
-	let isImages = Boolean(poll?.answers[0].image);
-	let showResults = Boolean(poll?.userVotes);
-	function selectAnswer(event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }) {
+	let isImages = Boolean(poll.answers[0].image);
+	let showResults = Boolean(poll.userVotes);
+	let userVotes: string;
+	// Text input for votes (max len 1,048,293)
+
+	function selectAnswer(
+		event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement },
+		id: number,
+	) {
 		if (showResults) {
+			// TODO shows who's voted for that option
+			return;
+		}
+
+		if (event.ctrlKey) {
+			event.currentTarget.classList.add('is-selected');
+			if (!userVotes) {
+				userVotes = id.toString();
+			} else {
+				userVotes += `,${id}`;
+			}
 			return;
 		}
 
@@ -18,6 +35,7 @@
 		}
 
 		event.currentTarget.classList.add('is-selected');
+		userVotes = id.toString();
 	}
 
 	function getPollPercentage(answer: PollAnswer) {
@@ -33,13 +51,17 @@
 			.querySelectorAll('.is-selected')
 			.forEach((target) => target.classList.remove('is-selected'));
 		showResults = !showResults;
+		userVotes = '';
 	}
 
 	/**
 	 * Poll edit
-	 * Poll vote (single + multi)
-	 * Text input for votes (max len 1,048,293)
 	 */
+
+	function resetVotes() {
+		showResults = true;
+		toggleResults();
+	}
 </script>
 
 <h4 class="poll-question">{poll.question}</h4>
@@ -55,7 +77,7 @@
 				class="poll-answer {showResults && poll.userVotes?.includes(answer.id)
 					? 'is-selected'
 					: ''}"
-				on:click={selectAnswer}
+				on:click={(e) => selectAnswer(e, answer.id)}
 			>
 				<div class="answer-image-wrapper">
 					<img
@@ -77,7 +99,7 @@
 				class="poll-answer {showResults && poll.userVotes?.includes(answer.id)
 					? 'is-selected'
 					: ''}"
-				on:click={selectAnswer}
+				on:click={(e) => selectAnswer(e, answer.id)}
 			>
 				<span class="answer-text">{answer.text}</span>
 				{#if showResults}
@@ -88,9 +110,13 @@
 	{/each}
 </div>
 <button class="wds-button">Edit</button>
-<button class="wds-button">Vote</button>
 <button class="wds-button" on:click={toggleResults}>Toggle results</button>
 <p class="total-poll-votes">{poll.totalVotes} votes in poll</p>
+{#if !showResults}
+	<input type="text" bind:value={userVotes} />
+	<button class="wds-button text" on:click={resetVotes}>reset</button>
+	<button class="wds-button">Vote</button>
+{/if}
 
 <style>
 	.total-poll-votes {
