@@ -7,27 +7,31 @@
 	export let closePollEditor: () => void;
 	export let submitPoll: (newPollData: SendPoll) => Promise<void>;
 
-	let newPoll: SendPoll;
-	if (!poll) {
-		newPoll = {
-			question: 'question',
-			answers: [
-				{ text: 'Option 1', position: 0, image: null },
-				{ text: 'Option 2', position: 1, image: null },
-			],
-		};
-	} else {
-		newPoll = {
-			question: poll.question,
-			answers: poll.answers.map((tAnswer) => {
-				const answer: SendPollAnswer = {
-					text: tAnswer.text,
-					position: tAnswer.position,
-					image: tAnswer.image,
-				};
-				return answer;
-			}),
-		};
+	let newPoll: SendPoll = getNewPoll(poll);
+	function getNewPoll(poll: ThreadPoll | undefined) {
+		let newPoll: SendPoll;
+		if (!poll) {
+			newPoll = {
+				question: 'question',
+				answers: [
+					{ text: 'Option 1', position: 0, image: null },
+					{ text: 'Option 2', position: 1, image: null },
+				],
+			};
+		} else {
+			newPoll = {
+				question: poll.question,
+				answers: poll.answers.map((tAnswer) => {
+					const answer: SendPollAnswer = {
+						text: tAnswer.text,
+						position: tAnswer.position,
+						image: tAnswer.image,
+					};
+					return answer;
+				}),
+			};
+		}
+		return newPoll;
 	}
 
 	// options for each thing
@@ -38,7 +42,6 @@
 		const errors = getPollErrors(newPoll);
 		if (errors === '') {
 			submitPoll(newPoll);
-			// .then(dispatchNotification('alert', 'Successfully submitted, reloading'));
 			return;
 		}
 
@@ -46,7 +49,12 @@
 	}
 
 	function getPollErrors(newPoll: SendPoll) {
-		return 'Not implemented';
+		// position must be numeric
+		// text must be non-blank
+		// at least 2 options
+		// if has image then all must have image and must have even amount
+		// image h/w > 0
+		return '';
 	}
 </script>
 
@@ -62,7 +70,7 @@
 				</div>
 				<div style="padding-left: 1em">
 					{#each newPoll.answers as answer, i}
-						<span>{i}</span>
+						<span>{i}:</span>
 						<div style="padding-left: 1em">
 							<div class="poll-input">
 								<label for="text">Text:</label>

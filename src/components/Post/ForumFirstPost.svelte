@@ -13,6 +13,8 @@
 	import type { Post } from '$lib/responses/Post';
 	import PollEditor from './PollEditor.svelte';
 	import { wiki } from '../../routes/stores';
+	import HTTP from '$lib/HTTPCodes';
+	import { dispatchNotification } from '../Notification.svelte';
 
 	export let thread: Thread;
 	let poll: ThreadPoll | undefined;
@@ -87,14 +89,17 @@
 		isEditorOpen = false;
 	}
 	async function submitPoll(newPollData: SendPoll) {
-		console.log(newPollData);
-		return;
 		const res = await DiscussionThread.update(
 			$wiki,
 			{ threadId: thread.id },
 			{ ...thread, poll: newPollData },
 		);
-		closePollEditor();
+		if (res.status === HTTP.OK) {
+			poll = ((await res.json()) as Thread).poll;
+			closePollEditor();
+			return;
+		}
+		dispatchNotification('error', `Error ${res.status}: ${res.statusText}`);
 	}
 </script>
 
