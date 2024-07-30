@@ -62,6 +62,27 @@
 		showResults = true;
 		toggleResults();
 	}
+
+	async function submitVote() {
+		// ... submit, if success then
+		const newUserVotes =
+			(userVotes && userVotes.split(',').map((n) => Number(n))) || ([null] as [null]);
+		// TODO check if it's actually [null] or if doing '' does the same thing
+		const oldUserVotes = poll.userVotes;
+
+		// @ts-ignore
+		poll.userVotes = newUserVotes;
+		poll.totalVotes +=
+			((newUserVotes?.[0] && newUserVotes?.length) || 0) -
+			((oldUserVotes?.[0] && oldUserVotes?.length) || 0);
+		// guarding against userVotes[0] being `null`
+		poll.answers.forEach((answer) => {
+			answer.votes +=
+				(newUserVotes?.filter((v) => answer.id === v).length || 0) -
+				(oldUserVotes?.filter((v) => answer.id === v).length || 0);
+		});
+		toggleResults();
+	}
 </script>
 
 <h4 class="poll-question">{poll.question}</h4>
@@ -115,7 +136,7 @@
 {#if !showResults}
 	<input type="text" bind:value={userVotes} />
 	<button class="wds-button text" on:click={resetVotes}>reset</button>
-	<button class="wds-button">Vote</button>
+	<button class="wds-button" on:click={submitVote}>Vote</button>
 {/if}
 
 <style>

@@ -28,7 +28,7 @@ export type Poll = {
 	id: number;
 	question: string;
 	totalVotes: number;
-	userVotes: [number] | null;
+	userVotes: number[] | null;
 };
 
 export type Article = {
