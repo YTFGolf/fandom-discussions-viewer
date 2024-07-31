@@ -121,7 +121,7 @@
 />
 {#if poll}
 	<PollComponent {poll} on:openEditor={openPollEditor} />
-{:else}
+{:else if thread._embedded.userData?.[0].permissions?.includes('canEdit')}
 	<button class="wds-button" on:click={openPollEditor}>Add poll</button>
 {/if}
 {#if isEditorOpen}
