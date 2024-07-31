@@ -62,10 +62,11 @@
 	function handleSwitchEditor(
 		event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement },
 	) {
-		if (event.currentTarget.dataset.switchTo! === currentEditorType) {
+		const target = event.currentTarget;
+		if (target.dataset.switchTo! === currentEditorType) {
 			return;
 		}
-		if (event.currentTarget.dataset.switchTo! === 'HTML') {
+		if (target.dataset.switchTo! === 'HTML') {
 			JsonEditor.style.display = 'none';
 			HtmlEditor.style.display = 'block';
 		} else {
@@ -73,8 +74,8 @@
 			HtmlEditor.style.display = 'none';
 		}
 		const poll = convertPoll(currentEditorType);
-		switchEditor(event.currentTarget.dataset.switchTo! as EditorType, poll);
-		currentEditorType = event.currentTarget.dataset.switchTo! as EditorType;
+		switchEditor(target.dataset.switchTo! as EditorType, poll);
+		currentEditorType = target.dataset.switchTo! as EditorType;
 	}
 
 	// options for each thing

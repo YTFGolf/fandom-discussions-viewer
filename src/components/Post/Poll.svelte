@@ -45,9 +45,10 @@
 			}
 			return;
 		}
+		const target = event.currentTarget;
 
 		if (event.ctrlKey) {
-			event.currentTarget.classList.add('is-selected');
+			target.classList.add('is-selected');
 			if (!userVotes) {
 				userVotes = answer.id.toString();
 			} else {
@@ -57,12 +58,12 @@
 		}
 
 		for (const answer of answers.querySelectorAll('.is-selected')) {
-			if (answer !== event.currentTarget) {
+			if (answer !== target) {
 				answer.classList.remove('is-selected');
 			}
 		}
 
-		event.currentTarget.classList.add('is-selected');
+		target.classList.add('is-selected');
 		userVotes = answer.id.toString();
 	}
 
