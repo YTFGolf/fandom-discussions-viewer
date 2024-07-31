@@ -82,18 +82,28 @@
 	}
 	function closePollEditor() {
 		editorComponent.$destroy();
-		// editorComponent = new PollEditor({
-		// 	target: editorContainer,
-		// 	// props,
-		// });
 		isEditorOpen = false;
 	}
 	async function submitPoll(newPollData: SendPoll) {
-		const res = await DiscussionThread.update(
-			$wiki,
-			{ threadId: thread.id },
-			{ ...thread, poll: newPollData },
-		);
+		const attachments: EditorContent['attachments'] = {
+			...thread._embedded.attachments[0],
+			polls: [newPollData] as any,
+			quizzes: undefined,
+		};
+		const data: EditorContent = {
+			attachments,
+			jsonModel: thread.jsonModel!,
+			rawContent: thread.rawContent,
+		};
+		const update: DiscussionThread.updateData = {
+			...thread,
+			...data,
+			poll: newPollData,
+			// @ts-ignore
+			_embedded: undefined,
+		};
+		console.log(JSON.stringify(newPollData));
+		const res = await DiscussionThread.update($wiki, { threadId: thread.id }, update);
 		if (res.status === HTTP.OK) {
 			const thread = (await res.json()) as Thread;
 			poll = thread.poll;

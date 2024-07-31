@@ -130,7 +130,7 @@
 	<div class="edit-modal-content">
 		<div class="editor-container">
 			<form on:submit={handleSubmit}>
-				<span>Note: this editor isn't really very good</span>
+				<span>Note: this editor isn't really very good.</span>
 				<div class="switcher" bind:this={switcher}>
 					<button
 						class="wds-button"
