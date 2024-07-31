@@ -157,7 +157,8 @@ export default async function getHtmlWithFallback(block: Block, attachments: Att
 	try {
 		return await getHtml(block, attachments);
 	} catch (e) {
-		console.error(e);
+		// console.error(e);
+		// Error messages are ridiculously long so ignore
 		return fallback(JSON.stringify(block));
 	}
 }

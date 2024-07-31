@@ -21,7 +21,7 @@ export async function getHtmlWithFallback(
 	if (!jsonModel) {
 		let content = rawContent;
 		if (attachments.contentImages[0]) {
-			content += getImage({ type: 'image', attrs: { id: 0 } }, attachments);
+			content += await getImage({ type: 'image', attrs: { id: 0 } }, attachments);
 		}
 		return content;
 	}
