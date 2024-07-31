@@ -76,7 +76,7 @@ Current:
 Planned:
 
 - `/api/services`: for services.fandom e.g. `/api/services/notifications`
-- `/api/upload`: just in case uploading form data requires a different route than the JSON-only `/api`
+- `/api/upload`: just in case uploading form data requires a different route than the JSON-only `/api` (probably unnecessary)
 
 ## Completing certain tasks
 
@@ -89,11 +89,11 @@ Okay this is more the stuff that should be possible with this but not discussion
 - More control over marks
   - Fake pings
   - Real pings with different text
-  - Pinging dead users (requires knowing their id)
+  - Pinging dead users/AnonymousCrouton
   - Astley pings
   - Formatting in code blocks
-- Pings in message walls (don't notify though)
-- Read and reply to [Hello Internet Funni People](https://battle-cats.fandom.com/wiki/Message_Wall:LiterallyJustN?threadId=4400000000000763415) without using 10 TB of RAM
+- Pings in message walls (don't notify though) (<span style="color:red">Not completed</span>)
+- Read and reply to [Hello Internet Funni People](https://battle-cats.fandom.com/wiki/Message_Wall:LiterallyJustN?threadId=4400000000000763415) without using 10 TB of RAM (<span style="color:red">Not completed</span>)
 
 ## Testing
 

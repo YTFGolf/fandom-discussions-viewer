@@ -1,3 +1,5 @@
+## General
+
 - Controllers
   - Important
     - [ ] Fandom\DiscussionModeration\DiscussionImages
@@ -18,6 +20,7 @@
   - Mainly to avoid regression; vitest doesn't appear to like using the server's API, so either I reimplement in vitest or I do testing on the live server
   - `npm run dev -- --port 7357`
   - Can make test tab in new container so always works.
+  - Is testing necessary? Since is just using API.
 - Add stuff to editor
   - Attempt erase formatting again (can probably do some command chaining and enumerating for different kinds of nodes, or do the textbetween thing and replace `\n` with `</p><br><p>` or split by `\n`)
 - Add `/f/u/...`
@@ -32,3 +35,10 @@
   - [x] Astley pings (eh sort of)
   - [ ] MW pings
   - [ ] HIFP
+- Improve editor for images/opengraphs
+
+## Current
+
+- Address TODOs
+- Improve poll editor (at least add images/options)
+- Remove current wiki cookie and just use URL entirely
