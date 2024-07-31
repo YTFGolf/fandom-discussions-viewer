@@ -20,15 +20,13 @@
   - Can make test tab in new container so always works.
 - Add stuff to editor
   - Attempt erase formatting again (can probably do some command chaining and enumerating for different kinds of nodes, or do the textbetween thing and replace `\n` with `</p><br><p>` or split by `\n`)
-- Finish forumPost
-  - Polls
 - Add `/f/u/...`
 - Add `/f/p`
 - Doc
   - Split up into own files
   - notes can go in temp.md
 - Things that need to be accomplished
-  - [ ] Poll with text
+  - [x] Poll with text
   - [x] Fake pings (Sort of but editor does not support these yet)
   - [x] Real pings with different text
   - [x] Pinging dead users
