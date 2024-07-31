@@ -12,6 +12,8 @@
 		jsonModel: post.jsonModel!,
 		attachments: { ...post._embedded.attachments[0], polls: undefined, quizzes: undefined },
 		rawContent: post.rawContent,
+		// @ts-ignore
+		title: post.title as string | undefined,
 	};
 </script>
 

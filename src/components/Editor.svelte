@@ -8,6 +8,7 @@
 		// Technically should make sure that nothing else is in the attachments
 		// but TypeScript unironically does not have this capability.
 		rawContent: string;
+		title?: string;
 	};
 </script>
 
@@ -18,7 +19,7 @@
 	import { JSONView, ProseMirrorView, type View } from './Editor/Switcher';
 	import { getHtmlWithFallback } from './Post/JSONModel/Body';
 	import type { JsonModel } from '$lib/controllers/types/jsonModel';
-	import { config, userDetails } from '../routes/stores';
+	import { userDetails } from '../routes/stores';
 	import type { EditorMode } from '$lib/types';
 	import { dispatchNotification } from './Notification.svelte';
 
@@ -144,6 +145,9 @@
 </script>
 
 <div class="editor-container" style={isLoaded ? '' : 'display: none'}>
+	{#if editorContent.title}
+		<input bind:value={editorContent.title} />
+	{/if}
 	<div class="switcher" bind:this={switcher}>
 		<button class="wds-button current" on:click={handleSwitchEditor} data-switch-to="RTE">
 			Switch to RTE
