@@ -10,7 +10,7 @@
 
 	export let poll: ThreadPoll | undefined;
 	export let closePollEditor: () => void;
-	export let submitPoll: (newPollData: SendPoll) => Promise<void>;
+	export let submitPoll: (newPollData: SendPoll | null) => Promise<void>;
 
 	let newPoll: SendPoll = getNewPoll(poll);
 	let HtmlEditor: HTMLDivElement;
@@ -93,12 +93,16 @@
 		dispatchNotification('error', errors);
 	}
 
-	function getPollErrors(newPoll: SendPoll) {
+	function getPollErrors(newPoll: SendPoll | null) {
 		// position must be numeric
 		// text must be non-blank
 		// at least 2 options
 		// if has image then all must have image and must have even amount
 		// image h/w > 0
+		if (newPoll == null) {
+			return '';
+		}
+
 		if (newPoll.question === '') {
 			return 'Question is blank!';
 		}

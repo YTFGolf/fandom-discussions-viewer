@@ -80,7 +80,7 @@
 		editorComponent.$destroy();
 		isEditorOpen = false;
 	}
-	async function submitPoll(newPollData: SendPoll) {
+	async function submitPoll(newPollData: SendPoll | null) {
 		const attachments: EditorContent['attachments'] = {
 			...thread._embedded.attachments[0],
 			polls: [newPollData] as any,
@@ -94,10 +94,15 @@
 		const update: DiscussionThread.updateData = {
 			...thread,
 			...data,
-			poll: newPollData,
+			poll: newPollData || undefined,
 			// @ts-ignore
 			_embedded: undefined,
 		};
+
+		if (newPollData == null) {
+			// @ts-ignore
+			update.attachments!.polls = undefined;
+		}
 
 		const res = await DiscussionThread.update($wiki, { threadId: thread.id }, update);
 		if (res.status === HTTP.OK) {
