@@ -41,7 +41,6 @@ class MenuView {
 	}
 
 	update() {
-		// console.log(this.items);
 		this.items.forEach(({ dom, isActive }) => {
 			dom.classList.toggle('active', isActive(this));
 		});

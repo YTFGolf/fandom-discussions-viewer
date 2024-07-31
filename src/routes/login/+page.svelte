@@ -21,8 +21,6 @@
 		});
 		if (res.status !== HTTP.OK) {
 			const body = await res.json();
-			// console.error(body);
-			// not necessary when console automatically shows error
 			status = { color: 'red', message: 'Error while logging in: ' + body.title };
 			return;
 		}
