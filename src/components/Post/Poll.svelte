@@ -5,6 +5,8 @@
 	import { createEventDispatcher } from 'svelte';
 	import { wiki } from '../../routes/stores';
 	import { dispatchNotification } from '../Notification.svelte';
+	import { DiscussionVote } from '$lib/controllers/wikia/DiscussionVote';
+	import PollVoterModal from './PollVoterModal.svelte';
 
 	export let poll: Poll;
 
@@ -16,21 +18,35 @@
 
 	const dispatch = createEventDispatcher();
 
+	async function showVoters(answer: PollAnswer) {
+		const res = await DiscussionPoll.getVoters($wiki, { pollId: poll.id, answerId: answer.id });
+		const modal = new PollVoterModal({
+			target: document.body,
+			props: { answer, voters: await res.json() },
+		});
+		modal.$on('destroy', () => {
+			modal.$destroy();
+		});
+		return modal;
+	}
+
 	function selectAnswer(
 		event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement },
-		id: number,
+		answer: PollAnswer,
 	) {
 		if (showResults) {
-			// TODO shows who's voted for that option
+			if (answer.votes > 0) {
+				showVoters(answer);
+			}
 			return;
 		}
 
 		if (event.ctrlKey) {
 			event.currentTarget.classList.add('is-selected');
 			if (!userVotes) {
-				userVotes = id.toString();
+				userVotes = answer.id.toString();
 			} else {
-				userVotes += `,${id}`;
+				userVotes += `,${answer.id}`;
 			}
 			return;
 		}
@@ -42,7 +58,7 @@
 		}
 
 		event.currentTarget.classList.add('is-selected');
-		userVotes = id.toString();
+		userVotes = answer.id.toString();
 	}
 
 	function getPollPercentage(answer: PollAnswer) {
@@ -113,7 +129,7 @@
 				class="poll-answer {showResults && poll.userVotes?.includes(answer.id)
 					? 'is-selected'
 					: ''}"
-				on:click={(e) => selectAnswer(e, answer.id)}
+				on:click={(e) => selectAnswer(e, answer)}
 			>
 				<div class="answer-image-wrapper">
 					<img
@@ -135,7 +151,7 @@
 				class="poll-answer {showResults && poll.userVotes?.includes(answer.id)
 					? 'is-selected'
 					: ''}"
-				on:click={(e) => selectAnswer(e, answer.id)}
+				on:click={(e) => selectAnswer(e, answer)}
 			>
 				<span class="answer-text">{answer.text}</span>
 				{#if showResults}

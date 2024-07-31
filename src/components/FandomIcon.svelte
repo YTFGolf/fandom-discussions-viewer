@@ -20,7 +20,7 @@
 		gear:           'https://fandomdesignsystem.com/ooui/dist/themes/fandomooui/images/wds-icons-gear-small.svg',
 		lock:           'https://fandomdesignsystem.com/ooui/dist/themes/fandomooui/images/wds-icons-lock-small.svg',
 		unlock:         'https://fandomdesignsystem.com/ooui/dist/themes/fandomooui/images/wds-icons-unlock-small.svg',
-		close:          'https://fandomdesignsystem.com/ooui/dist/themes/fandomooui/images/wds-icons-close-small.svg',
+		close:          'https://fandomdesignsystem.com/ooui/dist/themes/fandomooui/images/wds-icons-close.svg',
 		alert:          'https://fandomdesignsystem.com/ooui/dist/themes/fandomooui/images/wds-icons-alert-small.svg',
 		error:          'https://fandomdesignsystem.com/ooui/dist/themes/fandomooui/images/wds-icons-error-small.svg',
 	};

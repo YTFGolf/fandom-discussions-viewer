@@ -7,6 +7,11 @@ import type { JsonModel } from '$lib/controllers/types/jsonModel';
 import type { Funnel } from '$lib/controllers/types/string-types';
 import type { Attachments, Post, PostTime, UserData, UserDetails } from './Post';
 
+export type PollVoters = {
+	answerId: number;
+	users: UserDetails[];
+};
+
 export type PollAnswerImage = {
 	url: string;
 
