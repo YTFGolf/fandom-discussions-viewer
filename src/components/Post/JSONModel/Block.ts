@@ -102,8 +102,9 @@ export async function getCodeBlock(block: CodeBlock) {
 export async function getOpenGraph(g: OpenGraph, attachments: Attachments) {
 	const graph = attachments.openGraphs![g.attrs.id];
 	// TODO what to do when this is null
-	// http://localhost:5173/f/p/4400000000000889237/r/4400000000003558416
+	// http://localhost:5173/f/p/4400000000000889237/r/4400000000003558413?wiki=en.battle-cats
 	// Fandom just returns malformed content
+	// http://localhost:5173/f/p/4400000000000022255?wiki=en.dev
 	if (!graph) {
 		throw new Error(`Open graph ${g.attrs.id} doesn't exist!`);
 	}
