@@ -3,6 +3,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import { config, wiki } from '../../../routes/stores';
 	import HTTP from '$lib/HTTPCodes';
+	import { dispatchNotification } from '../../Notification.svelte';
 	const dispatch = createEventDispatcher();
 
 	export let onSubmit: (userId: string, text: string, notifyUser: boolean) => boolean;
@@ -56,11 +57,12 @@
 
 	function handleSubmit(event: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }) {
 		event.preventDefault();
-		getPingData().then(([userId, text, notifyUser]) => {
-			destroySelf();
-			return onSubmit(userId, text, notifyUser);
-		});
-		// TODO catch
+		getPingData()
+			.then(([userId, text, notifyUser]) => {
+				destroySelf();
+				return onSubmit(userId, text, notifyUser);
+			})
+			.catch((e) => dispatchNotification('error', e));
 	}
 
 	let cancel: HTMLButtonElement;
