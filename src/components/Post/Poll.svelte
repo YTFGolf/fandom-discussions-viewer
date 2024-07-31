@@ -9,6 +9,7 @@
 
 	// TODO fix what happens when you do multiple and totalvotes doesn't get annihilated
 
+	export let isEditable: boolean;
 	export let poll: Poll;
 
 	let answers: HTMLDivElement;
@@ -167,7 +168,9 @@
 		{/if}
 	{/each}
 </div>
-<button class="wds-button" on:click={() => dispatch('openEditor')}>Edit Poll</button>
+{#if isEditable}
+	<button class="wds-button" on:click={() => dispatch('openEditor')}>Edit Poll</button>
+{/if}
 <button class="wds-button" on:click={toggleResults}>{showResults ? 'Hide' : 'Show'} results</button>
 <p class="total-poll-votes">{poll.totalVotes} votes in poll</p>
 {#if !showResults}

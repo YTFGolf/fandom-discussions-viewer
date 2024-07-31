@@ -20,6 +20,8 @@
 	export let thread: Thread;
 	let poll: ThreadPoll | undefined;
 	$: poll = thread._embedded.attachments[0].polls?.[0];
+	let isEditable: boolean;
+	$: isEditable = thread._embedded.userData?.[0].permissions?.includes('canEdit') ?? false;
 
 	const dispatch = createEventDispatcher();
 
@@ -125,8 +127,8 @@
 	{getUpvoteId}
 />
 {#if poll}
-	<PollComponent {poll} on:openEditor={openPollEditor} />
-{:else if thread._embedded.userData?.[0].permissions?.includes('canEdit')}
+	<PollComponent {poll} {isEditable} on:openEditor={openPollEditor} />
+{:else if isEditable}
 	<button class="wds-button" on:click={openPollEditor}>Add poll</button>
 {/if}
 {#if isEditorOpen}
