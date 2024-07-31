@@ -5,8 +5,9 @@
 	import { createEventDispatcher } from 'svelte';
 	import { wiki } from '../../routes/stores';
 	import { dispatchNotification } from '../Notification.svelte';
-	import { DiscussionVote } from '$lib/controllers/wikia/DiscussionVote';
 	import PollVoterModal from './PollVoterModal.svelte';
+
+	// TODO fix what happens when you do multiple and totalvotes doesn't get annihilated
 
 	export let poll: Poll;
 
@@ -165,7 +166,7 @@
 		{/if}
 	{/each}
 </div>
-<button class="wds-button" on:click={(e) => dispatch('openEditor')}>Edit Poll</button>
+<button class="wds-button" on:click={() => dispatch('openEditor')}>Edit Poll</button>
 <button class="wds-button" on:click={toggleResults}>{showResults ? 'Hide' : 'Show'} results</button>
 <p class="total-poll-votes">{poll.totalVotes} votes in poll</p>
 {#if !showResults}

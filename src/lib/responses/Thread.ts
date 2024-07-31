@@ -93,3 +93,9 @@ export type Thread = {
 	rawContent: string;
 	jsonModel: JsonModel | null;
 };
+
+export type NotFound = {
+	title: string;
+	status: 404;
+	instance: string;
+};

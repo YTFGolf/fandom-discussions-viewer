@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { DiscussionThread } from '$lib/controllers/wikia/DiscussionThread';
-	import type { Thread } from '$lib/responses/Thread';
+	import type { NotFound, Thread } from '$lib/responses/Thread';
 	import { page } from '$app/stores';
 	import { config, wiki } from '../../../stores';
 	import ThreadComponent from '../../../../components/Thread.svelte';
@@ -44,7 +44,11 @@
 	{#await threadContent}
 		<p>...waiting</p>
 	{:then threadContent}
-		<ThreadComponent thread={threadContent} />
+		{#if threadContent._embedded}
+			<ThreadComponent thread={threadContent} />
+		{:else}
+			<p style="color: red">{threadContent.title}</p>
+		{/if}
 	{:catch error}
 		<p style="color: red">{error.message}</p>
 	{/await}
