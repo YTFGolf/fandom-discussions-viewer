@@ -106,7 +106,6 @@
 
 		const newUserVotes =
 			(userVotes && userVotes.split(',').map((n) => Number(n))) || ([null] as [null]);
-		// TODO check if it's actually [null] or if doing '' does the same thing
 		const oldUserVotes = poll.userVotes;
 
 		// @ts-ignore
