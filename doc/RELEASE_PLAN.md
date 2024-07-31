@@ -5,7 +5,7 @@
     - [ ] Fandom\FeedsAndPosts\Discussion\DiscussionForum
   - Eh
     - [ ] Fandom\DiscussionModeration\DiscussionModeration
-    - [ ] Fandom\FeedsAndPosts\Discussion\DiscussionPoll
+    - [x] Fandom\FeedsAndPosts\Discussion\DiscussionPoll
     - [ ] Fandom\FeedsAndPosts\Discussion\DiscussionPermalink
     - [x] Fandom\FeedsAndPosts\Discussion\DiscussionVote
   - Probably not
@@ -21,7 +21,6 @@
 - Add stuff to editor
   - Attempt erase formatting again (can probably do some command chaining and enumerating for different kinds of nodes, or do the textbetween thing and replace `\n` with `</p><br><p>` or split by `\n`)
 - Add `/f/u/...`
-- Add `/f/p`
 - Doc
   - Split up into own files
   - notes can go in temp.md
