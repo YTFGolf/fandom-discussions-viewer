@@ -130,6 +130,7 @@
 	<div class="edit-modal-content">
 		<div class="editor-container">
 			<form on:submit={handleSubmit}>
+				<span>Note: this editor isn't really very good</span>
 				<div class="switcher" bind:this={switcher}>
 					<button
 						class="wds-button"
@@ -214,6 +215,19 @@
 		row-gap: 1em;
 		margin: auto;
 		/* padding-right: 25%; */
+	}
+
+	form textarea {
+		max-height: 500px;
+		overflow: scroll;
+		width: 100%;
+		min-height: 400px;
+		font-family: Consolas, 'Eupheima UCAS', Monaco, Menlo, monospace;
+		font-size: 0.8125rem;
+		background-color: var(--theme-page-background-color--secondary);
+		border: 1px solid var(--theme-border-color);
+		color: var(--theme-page-text-color);
+		resize: none;
 	}
 
 	.poll-input {

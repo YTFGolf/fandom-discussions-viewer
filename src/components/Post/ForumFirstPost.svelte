@@ -95,7 +95,8 @@
 			{ ...thread, poll: newPollData },
 		);
 		if (res.status === HTTP.OK) {
-			poll = ((await res.json()) as Thread).poll;
+			const thread = (await res.json()) as Thread;
+			poll = thread.poll;
 			closePollEditor();
 			return;
 		}
@@ -114,6 +115,8 @@
 />
 {#if poll}
 	<PollComponent {poll} on:openEditor={openPollEditor} />
+{:else}
+	<button class="wds-button" on:click={openPollEditor}>Add poll</button>
 {/if}
 {#if isEditorOpen}
 	<div bind:this={editorContainer}>
