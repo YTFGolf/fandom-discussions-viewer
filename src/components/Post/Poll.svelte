@@ -166,7 +166,7 @@
 	{/each}
 </div>
 <button class="wds-button" on:click={(e) => dispatch('openEditor')}>Edit Poll</button>
-<button class="wds-button" on:click={toggleResults}>Toggle results</button>
+<button class="wds-button" on:click={toggleResults}>{showResults ? 'Hide' : 'Show'} results</button>
 <p class="total-poll-votes">{poll.totalVotes} votes in poll</p>
 {#if !showResults}
 	<input type="text" bind:value={userVotes} />
