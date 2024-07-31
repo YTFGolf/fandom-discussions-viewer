@@ -15,10 +15,13 @@
 	import { wiki } from '../../routes/stores';
 	import HTTP from '$lib/HTTPCodes';
 	import { dispatchNotification } from '../Notification.svelte';
+	import { createEventDispatcher } from 'svelte';
 
 	export let thread: Thread;
 	let poll: ThreadPoll | undefined;
 	$: poll = thread._embedded.attachments[0].polls?.[0];
+
+	const dispatch = createEventDispatcher();
 
 	async function deleteFunction(wiki: Wiki, thread: Thread) {
 		return DiscussionThread.deleteThread(wiki, { threadId: thread.id });
@@ -40,15 +43,22 @@
 			data.attachments.polls = [poll as SendPoll] as any;
 		}
 
-		return DiscussionThread.update(
+		const res = await DiscussionThread.update(
 			wiki,
 			{ threadId: thread.id },
 			{
 				...thread,
 				...data,
 				poll,
+				// @ts-ignore
+				_embedded: undefined,
 			},
 		);
+
+		if (res.status === HTTP.OK && data.title) {
+			dispatch('updateTitle', { title: data.title });
+		}
+		return res;
 	}
 	async function lockFunction(wiki: Wiki, thread: Thread) {
 		return DiscussionThread.lock(wiki, { threadId: thread.id });

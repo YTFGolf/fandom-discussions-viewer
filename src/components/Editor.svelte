@@ -106,6 +106,9 @@
 	function submitPost() {
 		try {
 			const content = editorView.content;
+			if (editorContent.title) {
+				content.title = editorContent.title;
+			}
 			return onSubmit(content);
 		} catch (e: any) {
 			dispatchNotification('error', e);
@@ -145,7 +148,7 @@
 </script>
 
 <div class="editor-container" style={isLoaded ? '' : 'display: none'}>
-	{#if editorContent.title}
+	{#if editorContent.title != null}
 		<input bind:value={editorContent.title} />
 	{/if}
 	<div class="switcher" bind:this={switcher}>

@@ -86,8 +86,7 @@
 
 <div class="thread-container">
 	<h1>{thread.title}</h1>
-	<!-- TODO edit button for title -->
-	<FirstPost {thread} />
+	<FirstPost {thread} on:updateTitle={(data) => (thread.title = data.detail.title)} />
 	<div bind:this={postList} class="post-list">
 		{#if thread._links.next}
 			<button class="view-more" on:click={viewOlderReplies}>View older replies</button>
