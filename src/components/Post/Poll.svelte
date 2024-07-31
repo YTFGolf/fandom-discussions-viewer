@@ -20,6 +20,10 @@
 
 	async function showVoters(answer: PollAnswer) {
 		const res = await DiscussionPoll.getVoters($wiki, { pollId: poll.id, answerId: answer.id });
+		if (res.status !== HTTP.OK) {
+			dispatchNotification('error', `Error ${res.status}: ${res.statusText}`);
+		}
+
 		const modal = new PollVoterModal({
 			target: document.body,
 			props: { answer, voters: await res.json() },

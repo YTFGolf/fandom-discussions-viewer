@@ -27,7 +27,7 @@
 	<div class="modal is-full-size">
 		<div class="user-list-modal">
 			<div class="user-list-header">
-				<span class="user-list-header-text">{answer.text} ({answer.votes}&nbsp;Votes)</span>
+				<span class="user-list-header-text">{answer.text} ({voters.users.length}&nbsp;Votes)</span>
 				<button
 					id="close-modal"
 					class="plain-style"
@@ -76,6 +76,10 @@
 		min-width: 480px;
 	}
 
+	#close-modal {
+		cursor: pointer;
+	}
+
 	#close-modal :global(.fandom-icon-svg) {
 		background-color: var(--theme-page-text-color);
 	}
@@ -84,6 +88,8 @@
 		--wds-list-border-color: var(--theme-border-color);
 		list-style-type: none;
 		margin: 0;
+		max-height: 80vh;
+		overflow: auto;
 		padding: 7px 18px;
 	}
 
