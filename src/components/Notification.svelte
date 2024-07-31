@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
 	import Notification from './Notification.svelte';
 
-	type NotificationType = 'alert' | 'error';
+	type NotificationType = 'alert' | 'error' | 'success';
 
 	export function dispatchNotification(type: NotificationType, message: string) {
 		const notif = new Notification({
@@ -31,15 +31,22 @@
 		document.querySelector('.notification-container')!.innerHTML = '';
 	}
 
+	const iconNames = {
+		alert: 'alert',
+		error: 'error',
+		success: 'checkmark',
+	} as const;
+
 	const notificationColors: Record<NotificationType, string> = {
 		alert: '#b46318',
 		error: '#bf0017',
+		success: '#0c742f',
 	};
 </script>
 
 <div class="notification">
 	<div class="notification-icon" style="background-color:{notificationColors[type]}">
-		<FandomIcon icon={type} size="18px" />
+		<FandomIcon icon={iconNames[type]} size="18px" />
 	</div>
 	<div class="notification-text">{message}</div>
 	<button on:click={destroy} class="close-icon" title="Close notification">
