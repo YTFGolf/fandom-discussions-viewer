@@ -28,8 +28,6 @@
 
 	export let icon: keyof typeof ICONS;
 	export let size: string;
-
-	// responsibility for setting colour is on the user
 </script>
 
 <!-- https://stackoverflow.com/a/43916743 -->

@@ -99,8 +99,14 @@
 	async function toggleUpvote() {
 		const f = hasUpvoted ? DiscussionVote.downVotePost : DiscussionVote.upVotePost;
 		const res = await f($wiki, { postId: getUpvoteId(post) });
+		// {"title":"Forbidden","detail":"User has already upVoted this post","instance":"\/internal\/3448675\/votes\/post\/4400000000000090641"}
+		// {"errorText":"toomanyrequests"}
+		// if (res.status === HTTP.TOO_MANY_REQUESTS){
+		// 	dispatchNotification()
+		// }
 		if (res.status !== HTTP.OK) {
-			throw new Error('Action failed.');
+			dispatchNotification('error', await res.text());
+			return;
 		}
 		const data = await res.json();
 		post.upvoteCount = data.upvoteCount;
