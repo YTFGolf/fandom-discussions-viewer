@@ -20,7 +20,12 @@
 
 	const dispatch = createEventDispatcher();
 
+	let isShowingVoters = false;
 	async function showVoters(answer: PollAnswer) {
+		if (isShowingVoters) {
+			return;
+		}
+		isShowingVoters = true;
 		const res = await DiscussionPoll.getVoters($wiki, { pollId: poll.id, answerId: answer.id });
 		if (res.status !== HTTP.OK) {
 			dispatchNotification('error', `Error ${res.status}: ${res.statusText}`);
@@ -32,6 +37,7 @@
 		});
 		modal.$on('destroy', () => {
 			modal.$destroy();
+			isShowingVoters = false;
 		});
 		return modal;
 	}
