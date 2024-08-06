@@ -83,10 +83,6 @@
 		cursor: pointer;
 	}
 
-	#close-modal :global(.fandom-icon-svg) {
-		background-color: var(--theme-page-text-color);
-	}
-
 	.voter-info-list {
 		--wds-list-border-color: var(--theme-border-color);
 		list-style-type: none;

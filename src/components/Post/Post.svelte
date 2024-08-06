@@ -257,16 +257,10 @@
 		background-color: inherit;
 		border: none;
 		cursor: pointer;
+		color: var(--wds-dropdown-text-color);
 	}
 
-	.upvote-post :global(.fandom-icon-svg) {
-		background-color: var(--wds-dropdown-text-color);
-	}
-
-	.upvote-post.is-upvoted :global(.fandom-icon-svg) {
-		background-color: var(--wds-dropdown-linked-item-color);
-	}
-	.upvote-post.is-upvoted .upvote-count {
+	.upvote-post.is-upvoted {
 		color: var(--wds-dropdown-linked-item-color);
 	}
 
@@ -280,16 +274,11 @@
 		gap: 0.5em;
 	}
 
-	.form-actions :global(.fandom-icon-svg) {
-		background-color: var(--wds-dropdown-text-color);
-	}
-
 	.form-actions .action {
-		--text-color: var(--wds-dropdown-text-color);
 		background: none;
 		border: 1px solid var(--wds-dropdown-border-color);
 		border-radius: 3px;
-		color: var(--text-color);
+		color: var(--wds-dropdown-text-color);
 		cursor: pointer;
 		font-weight: 400;
 		padding-left: 9px;
@@ -301,15 +290,12 @@
 	}
 
 	.form-actions .action:hover {
-		--text-color: var(--wds-dropdown-linked-item-color);
+		color: var(--wds-dropdown-linked-item-color);
 		background-color: var(--wds-dropdown-linked-item-background-color);
 	}
 
 	.form-actions .action :global(.fandom-icon-svg) {
 		margin-right: 4px;
-		vertical-align: middle;
-		background-color: var(--text-color);
-		transition: 0.3s;
 	}
 
 	.edited-by {

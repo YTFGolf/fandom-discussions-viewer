@@ -86,10 +86,6 @@
 		width: 40px;
 	}
 
-	.notification-icon :global(.fandom-icon-svg) {
-		background-color: #fff;
-	}
-
 	.notification-text {
 		border-bottom: 1px solid var(--wds-banner-notification-border-color);
 		border-top: 1px solid var(--wds-banner-notification-border-color);
@@ -113,9 +109,5 @@
 		line-height: 0;
 		padding: 14px;
 		width: 12px;
-	}
-
-	.notification .close-icon :global(.fandom-icon-svg) {
-		background-color: var(--wds-banner-notification-close-icon);
 	}
 </style>

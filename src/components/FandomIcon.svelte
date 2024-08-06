@@ -42,7 +42,8 @@
 <style>
 	img {
 		mask: none no-repeat center;
-		color: transparent;
+		background-color: currentColor;
 		display: inline-block;
+		text-indent: -10000px;
 	}
 </style>
