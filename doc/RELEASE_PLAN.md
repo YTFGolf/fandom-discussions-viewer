@@ -41,5 +41,6 @@
 
 - Address TODOs
 - Improve poll editor (at least add images/options)
-- Remove current wiki cookie and just use URL entirely
 - Improve title editor
+- Parser for wiki link
+- Counter for amount of replies to post

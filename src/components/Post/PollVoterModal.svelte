@@ -3,6 +3,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import FandomIcon from '../FandomIcon.svelte';
 	import Avatar from '../Avatar.svelte';
+	import { wiki } from '../../routes/stores';
 
 	export let answer: PollAnswer;
 	export let voters: PollVoters;
@@ -41,7 +42,9 @@
 				{#each voters.users as user}
 					<li class="user-info">
 						<Avatar {user} />
-						<a class="user-link" href={'/f/u/' + user.id}>{user.name}</a>
+						<a class="user-link" href="/f/u/{user.id}?wiki={$wiki.lang}.{$wiki.name}">
+							{user.name}
+						</a>
 					</li>
 				{/each}
 			</ul>

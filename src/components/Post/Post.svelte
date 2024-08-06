@@ -31,8 +31,8 @@
 	$: hasUpvoted = post._embedded.userData?.[0]?.hasUpvoted || false;
 	let postLink: string;
 	$: postLink =
-		((post as Post).threadId && `/f/p/${(post as Post).threadId}/r/${post.id}`) ||
-		`/f/p/${post.id}`;
+		(((post as Post).threadId && `/f/p/${(post as Post).threadId}/r/${post.id}`) ||
+			`/f/p/${post.id}`) + `?wiki=${$wiki.lang}.${$wiki.name}`;
 
 	function edit() {
 		openEditor = true;
@@ -123,7 +123,9 @@
 			<span class="upvote-count">{post.upvoteCount}</span>
 		</button>
 		<Avatar user={post.createdBy} />
-		<a class="user-link" href={'/f/u/' + post.createdBy.id}>{post.createdBy.name}</a>
+		<a class="user-link" href="/f/u/{post.createdBy.id}?wiki={$wiki.lang}.{$wiki.name}">
+			{post.createdBy.name}
+		</a>
 		<span class="reply-time">·</span>
 		<a class="reply-time" href={postLink}>
 			<Time time={post.creationDate} />

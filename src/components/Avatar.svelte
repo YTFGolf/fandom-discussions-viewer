@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { UserDetails } from '$lib/responses/Post';
+	import { wiki } from '../routes/stores';
 	import Badge, { type BadgeName } from './Badge.svelte';
 
 	export let user: UserDetails;
@@ -25,7 +26,7 @@
 </script>
 
 <div class="avatar">
-	<a href={`/f/u/${user.id}`}>
+	<a href={`/f/u/${user.id}?wiki=${$wiki.lang}.${$wiki.name}`}>
 		{#if user.avatarUrl}
 			<img src={avatar} alt={description} title={description} class="avatar-image" />
 		{:else}
