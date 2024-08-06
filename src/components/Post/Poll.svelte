@@ -208,7 +208,7 @@
 	}
 
 	.text-poll .poll-answer {
-		width: -moz-available;
+		width: 100%;
 		background-color: inherit;
 
 		align-items: center;
@@ -331,6 +331,7 @@
 	.image-poll .answer-image-text {
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 3;
+		line-clamp: 3;
 		bottom: 20px;
 		display: -webkit-box;
 		font-size: 18px;
@@ -343,6 +344,7 @@
 		width: 100%;
 		word-break: break-word;
 		font-weight: bold;
+		box-sizing: border-box;
 	}
 
 	.image-poll .answer-image-percentage {

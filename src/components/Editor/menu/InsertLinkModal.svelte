@@ -89,6 +89,9 @@
 	.insert-link-form > * {
 		display: block;
 		margin: 0.25em;
+		width: 100%;
+		box-sizing: border-box;
+
 		width: -moz-available;
 	}
 
