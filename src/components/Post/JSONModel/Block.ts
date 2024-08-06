@@ -149,6 +149,10 @@ export async function getHtml(block: Block, attachments: Attachments) {
 		case 'openGraph':
 			return getOpenGraph(block, attachments);
 
+		// // @ts-ignore
+		// case 'text':
+		// 	return getParagraph({ type: 'paragraph', content: block });
+
 		default:
 			return fallback(JSON.stringify(block));
 	}

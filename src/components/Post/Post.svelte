@@ -29,6 +29,10 @@
 
 	let hasUpvoted: boolean;
 	$: hasUpvoted = post._embedded.userData?.[0]?.hasUpvoted || false;
+	let postLink: string;
+	$: postLink =
+		((post as Post).threadId && `/f/p/${(post as Post).threadId}/r/${post.id}`) ||
+		`/f/p/${post.id}`;
 
 	function edit() {
 		openEditor = true;
@@ -121,9 +125,7 @@
 		<Avatar user={post.createdBy} />
 		<a class="user-link" href={'/f/u/' + post.createdBy.id}>{post.createdBy.name}</a>
 		<span class="reply-time">·</span>
-		<!-- <a class="reply-time" href={`/f/p/${post.threadId}/r/${post.id}`}> -->
-		<a class="reply-time" href={`/f/p/${undefined}/r/${post.id}`}>
-			<!-- TODO fix for thread -->
+		<a class="reply-time" href={postLink}>
 			<Time time={post.creationDate} />
 		</a>
 	</div>
