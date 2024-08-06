@@ -105,7 +105,8 @@
 		// 	dispatchNotification()
 		// }
 		if (res.status !== HTTP.OK) {
-			dispatchNotification('error', await res.text());
+			const json = await res.json();
+			dispatchNotification('error', json.title || json.errorText || JSON.stringify(json));
 			return;
 		}
 		const data = await res.json();
