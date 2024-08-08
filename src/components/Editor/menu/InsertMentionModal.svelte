@@ -70,7 +70,6 @@
 	function onKeyDown(event: KeyboardEvent) {
 		if (event.code === 'Escape') {
 			cancel.click();
-			// TODO fix if element is active
 		} else if (event.code === 'Enter') {
 			event.preventDefault();
 			if ((event.target as HTMLInputElement)?.type === 'text') {

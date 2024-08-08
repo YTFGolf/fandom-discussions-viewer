@@ -23,6 +23,9 @@
   - Is testing necessary? Since is just using API.
 - Add stuff to editor
   - Attempt erase formatting again (can probably do some command chaining and enumerating for different kinds of nodes, or do the textbetween thing and replace `\n` with `</p><br><p>` or split by `\n`)
+- `/f`
+  - Main post editor
+    - Can edit poll how want and then at the end the user can submit it (like `ForumCreatePost` container)
 - Add `/f/u/...`
 - Doc
   - Split up into own files
@@ -39,8 +42,8 @@
 
 ## Current
 
-- Address TODOs
 - Improve poll editor (at least add images/options)
 - Improve title editor
 - Parser for wiki link
 - Counter for amount of replies to post
+- `/f`
