@@ -7,8 +7,6 @@
 	import { dispatchNotification } from '../Notification.svelte';
 	import PollVoterModal from './PollVoterModal.svelte';
 
-	// TODO fix what happens when you do multiple and totalvotes doesn't get annihilated
-
 	export let isEditable: boolean;
 	export let poll: Poll;
 
@@ -159,7 +157,7 @@
 			</button>
 		{:else}
 			<button
-				style="{getPollPercentage(answer)}%"
+				style="--percentage:{getPollPercentage(answer)}%"
 				class="poll-answer {showResults && poll.userVotes?.includes(answer.id)
 					? 'is-selected'
 					: ''}"
